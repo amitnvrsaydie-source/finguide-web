@@ -34,7 +34,7 @@ export async function POST(request: Request) {
     // Email to Amit (you)
     await resend.emails.send({
       from: 'FinGuide <onboarding@resend.dev>',
-      to: 'amiteshsinghrana2007@gmail.com',
+      to: 'amitnvrsaydie@gmail.com',
       subject: `New Advisor Application — ${full_name}`,
       html: `
         <h2>New Advisor Application Received</h2>
