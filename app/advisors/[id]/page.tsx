@@ -22,7 +22,7 @@ const advisors = [
 ];
 
 export default function AdvisorProfile({ params }: { params: { id: string } }) {
-  const advisor = advisors.find((a) => a.id === parseInt(params.id));
+  const advisor = advisors.find((a) => String(a.id) === String(params.id));
   if (!advisor) return <main className="min-h-screen bg-[#0a0a0f] text-white flex items-center justify-center"><p>Advisor not found.</p></main>;
 
   return (
