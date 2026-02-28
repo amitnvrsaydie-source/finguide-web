@@ -1,89 +1,66 @@
-'use client';
-import { useState } from 'react';
+const advisors = [
+  {
+    id: 1,
+    name: "Rajesh Sharma",
+    city: "Mumbai",
+    registration: "RIA",
+    experience: 12,
+    specializations: ["Retirement Planning", "Tax Planning"],
+    bio: "SEBI Registered Investment Advisor with 12 years of experience helping salaried professionals plan their financial future.",
+  },
+  {
+    id: 2,
+    name: "Priya Nair",
+    city: "Bangalore",
+    registration: "ARN",
+    experience: 8,
+    specializations: ["Mutual Funds", "SIP Planning"],
+    bio: "AMFI registered distributor specializing in goal-based mutual fund investments for young professionals.",
+  },
+];
 
-export default function ApplyPage() {
-  const [form, setForm] = useState({ full_name: '', email: '', phone: '', city: '', registration_type: '', sebi_reg_no: '', years_experience: '', bio: '' });
-  const [status, setStatus] = useState<'idle'|'loading'|'success'|'error'>('idle');
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setStatus('loading');
-    try {
-      const res = await fetch('/api/apply', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) });
-      if (res.ok) setStatus('success');
-      else setStatus('error');
-    } catch { setStatus('error'); }
-  };
-
-  if (status === 'success') return (
-    <main className="min-h-screen bg-[#0a0a0f] text-white flex items-center justify-center">
-      <div className="text-center max-w-md">
-        <div className="text-6xl mb-6">✅</div>
-        <h2 className="text-3xl font-bold mb-4">Application Received!</h2>
-        <p className="text-gray-400 mb-8">We will review your SEBI credentials and contact you within 3-5 business days.</p>
-        <a href="/" className="bg-emerald-500 hover:bg-emerald-400 text-black font-bold px-6 py-3 rounded-full">Back to Home</a>
-      </div>
-    </main>
-  );
-
+export default function AdvisorsPage() {
   return (
     <main className="min-h-screen bg-[#0a0a0f] text-white">
       <nav className="border-b border-white/10 px-6 py-4 flex justify-between items-center sticky top-0 z-50 bg-[#0a0a0f]/90">
         <a href="/" className="text-xl font-bold">Fin<span className="text-emerald-400">Guide</span></a>
-        <a href="/advisors" className="text-gray-400 hover:text-white text-sm">Browse Advisors</a>
-      </nav>
-      <section className="max-w-2xl mx-auto px-6 pt-16 pb-24">
-        <div className="mb-10">
-          <h1 className="text-4xl font-bold mb-3">Apply as an Advisor</h1>
-          <p className="text-gray-400">We list only SEBI-registered advisors. All applications are manually reviewed.</p>
+        <div className="flex items-center gap-4">
+          <a href="/advisors" className="text-emerald-400 text-sm font-semibold">Browse Advisors</a>
+          <a href="/apply" className="bg-emerald-500 hover:bg-emerald-400 text-black text-sm font-bold px-4 py-2 rounded-full">Apply as Advisor</a>
         </div>
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Full Name *</label>
-            <input required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-emerald-500 transition-colors" placeholder="Your full name" value={form.full_name} onChange={e => setForm({...form, full_name: e.target.value})} />
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Email *</label>
-              <input required type="email" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-emerald-500 transition-colors" placeholder="your@email.com" value={form.email} onChange={e => setForm({...form, email: e.target.value})} />
+      </nav>
+      <section className="max-w-5xl mx-auto px-6 pt-16 pb-24">
+        <div className="mb-12">
+          <h1 className="text-4xl font-bold mb-3">SEBI-Verified Advisors</h1>
+          <p className="text-gray-400">All advisors are manually verified before listing. Browse and connect directly.</p>
+        </div>
+        <div className="grid md:grid-cols-2 gap-6">
+          {advisors.map((advisor) => (
+            <div key={advisor.id} className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-emerald-500/30 transition-all">
+              <div className="flex justify-between items-start mb-4">
+                <div>
+                  <h2 className="text-xl font-bold">{advisor.name}</h2>
+                  <p className="text-gray-400 text-sm">{advisor.city}</p>
+                </div>
+                <span className="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full border border-emerald-500/30">{advisor.registration}</span>
+              </div>
+              <p className="text-gray-400 text-sm mb-4 leading-relaxed">{advisor.bio}</p>
+              <div className="flex flex-wrap gap-2 mb-4">
+                {advisor.specializations.map((s) => (
+                  <span key={s} className="bg-white/10 text-gray-300 text-xs px-3 py-1 rounded-full">{s}</span>
+                ))}
+              </div>
+              <div className="flex justify-between items-center pt-4 border-t border-white/10">
+                <span className="text-gray-500 text-xs">{advisor.experience} years experience</span>
+                <a href={`/advisors/${advisor.id}`} className="bg-emerald-500 hover:bg-emerald-400 text-black text-sm font-bold px-4 py-2 rounded-full transition-colors">View Profile</a>
+              </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Phone *</label>
-              <input required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-emerald-500 transition-colors" placeholder="+91 XXXXX XXXXX" value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} />
-            </div>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">City *</label>
-            <input required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-emerald-500 transition-colors" placeholder="Mumbai, Delhi, Bangalore..." value={form.city} onChange={e => setForm({...form, city: e.target.value})} />
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Registration Type *</label>
-              <select required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500 transition-colors" value={form.registration_type} onChange={e => setForm({...form, registration_type: e.target.value})}>
-                <option value="" className="bg-[#0a0a0f]">Select type</option>
-                <option value="RIA" className="bg-[#0a0a0f]">RIA (SEBI)</option>
-                <option value="ARN" className="bg-[#0a0a0f]">ARN (AMFI)</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">SEBI/ARN Number *</label>
-              <input required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-emerald-500 transition-colors" placeholder="INA000XXXXXX" value={form.sebi_reg_no} onChange={e => setForm({...form, sebi_reg_no: e.target.value})} />
-            </div>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Years of Experience</label>
-            <input type="number" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-emerald-500 transition-colors" placeholder="e.g. 8" value={form.years_experience} onChange={e => setForm({...form, years_experience: e.target.value})} />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Bio</label>
-            <textarea rows={4} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-emerald-500 transition-colors resize-none" placeholder="Tell investors about your expertise and approach..." value={form.bio} onChange={e => setForm({...form, bio: e.target.value})} />
-          </div>
-          <button type="submit" disabled={status === 'loading'} className="w-full bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-black font-bold py-4 rounded-xl text-lg transition-colors">
-            {status === 'loading' ? 'Submitting...' : 'Submit Application'}
-          </button>
-          {status === 'error' && <p className="text-red-400 text-sm text-center">Something went wrong. Please try again.</p>}
-        </form>
+          ))}
+        </div>
       </section>
+      <footer className="border-t border-white/10 px-6 py-8 text-center">
+        <p className="text-gray-600 text-xs max-w-2xl mx-auto">FinGuide is a discovery platform only. We do not provide investment advice. All advisors are independently SEBI registered.</p>
+      </footer>
     </main>
   );
 }
