@@ -1,63 +1,72 @@
-'use client';
-
-import { use, useState } from 'react';
-
 const advisors = [
-  { id: 1, name: "Rajesh Sharma", city: "Mumbai", registration: "RIA", experience: 12, specializations: ["Retirement Planning", "Tax Planning"], languages: ["English", "Hindi"], bio: "SEBI Registered Investment Advisor with 12 years of experience helping salaried professionals plan their financial future." },
-  { id: 2, name: "Priya Nair", city: "Bangalore", registration: "ARN", experience: 8, specializations: ["Mutual Funds", "Goal-based Investing"], languages: ["English", "Kannada", "Malayalam"], bio: "Certified financial planner focused on goal-based investing for young professionals and families." },
+  {
+    id: 1,
+    name: "Rajesh Sharma",
+    city: "Mumbai",
+    registration: "RIA",
+    experience: 12,
+    specializations: ["Retirement Planning", "Tax Planning"],
+    languages: ["English", "Hindi"],
+    bio: "SEBI Registered Investment Advisor with 12 years of experience helping salaried professionals plan their financial future.",
+  },
+  {
+    id: 2,
+    name: "Priya Nair",
+    city: "Bangalore",
+    registration: "ARN",
+    experience: 8,
+    specializations: ["Mutual Funds", "SIP Planning"],
+    languages: ["English", "Kannada", "Malayalam"],
+    bio: "AMFI registered distributor specializing in goal-based mutual fund investments for young professionals.",
+  },
 ];
 
-export default function AdvisorProfile({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
-  const advisor = advisors.find((a) => a.id === parseInt(id));
-  const [form, setForm] = useState({ name: '', email: '', phone: '', reason: '' });
-  const [status, setStatus] = useState('');
-  if (!advisor) return <div className="p-12 text-center text-gray-500">Advisor not found.</div>;
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setStatus('sending');
-    const res = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...form, advisorName: advisor.name }) });
-    setStatus(res.ok ? 'success' : 'error');
-  };
+export default function AdvisorProfile({ params }: { params: { id: string } }) {
+  const advisor = advisors.find((a) => a.id === parseInt(params.id));
+  if (!advisor) return <main className="min-h-screen bg-[#0a0a0f] text-white flex items-center justify-center"><p>Advisor not found.</p></main>;
+
   return (
-    <main className="min-h-screen bg-white">
-      <nav className="border-b border-gray-100 px-6 py-4 flex justify-between items-center">
-        <a href="/" className="text-xl font-bold text-blue-700">FinGuide</a>
-        <a href="/advisors" className="text-gray-600 hover:text-blue-700 text-sm">Back to Advisors</a>
+    <main className="min-h-screen bg-[#0a0a0f] text-white">
+      <nav className="border-b border-white/10 px-6 py-4 flex justify-between items-center sticky top-0 z-50 bg-[#0a0a0f]/90">
+        <a href="/" className="text-xl font-bold">Fin<span className="text-emerald-400">Guide</span></a>
+        <div className="flex items-center gap-4">
+          <a href="/advisors" className="text-gray-400 hover:text-white text-sm">Back to Advisors</a>
+          <a href="/apply" className="bg-emerald-500 hover:bg-emerald-400 text-black text-sm font-bold px-4 py-2 rounded-full">Apply as Advisor</a>
+        </div>
       </nav>
-      <section className="max-w-2xl mx-auto px-6 py-12">
-        <div className="border border-gray-200 rounded-lg p-8">
-          <h1 className="text-3xl font-bold text-gray-900">{advisor.name}</h1>
-          <p className="text-gray-500 mt-1">{advisor.city} · {advisor.registration} · {advisor.experience} years</p>
-          <p className="text-gray-700 mt-6">{advisor.bio}</p>
-          <div className="mt-6 flex flex-wrap gap-2">{advisor.specializations.map(s => <span key={s} className="bg-blue-50 text-blue-700 text-xs px-3 py-1 rounded-full">{s}</span>)}</div>
-          <div className="mt-8 border-t pt-8">
-            <h2 className="text-lg font-semibold mb-4">Request a Connection</h2>
-            {status === 'success' ? (
-              <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
-                <p className="text-green-700 font-medium">Request sent!</p>
-                <p className="text-green-600 text-sm mt-1">We will connect you with {advisor.name} within 24 hours.</p>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <input required type="text" placeholder="Your Name" value={form.name} onChange={e => setForm({...form, name: e.target.value})} className="w-full border border-gray-300 rounded px-4 py-2 text-sm" />
-                <input required type="email" placeholder="Your Email" value={form.email} onChange={e => setForm({...form, email: e.target.value})} className="w-full border border-gray-300 rounded px-4 py-2 text-sm" />
-                <input required type="tel" placeholder="Your Phone" value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} className="w-full border border-gray-300 rounded px-4 py-2 text-sm" />
-                <select required value={form.reason} onChange={e => setForm({...form, reason: e.target.value})} className="w-full border border-gray-300 rounded px-4 py-2 text-sm text-gray-600">
-                  <option value="">Why are you reaching out?</option>
-                  <option>Retirement Planning</option>
-                  <option>Tax Planning</option>
-                  <option>Mutual Fund Advice</option>
-                  <option>General Financial Planning</option>
-                  <option>Other</option>
-                </select>
-                <button type="submit" disabled={status === 'sending'} className="w-full bg-blue-700 text-white py-3 rounded-lg font-medium hover:bg-blue-800 disabled:opacity-50">{status === 'sending' ? 'Sending...' : 'Request Connect'}</button>
-                {status === 'error' && <p className="text-red-500 text-sm text-center">Something went wrong. Try again.</p>}
-              </form>
-            )}
+      <section className="max-w-3xl mx-auto px-6 pt-16 pb-24">
+        <div className="bg-white/5 border border-white/10 rounded-2xl p-8 mb-6">
+          <div className="flex justify-between items-start mb-6">
+            <div>
+              <h1 className="text-3xl font-bold mb-1">{advisor.name}</h1>
+              <p className="text-gray-400">{advisor.city} · {advisor.experience} years experience</p>
+            </div>
+            <span className="bg-emerald-500/20 text-emerald-400 text-sm font-bold px-4 py-1.5 rounded-full border border-emerald-500/30">{advisor.registration}</span>
+          </div>
+          <p className="text-gray-300 leading-relaxed mb-6">{advisor.bio}</p>
+          <div className="flex flex-wrap gap-2 mb-6">
+            {advisor.specializations.map((s) => (
+              <span key={s} className="bg-white/10 text-gray-300 text-sm px-3 py-1 rounded-full">{s}</span>
+            ))}
+          </div>
+          <div className="pt-6 border-t border-white/10">
+            <p className="text-gray-500 text-sm">Languages: {advisor.languages.join(', ')}</p>
           </div>
         </div>
+        <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
+          <h2 className="text-2xl font-bold mb-6">Request a Connection</h2>
+          <form className="space-y-4">
+            <input className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-emerald-500 transition-colors" placeholder="Your Name" />
+            <input type="email" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-emerald-500 transition-colors" placeholder="Your Email" />
+            <input className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-emerald-500 transition-colors" placeholder="Your Phone" />
+            <textarea rows={3} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-emerald-500 transition-colors resize-none" placeholder="What would you like to discuss?" />
+            <button type="submit" className="w-full bg-emerald-500 hover:bg-emerald-400 text-black font-bold py-4 rounded-xl text-lg transition-colors">Send Connection Request</button>
+          </form>
+        </div>
       </section>
+      <footer className="border-t border-white/10 px-6 py-8 text-center">
+        <p className="text-gray-600 text-xs max-w-2xl mx-auto">FinGuide is a discovery platform only. We do not provide investment advice. All advisors are independently SEBI registered.</p>
+      </footer>
     </main>
   );
 }
