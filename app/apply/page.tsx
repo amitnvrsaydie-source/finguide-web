@@ -5,7 +5,7 @@ export default function ApplyPage() {
   const [form, setForm] = useState({ full_name: '', email: '', phone: '', city: '', registration_type: '', sebi_reg_no: '', years_experience: '', bio: '' });
   const [status, setStatus] = useState('idle');
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('loading');
     try {
