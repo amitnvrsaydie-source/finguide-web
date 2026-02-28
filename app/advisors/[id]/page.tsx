@@ -1,6 +1,6 @@
 const advisors = [
   {
-    id: 1,
+    id: "1",
     name: "Rajesh Sharma",
     city: "Mumbai",
     registration: "RIA",
@@ -10,7 +10,7 @@ const advisors = [
     bio: "SEBI Registered Investment Advisor with 12 years of experience helping salaried professionals plan their financial future.",
   },
   {
-    id: 2,
+    id: "2",
     name: "Priya Nair",
     city: "Bangalore",
     registration: "ARN",
@@ -21,9 +21,15 @@ const advisors = [
   },
 ];
 
-export default function AdvisorProfile({ params }: { params: { id: string } }) {
-  const advisor = advisors.find((a) => String(a.id) === String(params.id));
-  if (!advisor) return <main className="min-h-screen bg-[#0a0a0f] text-white flex items-center justify-center"><p>Advisor not found.</p></main>;
+export default async function AdvisorProfile({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const advisor = advisors.find((a) => a.id === id);
+
+  if (!advisor) return (
+    <main className="min-h-screen bg-[#0a0a0f] text-white flex items-center justify-center">
+      <p>Advisor not found.</p>
+    </main>
+  );
 
   return (
     <main className="min-h-screen bg-[#0a0a0f] text-white">
