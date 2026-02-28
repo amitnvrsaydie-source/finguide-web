@@ -17,7 +17,7 @@ const advisors = [
     experience: 8,
     specializations: ["Mutual Funds", "SIP Planning"],
     languages: ["English", "Kannada", "Malayalam"],
-    bio: "AMFI registered distributor specializing in goal-based mutual fund investments for young professionals.",
+    bio: "SEBI registered distributor specializing in goal-based mutual fund investments for young professionals.",
   },
 ];
 
