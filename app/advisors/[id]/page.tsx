@@ -7,7 +7,7 @@ const advisors = [
 ];
 
 export default function AdvisorProfile({ params }: { params: { id: string } }) {
-  const advisor = advisors.find((a) => a.id === params.id);
+ const advisor = advisors.find((a) => a.id === String(params.id));
   const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
   const [status, setStatus] = useState('idle');
 
