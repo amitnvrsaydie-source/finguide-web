@@ -1,29 +1,29 @@
+'use client';
+import { useState } from 'react';
+
 const advisors = [
-  {
-    id: "1",
-    name: "Rajesh Sharma",
-    city: "Mumbai",
-    registration: "RIA",
-    experience: 12,
-    specializations: ["Retirement Planning", "Tax Planning"],
-    languages: ["English", "Hindi"],
-    bio: "SEBI Registered Investment Advisor with 12 years of experience helping salaried professionals plan their financial future.",
-  },
-  {
-    id: "2",
-    name: "Priya Nair",
-    city: "Bangalore",
-    registration: "ARN",
-    experience: 8,
-    specializations: ["Mutual Funds", "SIP Planning"],
-    languages: ["English", "Kannada", "Malayalam"],
-    bio: "SEBI registered distributor specializing in goal-based mutual fund investments for young professionals.",
-  },
+  { id: "1", name: "Rajesh Sharma", city: "Mumbai", registration: "RIA", experience: 12, specializations: ["Retirement Planning", "Tax Planning"], languages: ["English", "Hindi"], bio: "SEBI Registered Investment Advisor with 12 years of experience helping salaried professionals plan their financial future." },
+  { id: "2", name: "Priya Nair", city: "Bangalore", registration: "ARN", experience: 8, specializations: ["Mutual Funds", "SIP Planning"], languages: ["English", "Kannada", "Malayalam"], bio: "SEBI registered distributor specializing in goal-based mutual fund investments for young professionals." },
 ];
 
-export default async function AdvisorProfile({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
-  const advisor = advisors.find((a) => a.id === id);
+export default function AdvisorProfile({ params }: { params: { id: string } }) {
+  const advisor = advisors.find((a) => a.id === params.id);
+  const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
+  const [status, setStatus] = useState('idle');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('loading');
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...form, advisor_name: advisor?.name, advisor_id: advisor?.id }),
+      });
+      if (res.ok) setStatus('success');
+      else setStatus('error');
+    } catch { setStatus('error'); }
+  };
 
   if (!advisor) return (
     <main className="min-h-screen bg-[#0a0a0f] text-white flex items-center justify-center">
@@ -60,14 +60,27 @@ export default async function AdvisorProfile({ params }: { params: Promise<{ id:
           </div>
         </div>
         <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-bold mb-6">Request a Connection</h2>
-          <form className="space-y-4">
-            <input className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-emerald-500 transition-colors" placeholder="Your Name" />
-            <input type="email" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-emerald-500 transition-colors" placeholder="Your Email" />
-            <input className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-emerald-500 transition-colors" placeholder="Your Phone" />
-            <textarea rows={3} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-emerald-500 transition-colors resize-none" placeholder="What would you like to discuss?" />
-            <button type="submit" className="w-full bg-emerald-500 hover:bg-emerald-400 text-black font-bold py-4 rounded-xl text-lg transition-colors">Send Connection Request</button>
-          </form>
+          {status === 'success' ? (
+            <div className="text-center py-8">
+              <div className="text-5xl mb-4">✅</div>
+              <h3 className="text-2xl font-bold mb-2">Request Sent!</h3>
+              <p className="text-gray-400">We have notified {advisor.name}. You will hear back within 2-3 business days.</p>
+            </div>
+          ) : (
+            <>
+              <h2 className="text-2xl font-bold mb-6">Request a Connection</h2>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <input required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-emerald-500 transition-colors" placeholder="Your Name" value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
+                <input required type="email" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-emerald-500 transition-colors" placeholder="Your Email" value={form.email} onChange={e => setForm({...form, email: e.target.value})} />
+                <input required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-emerald-500 transition-colors" placeholder="Your Phone" value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} />
+                <textarea rows={3} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-emerald-500 transition-colors resize-none" placeholder="What would you like to discuss?" value={form.message} onChange={e => setForm({...form, message: e.target.value})} />
+                <button type="submit" disabled={status === 'loading'} className="w-full bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-black font-bold py-4 rounded-xl text-lg transition-colors">
+                  {status === 'loading' ? 'Sending...' : 'Send Connection Request'}
+                </button>
+                {status === 'error' && <p className="text-red-400 text-sm text-center">Something went wrong. Please try again.</p>}
+              </form>
+            </>
+          )}
         </div>
       </section>
       <footer className="border-t border-white/10 px-6 py-8 text-center">
