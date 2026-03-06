@@ -1,13 +1,15 @@
 'use client';
 import { useState } from 'react';
+import { use } from 'react';
 
 const advisors = [
   { id: "1", name: "Rajesh Sharma", city: "Mumbai", registration: "RIA", experience: 12, specializations: ["Retirement Planning", "Tax Planning"], languages: ["English", "Hindi"], bio: "SEBI Registered Investment Advisor with 12 years of experience helping salaried professionals plan their financial future." },
   { id: "2", name: "Priya Nair", city: "Bangalore", registration: "ARN", experience: 8, specializations: ["Mutual Funds", "SIP Planning"], languages: ["English", "Kannada", "Malayalam"], bio: "SEBI registered distributor specializing in goal-based mutual fund investments for young professionals." },
 ];
 
-export default function AdvisorProfile({ params }: { params: { id: string } }) {
- const advisor = advisors.find((a) => a.id === String(params.id));
+export default function AdvisorProfile({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
+  const advisor = advisors.find((a) => a.id === String(id));
   const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
   const [status, setStatus] = useState('idle');
 
