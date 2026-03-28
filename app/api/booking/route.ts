@@ -37,7 +37,7 @@ export async function POST(req: Request) {
 
     // Send confirmation email to user
     await resend.emails.send({
-      from: 'FinGuide <hello@finguide.in>',
+      from: 'FinGuide <onboarding@resend.dev>',
       to: email,
       subject: '✅ Booking Confirmed — FinGuide',
       html: `
@@ -60,7 +60,7 @@ export async function POST(req: Request) {
 
     // Send notification to team
     await resend.emails.send({
-      from: 'FinGuide <hello@finguide.in>',
+      from: 'FinGuide <onboarding@resend.dev>',
       to: 'hello@finguide.in',
       subject: `New Booking — ${name} with ${advisor_name}`,
       html: `
