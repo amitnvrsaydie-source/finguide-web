@@ -45,23 +45,13 @@ export async function POST(req: Request) {
       `
     })
 
-    // Send OTP via SMS (only if Twilio is configured)
-    if (mobile && process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN) {
-      const sid = process.env.TWILIO_ACCOUNT_SID
-      const token = process.env.TWILIO_AUTH_TOKEN
-      const phoneNumber = mobile.startsWith('+') ? mobile : `+91${mobile}`
+    // Send OTP via SMS using MSG91 (only if configured)
+    if (mobile && process.env.MSG91_AUTH_KEY && process.env.MSG91_TEMPLATE_ID) {
+      const mobileWithCode = `91${mobile.replace(/^\+91/, '')}`
       try {
-        await fetch(`https://api.twilio.com/2010-04-01/Accounts/${sid}/Messages.json`, {
+        await fetch(`https://control.msg91.com/api/v5/otp?authkey=${process.env.MSG91_AUTH_KEY}&template_id=${process.env.MSG91_TEMPLATE_ID}&mobile=${mobileWithCode}&otp=${otp}`, {
           method: 'POST',
-          headers: {
-            'Authorization': 'Basic ' + Buffer.from(`${sid}:${token}`).toString('base64'),
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          body: new URLSearchParams({
-            To: phoneNumber,
-            From: process.env.TWILIO_PHONE_NUMBER!,
-            Body: `Your FinGuide OTP is: ${otp}. Valid for 10 minutes. Do not share.`
-          }).toString()
+          headers: { 'Content-Type': 'application/json' },
         })
       } catch (smsErr) {
         console.error('SMS send failed:', smsErr)
