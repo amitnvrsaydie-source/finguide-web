@@ -28,6 +28,7 @@ export default function NavbarClient() {
 
         {/* Desktop */}
         <div className="hidden md:flex items-center gap-6">
+          <Link href="/" className="text-[#cccccc] hover:text-white text-sm">Home</Link>
           <Link href="/advisors" className="text-[#cccccc] hover:text-white text-sm">Browse Advisors</Link>
           <Link href="/services" className="text-[#cccccc] hover:text-white text-sm">Services</Link>
           <Link href="/about" className="text-[#cccccc] hover:text-white text-sm">About</Link>
@@ -62,6 +63,7 @@ export default function NavbarClient() {
       {/* Mobile menu */}
       {menuOpen && (
         <div className="md:hidden mt-4 flex flex-col gap-4 px-2">
+          <Link href="/" className="text-[#cccccc] text-sm">Home</Link>
           <Link href="/advisors" className="text-[#cccccc] text-sm">Browse Advisors</Link>
           <Link href="/services" className="text-[#cccccc] text-sm">Services</Link>
           <Link href="/about" className="text-[#cccccc] text-sm">About</Link>
