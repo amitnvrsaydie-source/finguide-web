@@ -12,6 +12,8 @@ const services = [
   { id: "insurance", label: "Insurance", icon: "🛡️", color: "olive", summary: "Term, health & life cover review.", covered: ["Term insurance sizing", "Health cover review", "Policy comparison", "Claim assistance guidance"], notCovered: ["Insurance selling", "Policy issuance"] },
   { id: "bonds", label: "Bonds & FDs", icon: "💰", color: "amber", summary: "Fixed income, bonds & FD laddering strategy.", covered: ["Government bond guidance", "Corporate bond review", "FD laddering strategy", "RBI bonds & SGBs"], notCovered: ["Chit funds", "Unregulated deposits"] },
   { id: "nps", label: "NPS", icon: "🏦", color: "purple", summary: "National Pension System guidance and planning.", covered: ["NPS account opening", "Tier 1 & Tier 2 guidance", "Fund manager selection", "Tax benefits under 80CCD(1B)"], notCovered: ["Guaranteed returns", "Early withdrawal assistance"] },
+  { id: "rsu-esop", label: "RSU & ESOP", icon: "📊", color: "purple", summary: "Equity compensation planning for employees with RSUs and ESOPs.", covered: ["RSU vesting & tax strategy", "ESOP exercise planning", "LRS for global equity", "Capital gains optimisation"], notCovered: ["Legal disputes on ESOP grants", "IPO allotment advice"] },
+  { id: "tax", label: "Tax Advisory", icon: "📋", color: "blue", summary: "ITR filing strategy, DTAA, FA Schedule & capital gains planning.", covered: ["ITR filing strategy", "DTAA tax advisory", "FA Schedule (foreign assets)", "Capital gains planning"], notCovered: ["Audit representation", "GST & business tax"] },
 ];
 
 const colorMap: Record<string, string> = {
