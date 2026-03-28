@@ -61,7 +61,7 @@ export async function POST(req: Request) {
     // Send notification to team
     await resend.emails.send({
       from: 'FinGuide <onboarding@resend.dev>',
-      to: 'hello@finguide.in',
+      to: 'amitnvrsaydie@gmail.com',
       subject: `New Booking — ${name} with ${advisor_name}`,
       html: `
         <div style="font-family: sans-serif;">
