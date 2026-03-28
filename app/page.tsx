@@ -134,13 +134,22 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* TRUST BAR */}
-      <section className="border-b border-gray-800/40 py-6">
-        <div className="max-w-6xl mx-auto px-6">
-          <p className="text-gray-600 text-xs uppercase tracking-widest text-center mb-6">Trusted by professionals from</p>
-          <div className="flex items-center justify-center gap-8 flex-wrap">
-            {['Infosys', 'Wipro', 'TCS', 'Flipkart', 'Razorpay', 'HDFC', 'Zerodha'].map(company => (
-              <span key={company} className="text-gray-600 text-sm font-semibold tracking-wide">{company}</span>
+      {/* TRUST BAR — Infinite Ticker */}
+      <section className="border-b border-gray-800/40 py-6 overflow-hidden">
+        <p className="text-gray-600 text-xs uppercase tracking-widest text-center mb-5">Trusted by professionals from</p>
+        <div className="relative flex overflow-hidden">
+          <div className="flex animate-ticker whitespace-nowrap">
+            {[
+              'Infosys', 'Goldman Sachs', 'Wipro', 'JPMorgan Chase', 'TCS',
+              'Microsoft', 'Flipkart', 'Deloitte', 'Razorpay', 'Google',
+              'HDFC Bank', 'McKinsey & Co', 'Zerodha', 'Morgan Stanley', 'Accenture',
+              'Infosys', 'Goldman Sachs', 'Wipro', 'JPMorgan Chase', 'TCS',
+              'Microsoft', 'Flipkart', 'Deloitte', 'Razorpay', 'Google',
+              'HDFC Bank', 'McKinsey & Co', 'Zerodha', 'Morgan Stanley', 'Accenture',
+            ].map((company, i) => (
+              <span key={i} className="text-gray-500 text-sm font-semibold tracking-wide mx-8 shrink-0">
+                {company}
+              </span>
             ))}
           </div>
         </div>
