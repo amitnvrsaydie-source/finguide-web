@@ -13,7 +13,7 @@ export async function POST(req: Request) {
     .from('otp_sessions')
     .select('*')
     .eq('email', email)
-    .eq('otp', otp)
+    .eq('otp_hash', otp)
     .single()
 
   if (error || !data) {
@@ -27,10 +27,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'OTP expired' }, { status: 400 })
   }
 
-  await supabase
-    .from('otp_sessions')
-    .delete()
-    .eq('email', email)
+  await supabase.from('otp_sessions').delete().eq('email', email)
 
-  return NextResponse.json({ success: true, name: data.name })
+  return NextResponse.json({ success: true })
 }

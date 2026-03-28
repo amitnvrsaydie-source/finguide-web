@@ -10,13 +10,16 @@ export default function VerifyPage() {
   const [error, setError] = useState('')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const [mobile, setMobile] = useState('')
   const router = useRouter()
 
   useEffect(() => {
     const pendingName = sessionStorage.getItem('pending_name') || ''
     const pendingEmail = sessionStorage.getItem('pending_email') || ''
+    const pendingMobile = sessionStorage.getItem('pending_mobile') || ''
     setName(pendingName.split(' ')[0])
     setEmail(pendingEmail)
+    setMobile(pendingMobile)
   }, [])
 
   const handleVerify = async (e: FormEvent) => {
@@ -57,10 +60,11 @@ export default function VerifyPage() {
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold text-white mb-2">
-            Hi {name}, check your email
+            Hi {name}, enter your OTP
           </h1>
           <p className="text-gray-400">
-            We sent a 6-digit OTP to <span className="text-emerald-400">{email}</span>
+            Sent to <span className="text-emerald-400">{email}</span>
+            {mobile && <> and <span className="text-emerald-400">+91 {mobile}</span></>}
           </p>
         </div>
 

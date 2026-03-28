@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 export default function LoginPage() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const [mobile, setMobile] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const router = useRouter()
@@ -20,7 +21,7 @@ export default function LoginPage() {
       const res = await fetch('/api/auth/send-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, name }),
+        body: JSON.stringify({ email, name, mobile }),
       })
 
       const data = await res.json()
@@ -32,6 +33,7 @@ export default function LoginPage() {
 
       sessionStorage.setItem('pending_email', email)
       sessionStorage.setItem('pending_name', name)
+      sessionStorage.setItem('pending_mobile', mobile)
       router.push('/login/verify')
 
     } catch {
@@ -76,6 +78,22 @@ export default function LoginPage() {
             />
           </div>
 
+          <div>
+            <label className="block text-sm text-gray-400 mb-1">Mobile Number</label>
+            <div className="flex">
+              <span className="bg-[#1a1a2e] border border-r-0 border-gray-700 text-gray-400 rounded-l-lg px-3 flex items-center text-sm">+91</span>
+              <input
+                type="tel"
+                value={mobile}
+                onChange={(e) => setMobile(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                placeholder="10-digit mobile number"
+                autoComplete="off"
+                required
+                className="w-full bg-[#1a1a2e] border border-gray-700 text-white rounded-r-lg px-4 py-3 focus:outline-none focus:border-emerald-500"
+              />
+            </div>
+          </div>
+
           {error && <p className="text-red-400 text-sm">{error}</p>}
 
           <button
@@ -86,6 +104,10 @@ export default function LoginPage() {
             {loading ? 'Sending OTP...' : 'Send OTP →'}
           </button>
         </form>
+
+        <p className="text-center text-gray-600 text-xs mt-6">
+          OTP will be sent to your email and mobile
+        </p>
       </div>
     </div>
   )
