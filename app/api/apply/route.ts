@@ -39,8 +39,8 @@ export async function POST(req: NextRequest) {
 
     // Admin notification email
     await resend.emails.send({
-      from: 'FinGuide <hello@finguide.in>',
-      to: 'hello@finguide.in',
+      from: 'FinGuide <onboarding@resend.dev>',
+      to: 'amitnvrsaydie@gmail.com',
       subject: `New Advisor Application — ${full_name} (${sebi_reg_no})`,
       html: `
         <h2 style="color:#10b981">New Advisor Application</h2>
@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
 
     // Applicant confirmation email
     await resend.emails.send({
-      from: 'FinGuide <hello@finguide.in>',
+      from: 'FinGuide <onboarding@resend.dev>',
       to: email,
       subject: 'We received your application — FinGuide',
       html: `

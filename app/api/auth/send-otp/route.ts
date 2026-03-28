@@ -28,7 +28,7 @@ export async function POST(req: Request) {
     }
 
     await resend.emails.send({
-      from: 'FinGuide <hello@finguide.in>',
+      from: 'FinGuide <onboarding@resend.dev>',
       to: email,
       subject: 'Your FinGuide OTP',
       html: `

@@ -8,8 +8,8 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { name, email, phone, reason, advisorName } = body;
     await resend.emails.send({
-      from: 'FinGuide <hello@finguide.in>',
-      to: 'hello@finguide.in',
+      from: 'FinGuide <onboarding@resend.dev>',
+      to: 'amitnvrsaydie@gmail.com',
       subject: `New Connection Request — ${advisorName}`,
       html: `<h2>New Request</h2><p>Name: ${name}</p><p>Email: ${email}</p><p>Phone: ${phone}</p><p>Reason: ${reason}</p><p>Advisor: ${advisorName}</p>`,
     });
