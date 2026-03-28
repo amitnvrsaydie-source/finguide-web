@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { analytics } from '@/lib/analytics'
 
 const SERVICES = [
   'Mutual Funds', 'EPF Guidance', 'NRI Services',
@@ -159,8 +160,8 @@ function BookingPageInner() {
     name: '', email: '', phone: '', service: '',
     meeting_mode: 'video',
     meeting_date: '', meeting_time: '',
-    advisor_name: 'Rajesh Sharma',
-    advisor_id: 'rajesh-sharma'
+    advisor_name: '',
+    advisor_id: ''
   })
 
   useEffect(() => {
@@ -185,6 +186,7 @@ function BookingPageInner() {
         body: JSON.stringify(form)
       })
       if (res.ok) {
+        analytics.bookingCompleted(form.advisor_id, form.advisor_name, form.meeting_mode, form.service)
         setSuccess(true)
       } else {
         const data = await res.json().catch(() => ({}))
@@ -240,8 +242,12 @@ function BookingPageInner() {
         {/* Header */}
         <div className="text-center mb-8">
           <p className="text-xs text-emerald-400 uppercase tracking-widest mb-2 font-medium">Free Session</p>
-          <h1 className="text-2xl font-bold text-white">Book with {form.advisor_name}</h1>
-          <p className="text-gray-500 text-sm mt-1">SEBI Registered Investment Advisor · Bangalore</p>
+          <h1 className="text-2xl font-bold text-white">
+            {form.advisor_name ? `Book with ${form.advisor_name}` : 'Book a Free Session'}
+          </h1>
+          <p className="text-gray-500 text-sm mt-1">
+            {form.advisor_name ? 'SEBI Registered Investment Advisor' : 'With a SEBI Registered Advisor'}
+          </p>
         </div>
 
         {/* Step indicator */}
@@ -292,7 +298,7 @@ function BookingPageInner() {
               </select>
             </div>
             <button
-              onClick={() => setStep(2)}
+              onClick={() => { analytics.bookingStarted(form.advisor_id, form.advisor_name); setStep(2) }}
               disabled={!form.name || !form.email || !form.service}
               className="w-full bg-emerald-500 hover:bg-emerald-600 disabled:opacity-30 disabled:cursor-not-allowed text-white text-sm font-semibold py-2.5 rounded-lg transition-colors mt-2"
             >

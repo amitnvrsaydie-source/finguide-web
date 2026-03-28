@@ -10,14 +10,24 @@ export default function NavbarClient() {
   const pathname = usePathname()
 
   useEffect(() => {
-    const name = localStorage.getItem('user_name') || ''
-    setUserName(name)
+    setUserName(localStorage.getItem('user_name') || '')
+    setMenuOpen(false)
   }, [pathname])
 
   const handleLogout = () => {
     localStorage.removeItem('user_name')
+    localStorage.removeItem('user_email')
     setUserName('')
   }
+
+  const navLinks = [
+    { label: 'Home', href: '/' },
+    { label: 'Browse Advisors', href: '/advisors' },
+    { label: 'Services', href: '/services' },
+    { label: 'About', href: '/about' },
+  ]
+
+  const firstName = userName.split(' ')[0]
 
   return (
     <nav className="w-full bg-[#0a0a0f] border-b border-gray-800 px-6 py-4">
@@ -28,22 +38,38 @@ export default function NavbarClient() {
 
         {/* Desktop */}
         <div className="hidden md:flex items-center gap-6">
-          <Link href="/" className="text-[#cccccc] hover:text-white text-sm">Home</Link>
-          <Link href="/advisors" className="text-[#cccccc] hover:text-white text-sm">Browse Advisors</Link>
-          <Link href="/services" className="text-[#cccccc] hover:text-white text-sm">Services</Link>
-          <Link href="/about" className="text-[#cccccc] hover:text-white text-sm">About</Link>
+          {navLinks.map(({ label, href }) => (
+            <Link
+              key={href}
+              href={href}
+              className={`text-sm transition-colors ${pathname === href ? 'text-white' : 'text-gray-400 hover:text-white'}`}
+            >
+              {label}
+            </Link>
+          ))}
           {userName ? (
-            <>
-              <span className="text-emerald-400 text-sm">Hi, {userName}</span>
+            <div className="flex items-center gap-3">
+              <Link
+                href="/dashboard"
+                className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
+              >
+                <div className="w-7 h-7 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xs font-bold">
+                  {firstName[0]?.toUpperCase()}
+                </div>
+                {firstName}
+              </Link>
               <button
                 onClick={handleLogout}
-                className="text-sm border border-gray-600 text-gray-300 px-3 py-1 rounded hover:border-gray-400"
+                className="text-xs border border-gray-700 text-gray-500 hover:text-white hover:border-gray-500 px-3 py-1.5 rounded-lg transition-colors"
               >
                 Logout
               </button>
-            </>
+            </div>
           ) : (
-            <Link href="/login" className="text-sm bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg">
+            <Link
+              href="/login"
+              className="text-sm bg-emerald-500 hover:bg-emerald-600 active:scale-95 text-white px-4 py-2 rounded-lg transition-all duration-150"
+            >
               Login
             </Link>
           )}
@@ -51,26 +77,32 @@ export default function NavbarClient() {
 
         {/* Mobile hamburger */}
         <button
-          className="md:hidden flex flex-col gap-1.5"
+          className="md:hidden flex flex-col gap-1.5 p-1"
           onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle menu"
         >
-          <span className="w-6 h-0.5 bg-[#cccccc]"></span>
-          <span className="w-6 h-0.5 bg-[#cccccc]"></span>
-          <span className="w-6 h-0.5 bg-[#cccccc]"></span>
+          <span className={`w-6 h-0.5 bg-gray-400 transition-all ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+          <span className={`w-6 h-0.5 bg-gray-400 transition-all ${menuOpen ? 'opacity-0' : ''}`} />
+          <span className={`w-6 h-0.5 bg-gray-400 transition-all ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
         </button>
       </div>
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden mt-4 flex flex-col gap-4 px-2">
-          <Link href="/" className="text-[#cccccc] text-sm">Home</Link>
-          <Link href="/advisors" className="text-[#cccccc] text-sm">Browse Advisors</Link>
-          <Link href="/services" className="text-[#cccccc] text-sm">Services</Link>
-          <Link href="/about" className="text-[#cccccc] text-sm">About</Link>
+        <div className="md:hidden mt-4 pb-2 flex flex-col gap-4 px-2 animate-fade-in">
+          {navLinks.map(({ label, href }) => (
+            <Link key={href} href={href} className="text-gray-400 hover:text-white text-sm transition-colors">
+              {label}
+            </Link>
+          ))}
           {userName ? (
             <>
-              <span className="text-emerald-400 text-sm">Hi, {userName}</span>
-              <button onClick={handleLogout} className="text-sm text-gray-300 text-left">Logout</button>
+              <Link href="/dashboard" className="text-emerald-400 text-sm">
+                My Dashboard ({firstName})
+              </Link>
+              <button onClick={handleLogout} className="text-sm text-gray-500 text-left">
+                Logout
+              </button>
             </>
           ) : (
             <Link href="/login" className="text-sm text-emerald-400">Login</Link>

@@ -38,10 +38,12 @@ export default function VerifyPage() {
         return
       }
 
-      localStorage.setItem('user_name', name)
+      const fullName = sessionStorage.getItem('pending_name') || data.name || name
+      localStorage.setItem('user_name', fullName)
+      localStorage.setItem('user_email', email)
       sessionStorage.removeItem('pending_email')
       sessionStorage.removeItem('pending_name')
-      router.push('/advisors')
+      router.push('/dashboard')
 
     } catch {
       setError('Network error. Please try again.')

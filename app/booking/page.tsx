@@ -160,8 +160,8 @@ function BookingPageInner() {
     name: '', email: '', phone: '', service: '',
     meeting_mode: 'video',
     meeting_date: '', meeting_time: '',
-    advisor_name: 'Rajesh Sharma',
-    advisor_id: 'rajesh-sharma'
+    advisor_name: '',
+    advisor_id: ''
   })
 
   useEffect(() => {
@@ -242,8 +242,12 @@ function BookingPageInner() {
         {/* Header */}
         <div className="text-center mb-8">
           <p className="text-xs text-emerald-400 uppercase tracking-widest mb-2 font-medium">Free Session</p>
-          <h1 className="text-2xl font-bold text-white">Book with {form.advisor_name}</h1>
-          <p className="text-gray-500 text-sm mt-1">SEBI Registered Investment Advisor · Bangalore</p>
+          <h1 className="text-2xl font-bold text-white">
+            {form.advisor_name ? `Book with ${form.advisor_name}` : 'Book a Free Session'}
+          </h1>
+          <p className="text-gray-500 text-sm mt-1">
+            {form.advisor_name ? 'SEBI Registered Investment Advisor' : 'With a SEBI Registered Advisor'}
+          </p>
         </div>
 
         {/* Step indicator */}
