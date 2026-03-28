@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { analytics } from '@/lib/analytics'
 
 const SERVICES = [
   'Mutual Funds', 'EPF Guidance', 'NRI Services',
@@ -185,6 +186,7 @@ function BookingPageInner() {
         body: JSON.stringify(form)
       })
       if (res.ok) {
+        analytics.bookingCompleted(form.advisor_id, form.advisor_name, form.meeting_mode, form.service)
         setSuccess(true)
       } else {
         const data = await res.json().catch(() => ({}))
@@ -292,7 +294,7 @@ function BookingPageInner() {
               </select>
             </div>
             <button
-              onClick={() => setStep(2)}
+              onClick={() => { analytics.bookingStarted(form.advisor_id, form.advisor_name); setStep(2) }}
               disabled={!form.name || !form.email || !form.service}
               className="w-full bg-emerald-500 hover:bg-emerald-600 disabled:opacity-30 disabled:cursor-not-allowed text-white text-sm font-semibold py-2.5 rounded-lg transition-colors mt-2"
             >

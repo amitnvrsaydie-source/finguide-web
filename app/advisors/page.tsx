@@ -2,6 +2,7 @@
 import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { SkeletonCard } from "@/components/Skeleton";
+import { analytics } from "@/lib/analytics";
 
 const advisors = [
   { id: 1, name: "Rajesh Sharma", city: "Bangalore", registration: "RIA", experience: 12, specializations: ["mutual-funds", "epf", "inheritance"], specializationLabels: ["Mutual Funds", "EPF Guidance", "Inheritance Planning"], bio: "SEBI Registered Investment Advisor with 12 years of experience helping salaried professionals plan their financial future." },
@@ -50,6 +51,7 @@ function AdvisorsContent() {
             <a
               key={id}
               href={`/advisors?service=${id}`}
+              onClick={() => analytics.filterSelected(id)}
               className={`px-4 py-1.5 rounded-full text-sm border transition-all duration-200 ${service === id ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/40" : "border-white/10 text-gray-400 hover:border-white/20 hover:text-white"}`}
             >
               {label}
@@ -104,6 +106,7 @@ function AdvisorsContent() {
                   <span className="text-gray-500 text-xs">{advisor.experience} yrs experience</span>
                   <a
                     href={`/advisors/${advisor.id}`}
+                    onClick={() => analytics.advisorCardClicked(advisor.id, advisor.name)}
                     className="bg-emerald-500 hover:bg-emerald-400 active:scale-95 text-black text-sm font-bold px-4 py-2 rounded-full transition-all duration-150"
                   >
                     View Profile

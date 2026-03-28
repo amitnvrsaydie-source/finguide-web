@@ -1,8 +1,9 @@
 'use client';
 
-import { use, useState } from 'react';
+import { use, useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
+import { analytics } from '@/lib/analytics';
 
 const advisors = [
   { id: 1, name: "Rajesh Sharma", city: "Bangalore", registration: "RIA", experience: 12, specializations: ["Mutual Funds", "EPF Guidance", "Inheritance Planning"], languages: ["English", "Hindi"], bio: "SEBI Registered Investment Advisor with 12 years of experience helping salaried professionals plan their financial future." },
@@ -16,6 +17,12 @@ export default function AdvisorProfile({ params }: { params: Promise<{ id: strin
   const [form, setForm] = useState({ name: '', email: '', phone: '', reason: '' });
   const [status, setStatus] = useState('');
 
+  useEffect(() => {
+    if (!advisor) return
+    analytics.advisorViewed(advisor.id, advisor.name, advisor.city)
+    fetch(`/api/advisors/${advisor.id}/view`, { method: 'POST' })
+  }, [advisor?.id])  // eslint-disable-line react-hooks/exhaustive-deps
+
   if (!advisor) return <div className="min-h-screen bg-[#0a0a0f] p-12 text-center text-gray-500">Advisor not found.</div>;
 
   const handleSubmit = async (e: FormEvent) => {
@@ -26,6 +33,7 @@ export default function AdvisorProfile({ params }: { params: Promise<{ id: strin
   };
 
   const handleBook = () => {
+    analytics.ctaClicked('book_now', 'advisor_profile')
     router.push(`/booking?advisor_id=${advisor.id}&advisor_name=${encodeURIComponent(advisor.name)}`);
   };
 
