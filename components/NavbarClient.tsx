@@ -33,7 +33,7 @@ export default function NavbarClient() {
     <nav className="w-full bg-[#0a0a0f] border-b border-gray-800 px-6 py-4">
       <div className="max-w-6xl mx-auto flex items-center justify-between">
         <Link href="/" className="text-emerald-400 font-bold text-xl">
-          FinGuide
+          ZeroBias
         </Link>
 
         {/* Desktop */}

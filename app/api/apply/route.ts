@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
 
     // Admin notification email
     await resend.emails.send({
-      from: 'FinGuide <onboarding@resend.dev>',
+      from: 'ZeroBias <onboarding@resend.dev>',
       to: 'amitnvrsaydie@gmail.com',
       subject: `New Advisor Application — ${full_name} (${sebi_reg_no})`,
       html: `
@@ -54,20 +54,20 @@ export async function POST(req: NextRequest) {
           <tr><td style="padding:8px;color:#6b7280">Experience</td><td style="padding:8px">${years_experience} years</td></tr>
           <tr style="background:#f9f9f9"><td style="padding:8px;color:#6b7280;vertical-align:top">Bio</td><td style="padding:8px">${bio || '—'}</td></tr>
         </table>
-        <p style="color:#6b7280;font-size:12px;margin-top:24px">Submitted via finguide.in/apply</p>
+        <p style="color:#6b7280;font-size:12px;margin-top:24px">Submitted via zerobias.in/apply</p>
       `,
     })
 
     // Applicant confirmation email
     await resend.emails.send({
-      from: 'FinGuide <onboarding@resend.dev>',
+      from: 'ZeroBias <onboarding@resend.dev>',
       to: email,
-      subject: 'We received your application — FinGuide',
+      subject: 'We received your application — ZeroBias',
       html: `
         <div style="font-family:sans-serif;max-width:520px;margin:0 auto">
           <h2 style="color:#10b981">Application Received</h2>
           <p style="color:#374151">Hi ${full_name},</p>
-          <p style="color:#374151">Thank you for applying to be listed on FinGuide. We have received your application and will manually review your SEBI registration details.</p>
+          <p style="color:#374151">Thank you for applying to be listed on ZeroBias. We have received your application and will manually review your SEBI registration details.</p>
           <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:16px;margin:24px 0">
             <p style="margin:0;color:#166534;font-size:14px">⏱ <strong>What happens next?</strong></p>
             <p style="margin:8px 0 0;color:#166534;font-size:14px">We review all applications within <strong>3–5 business days</strong>. We will contact you at ${email} with the outcome.</p>
@@ -78,10 +78,10 @@ export async function POST(req: NextRequest) {
             <li>SEBI / ARN No.: ${sebi_reg_no}</li>
             <li>City: ${city || '—'}</li>
           </ul>
-          <p style="color:#374151">Questions? Reply to this email or write to <a href="mailto:hello@finguide.in" style="color:#10b981">hello@finguide.in</a>.</p>
-          <p style="color:#374151">— Team FinGuide</p>
+          <p style="color:#374151">Questions? Reply to this email or write to <a href="mailto:hello@zerobias.in" style="color:#10b981">hello@zerobias.in</a>.</p>
+          <p style="color:#374151">— Team ZeroBias</p>
           <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0">
-          <p style="color:#9ca3af;font-size:12px">FinGuide is a discovery platform. We are not a SEBI-registered entity.</p>
+          <p style="color:#9ca3af;font-size:12px">ZeroBias is a discovery platform. We are not a SEBI-registered entity.</p>
         </div>
       `,
     })

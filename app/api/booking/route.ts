@@ -37,9 +37,9 @@ export async function POST(req: Request) {
 
     // Send confirmation email to user
     await resend.emails.send({
-      from: 'FinGuide <onboarding@resend.dev>',
+      from: 'ZeroBias <onboarding@resend.dev>',
       to: email,
-      subject: '✅ Booking Confirmed — FinGuide',
+      subject: '✅ Booking Confirmed — ZeroBias',
       html: `
         <div style="font-family: sans-serif; max-width: 500px; margin: 0 auto; background: #0a0a0f; color: white; padding: 32px; border-radius: 12px;">
           <h2 style="color: #10b981;">Booking Confirmed! 🎉</h2>
@@ -53,14 +53,14 @@ export async function POST(req: Request) {
           </div>
           <p style="color: #10b981;">First session is absolutely free — no hidden charges.</p>
           <p style="color: #888;">Your advisor will reach out to confirm the meeting link shortly.</p>
-          <p>— Team FinGuide</p>
+          <p>— Team ZeroBias</p>
         </div>
       `
     })
 
     // Send notification to team
     await resend.emails.send({
-      from: 'FinGuide <onboarding@resend.dev>',
+      from: 'ZeroBias <onboarding@resend.dev>',
       to: 'amitnvrsaydie@gmail.com',
       subject: `New Booking — ${name} with ${advisor_name}`,
       html: `

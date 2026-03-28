@@ -10,27 +10,27 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://finguide.in'),
+  metadataBase: new URL('https://zerobias.in'),
   title: {
-    default: 'FinGuide — SEBI-Verified Financial Advisors in India',
-    template: '%s | FinGuide',
+    default: 'ZeroBias — SEBI-Verified Financial Advisors in India',
+    template: '%s | ZeroBias',
   },
   description: 'Find and connect with SEBI-registered, fee-only financial advisors in India. Expert guidance on mutual funds, NRI services, EPF, insurance, and more. First session absolutely free.',
   keywords: ['SEBI registered advisor', 'financial advisor India', 'fee-only advisor', 'mutual fund advisor', 'NRI financial planning', 'EPF guidance', 'investment advisor India', 'SEBI RIA', 'financial planner India'],
-  authors: [{ name: 'FinGuide', url: 'https://finguide.in' }],
-  creator: 'FinGuide',
+  authors: [{ name: 'ZeroBias', url: 'https://zerobias.in' }],
+  creator: 'ZeroBias',
   openGraph: {
     type: 'website',
     locale: 'en_IN',
-    url: 'https://finguide.in',
-    siteName: 'FinGuide',
-    title: 'FinGuide — SEBI-Verified Financial Advisors in India',
+    url: 'https://zerobias.in',
+    siteName: 'ZeroBias',
+    title: 'ZeroBias — SEBI-Verified Financial Advisors in India',
     description: 'Connect with SEBI-registered, fee-only financial advisors. Expert, unbiased advice. First session free.',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'FinGuide — Find SEBI Verified Financial Advisors' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'ZeroBias — Find SEBI Verified Financial Advisors' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'FinGuide — SEBI-Verified Financial Advisors in India',
+    title: 'ZeroBias — SEBI-Verified Financial Advisors in India',
     description: 'Connect with SEBI-registered, fee-only financial advisors. First session free.',
     images: ['/og-image.png'],
   },
@@ -55,12 +55,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               {/* Col 1 — Brand */}
               <div className="md:col-span-1">
                 <Link href="/" className="text-emerald-400 font-bold text-2xl tracking-tight">
-                  FinGuide
+                  ZeroBias
                 </Link>
                 <p className="text-gray-500 text-sm mt-3 leading-relaxed">
                   India's SEBI-verified advisor network. Connecting investors with qualified, unbiased financial advisors.
                 </p>
-                <p className="text-gray-700 text-xs mt-6">© 2026 FinGuide. All rights reserved.</p>
+                <p className="text-gray-700 text-xs mt-6">© 2026 ZeroBias. All rights reserved.</p>
               </div>
 
               {/* Col 2 — Useful Links */}
@@ -72,7 +72,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                     { label: 'Financial Services', href: '/services' },
                     { label: 'FinProfile Quiz', href: '/finprofile' },
                     { label: 'Book a Session', href: '/booking' },
-                    { label: 'About FinGuide', href: '/about' },
+                    { label: 'About ZeroBias', href: '/about' },
                   ].map(({ label, href }) => (
                     <li key={href}>
                       <Link href={href} className="text-gray-500 text-sm hover:text-emerald-400 transition-colors">
@@ -106,8 +106,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               <div>
                 <p className="text-gray-400 text-xs font-semibold uppercase tracking-widest mb-4">Connect</p>
                 <p className="text-gray-500 text-sm mb-1">For queries & advisor applications:</p>
-                <a href="mailto:hello@finguide.in" className="text-emerald-400 text-sm hover:underline">
-                  hello@finguide.in
+                <a href="mailto:hello@zerobias.in" className="text-emerald-400 text-sm hover:underline">
+                  hello@zerobias.in
                 </a>
 
                 <p className="text-gray-400 text-xs font-semibold uppercase tracking-widest mt-6 mb-3">Follow Us</p>
@@ -153,7 +153,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             {/* Bottom bar */}
             <div className="border-t border-gray-800/50 pt-6 flex flex-col md:flex-row items-center justify-between gap-3">
               <p className="text-gray-700 text-xs">
-                FinGuide is not a SEBI-registered entity. We are a discovery platform only. We do not provide investment advice.
+                ZeroBias is not a SEBI-registered entity. We are a discovery platform only. We do not provide investment advice.
               </p>
               <div className="flex items-center gap-4">
                 <span className="text-gray-700 text-xs flex items-center gap-1">

@@ -32,13 +32,13 @@ export async function POST(req: Request) {
 
     // Send OTP via email
     await resend.emails.send({
-      from: 'FinGuide <onboarding@resend.dev>',
+      from: 'ZeroBias <onboarding@resend.dev>',
       to: email,
-      subject: 'Your FinGuide OTP',
+      subject: 'Your ZeroBias OTP',
       html: `
         <div style="font-family: sans-serif; max-width: 400px; margin: 0 auto;">
           <h2>Hi ${name},</h2>
-          <p>Your FinGuide OTP is:</p>
+          <p>Your ZeroBias OTP is:</p>
           <h1 style="color: #10b981; font-size: 48px; letter-spacing: 8px;">${otp}</h1>
           <p style="color: #666;">Valid for 10 minutes. Do not share this with anyone.</p>
         </div>

@@ -47,7 +47,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center px-4">
       <div className="w-full max-w-md animate-fade-up">
         <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold text-white mb-2">Welcome to FinGuide</h1>
+          <h1 className="text-3xl font-bold text-white mb-2">Welcome to ZeroBias</h1>
           <p className="text-gray-400">Enter your details to continue</p>
         </div>
 

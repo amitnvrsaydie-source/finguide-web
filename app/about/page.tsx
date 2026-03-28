@@ -2,10 +2,10 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'About FinGuide',
-  description: 'FinGuide is a SEBI-advisor discovery platform in India. We connect investors with verified, fee-only financial advisors — with no commissions, no bias.',
+  title: 'About ZeroBias',
+  description: 'ZeroBias is a SEBI-advisor discovery platform in India. We connect investors with verified, fee-only financial advisors — with no commissions, no bias.',
   openGraph: {
-    title: 'About FinGuide — India\'s SEBI Advisor Discovery Platform',
+    title: 'About ZeroBias — India\'s SEBI Advisor Discovery Platform',
     description: 'We connect investors with SEBI-registered, fee-only financial advisors. No commissions, no bias.',
   },
 }
@@ -17,9 +17,9 @@ export default function AboutPage() {
 
         <div className="animate-fade-up">
           <p className="text-emerald-400 text-xs uppercase tracking-widest mb-3">Who we are</p>
-          <h1 className="text-4xl font-bold text-white mb-4">About FinGuide</h1>
+          <h1 className="text-4xl font-bold text-white mb-4">About ZeroBias</h1>
           <p className="text-gray-400 text-lg leading-relaxed mb-10">
-            FinGuide is a discovery platform that helps investors in India find and connect with SEBI-registered financial advisors.
+            ZeroBias is a discovery platform that helps investors in India find and connect with SEBI-registered financial advisors.
           </p>
         </div>
 
@@ -53,7 +53,7 @@ export default function AboutPage() {
         <div className="bg-[#111118] border border-gray-800 rounded-2xl p-8 mb-10 hover:border-gray-700 transition-colors duration-200 animate-fade-up stagger-4">
           <h2 className="text-white font-semibold text-lg mb-3">Contact</h2>
           <p className="text-gray-400 text-sm mb-2">For questions or advisor applications:</p>
-          <a href="mailto:hello@finguide.in" className="text-emerald-400 hover:text-emerald-300 transition-colors underline-offset-2 hover:underline">hello@finguide.in</a>
+          <a href="mailto:hello@zerobias.in" className="text-emerald-400 hover:text-emerald-300 transition-colors underline-offset-2 hover:underline">hello@zerobias.in</a>
         </div>
 
         <div className="text-center animate-fade-up stagger-5">

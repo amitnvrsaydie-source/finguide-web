@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 
 const testimonials = [
   {
-    quote: "FinGuide connected me with a SEBI-registered advisor who transformed my investment strategy completely.",
+    quote: "ZeroBias connected me with a SEBI-registered advisor who transformed my investment strategy completely.",
     name: "Rahul Mehta",
     title: "CTO, Bangalore Startup"
   },
@@ -169,7 +169,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
             <p className="text-emerald-400 text-xs uppercase tracking-widest mb-2">Simple process</p>
-            <h2 className="text-3xl font-bold text-white">How FinGuide Works</h2>
+            <h2 className="text-3xl font-bold text-white">How ZeroBias Works</h2>
             <p className="text-gray-500 text-sm mt-2">Your path to the right advisor — in 4 simple steps</p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">

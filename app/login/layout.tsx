@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
 
 export const metadata: Metadata = {
-  title: 'Login — FinGuide',
-  description: 'Sign in to FinGuide with a secure OTP sent to your email. No passwords required.',
+  title: 'Login — ZeroBias',
+  description: 'Sign in to ZeroBias with a secure OTP sent to your email. No passwords required.',
   robots: { index: false, follow: false },
 }
 
