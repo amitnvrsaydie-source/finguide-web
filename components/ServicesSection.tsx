@@ -1,81 +1,16 @@
 "use client";
-
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 const services = [
-  {
-    id: "epf",
-    label: "EPF Guidance",
-    icon: "🏦",
-    color: "teal",
-    summary: "Provident fund withdrawal, transfer & nomination help.",
-    covered: ["EPF withdrawal process", "PF transfer between jobs", "Nomination update", "UAN activation & issues"],
-    notCovered: ["Employer PF disputes", "Legal representation"],
-  },
-  {
-    id: "nri",
-    label: "NRI Services",
-    icon: "✈️",
-    color: "blue",
-    summary: "Tax, investments & repatriation for NRIs.",
-    covered: ["NRE/NRO account guidance", "DTAA tax planning", "Repatriation of funds", "India investment strategy"],
-    notCovered: ["Overseas tax filing", "Visa & immigration"],
-  },
-  {
-    id: "global",
-    label: "Global Investments",
-    icon: "🌐",
-    color: "purple",
-    summary: "Invest in US stocks, ETFs & international funds.",
-    covered: ["US stocks & ETFs", "International mutual funds", "LRS remittance planning", "Currency risk management"],
-    notCovered: ["Crypto investments", "Offshore banking"],
-  },
-  {
-    id: "inheritance",
-    label: "Inheritance Planning",
-    icon: "🏛️",
-    color: "red",
-    summary: "Will, nomination & estate transfer planning.",
-    covered: ["Will drafting guidance", "Nomination review", "Asset transfer planning", "Joint account structuring"],
-    notCovered: ["Legal drafting fees", "Court representation"],
-  },
-  {
-    id: "loan",
-    label: "Loan Management",
-    icon: "💳",
-    color: "blue",
-    summary: "Home loan, personal loan & debt restructuring.",
-    covered: ["Home loan planning", "Debt consolidation", "EMI optimisation", "Prepayment strategy"],
-    notCovered: ["Loan sourcing", "Credit repair"],
-  },
-  {
-    id: "mutual-funds",
-    label: "Mutual Funds",
-    icon: "📈",
-    color: "green",
-    summary: "SIP, lumpsum & goal-based fund selection.",
-    covered: ["Fund selection & review", "SIP planning", "Goal-based investing", "Portfolio rebalancing"],
-    notCovered: ["Direct stock tips", "F&O advice"],
-  },
-  {
-    id: "insurance",
-    label: "Insurance",
-    icon: "🛡️",
-    color: "olive",
-    summary: "Term, health & life cover review.",
-    covered: ["Term insurance sizing", "Health cover review", "Policy comparison", "Claim assistance guidance"],
-    notCovered: ["Insurance selling", "Policy issuance"],
-  },
-  {
-    id: "bonds",
-    label: "Bonds & FDs",
-    icon: "💰",
-    color: "amber",
-    summary: "Fixed income, bonds & FD laddering strategy.",
-    covered: ["Government bond guidance", "Corporate bond review", "FD laddering strategy", "RBI bonds & SGBs"],
-    notCovered: ["Chit funds", "Unregulated deposits"],
-  },
+  { id: "epf", label: "EPF Guidance", icon: "🏦", color: "teal", summary: "Provident fund withdrawal, transfer & nomination help.", covered: ["EPF withdrawal process", "PF transfer between jobs", "Nomination update", "UAN activation"], notCovered: ["Employer PF disputes", "Legal representation"] },
+  { id: "nri", label: "NRI Services", icon: "✈️", color: "blue", summary: "Tax, investments & repatriation for NRIs.", covered: ["NRE/NRO account guidance", "DTAA tax planning", "Repatriation of funds", "India investment strategy"], notCovered: ["Overseas tax filing", "Visa & immigration"] },
+  { id: "global", label: "Global Investments", icon: "🌐", color: "purple", summary: "Invest in US stocks, ETFs & international funds.", covered: ["US stocks & ETFs", "International mutual funds", "LRS remittance planning", "Currency risk management"], notCovered: ["Crypto investments", "Offshore banking"] },
+  { id: "inheritance", label: "Inheritance Planning", icon: "🏛️", color: "red", summary: "Will, nomination & estate transfer planning.", covered: ["Will drafting guidance", "Nomination review", "Asset transfer planning", "Joint account structuring"], notCovered: ["Legal drafting fees", "Court representation"] },
+  { id: "loan", label: "Loan Management", icon: "💳", color: "blue", summary: "Home loan, personal loan & debt restructuring.", covered: ["Home loan planning", "Debt consolidation", "EMI optimisation", "Prepayment strategy"], notCovered: ["Loan sourcing", "Credit repair"] },
+  { id: "mutual-funds", label: "Mutual Funds", icon: "📈", color: "green", summary: "SIP, lumpsum & goal-based fund selection.", covered: ["Fund selection & review", "SIP planning", "Goal-based investing", "Portfolio rebalancing"], notCovered: ["Direct stock tips", "F&O advice"] },
+  { id: "insurance", label: "Insurance", icon: "🛡️", color: "olive", summary: "Term, health & life cover review.", covered: ["Term insurance sizing", "Health cover review", "Policy comparison", "Claim assistance guidance"], notCovered: ["Insurance selling", "Policy issuance"] },
+  { id: "bonds", label: "Bonds & FDs", icon: "💰", color: "amber", summary: "Fixed income, bonds & FD laddering strategy.", covered: ["Government bond guidance", "Corporate bond review", "FD laddering strategy", "RBI bonds & SGBs"], notCovered: ["Chit funds", "Unregulated deposits"] },
 ];
 
 const colorMap: Record<string, string> = {
@@ -98,26 +33,18 @@ export default function ServicesSection() {
         <h2 className="text-3xl font-bold mb-2">What do you need help with?</h2>
         <p className="text-gray-400">Select a service to find the right SEBI-registered advisor.</p>
       </div>
-
-      {/* 4x2 Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
         {services.map((s) => (
           <button
             key={s.id}
             onClick={() => setSelected(s)}
-            className={`rounded-xl border p-4 text-left transition-all ${
-              selected.id === s.id
-                ? colorMap[s.color]
-                : "border-white/10 bg-white/5 hover:border-white/20"
-            }`}
+            className={`rounded-xl border p-4 text-left transition-all ${selected.id === s.id ? colorMap[s.color] : "border-white/10 bg-white/5 hover:border-white/20"}`}
           >
             <div className="text-2xl mb-2">{s.icon}</div>
             <div className="text-sm font-semibold text-white">{s.label}</div>
           </button>
         ))}
       </div>
-
-      {/* Detail Panel */}
       <div className="bg-white/5 border border-white/10 rounded-2xl p-6 transition-all">
         <div className="flex items-center gap-3 mb-4">
           <span className="text-3xl">{selected.icon}</span>
@@ -126,7 +53,6 @@ export default function ServicesSection() {
             <p className="text-gray-400 text-sm">{selected.summary}</p>
           </div>
         </div>
-
         <div className="grid md:grid-cols-2 gap-6 mb-6">
           <div>
             <p className="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-3">What&apos;s Covered</p>
@@ -149,7 +75,20 @@ export default function ServicesSection() {
             </ul>
           </div>
         </div>
-
         <button
           onClick={() => router.push(`/advisors?service=${selected.id}`)}
-          className="bg-emerald-500 hover:bg-emerald-400
+          className="bg-emerald-500 hover:bg-emerald-400 text-black font-bold px-6 py-3 rounded-full text-sm transition-colors"
+        >
+          Find {selected.label} Advisors
+        </button>
+      </div>
+      <div className="flex flex-wrap gap-4 mt-8">
+        {["SEBI Registered Advisors Only", "No Commission Bias", "Direct Connect"].map((badge) => (
+          <span key={badge} className="text-xs text-gray-400 border border-white/10 px-3 py-1 rounded-full">
+            ✓ {badge}
+          </span>
+        ))}
+      </div>
+    </section>
+  );
+}
