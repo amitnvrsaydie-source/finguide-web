@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import ServicesSection from '@/components/ServicesSection'
 
 const testimonials = [
   {
@@ -162,18 +161,6 @@ export default function HomePage() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* SERVICES */}
-      <section className="py-16 border-b border-gray-800/40">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-10">
-            <p className="text-emerald-400 text-xs uppercase tracking-widest mb-2">What we cover</p>
-            <h2 className="text-3xl font-bold text-white">What do you need help with?</h2>
-            <p className="text-gray-500 text-sm mt-2">Select a service to find the right SEBI-registered advisor</p>
-          </div>
-          <ServicesSection />
         </div>
       </section>
 
