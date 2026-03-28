@@ -14,11 +14,6 @@ export async function GET(req: NextRequest) {
     .select('id, full_name, city, sebi_reg_no, years_experience, specializations, bio')
     .order('id', { ascending: true })
 
-  if (service) {
-    // TEXT[] containment: use PostgREST cs operator with {value} format
-    query = query.filter('specializations', 'cs', `{${service}}`)
-  }
-
   const { data, error } = await query
 
   if (error) {
@@ -26,5 +21,16 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ advisors: [] }, { status: 500 })
   }
 
-  return NextResponse.json({ advisors: data || [] })
+  let advisors = data || []
+
+  if (service) {
+    advisors = advisors.filter(a => {
+      const specs: string[] = Array.isArray(a.specializations)
+        ? a.specializations
+        : (typeof a.specializations === 'string' ? (() => { try { return JSON.parse(a.specializations) } catch { return [] } })() : [])
+      return specs.includes(service)
+    })
+  }
+
+  return NextResponse.json({ advisors })
 }
