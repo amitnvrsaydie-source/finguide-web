@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 const SERVICES = [
   'Mutual Funds', 'EPF Guidance', 'NRI Services',
   'Global Investments', 'Inheritance Planning',
-  'Loan Management', 'Insurance', 'Bonds & FDs'
+  'Loan Management', 'Insurance', 'Bonds & FDs', 'NPS'
 ]
 
 const TIME_SLOTS = [

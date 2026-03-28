@@ -10,6 +10,7 @@ const supabase = createClient(
 const resend = new Resend(process.env.RESEND_API_KEY)
 
 export async function POST(req: Request) {
+  try {
   const body = await req.json()
   const {
     name, email, phone, service,
@@ -18,7 +19,7 @@ export async function POST(req: Request) {
   } = body
 
   // Save to Supabase
-  await supabase.from('bookings').insert({
+  const { error: dbError } = await supabase.from('bookings').insert({
     advisor_id,
     advisor_name,
     meeting_mode,
@@ -29,6 +30,11 @@ export async function POST(req: Request) {
     phone,
     status: 'confirmed'
   })
+
+  if (dbError) {
+    console.error('Supabase insert error:', dbError)
+    return NextResponse.json({ error: 'Failed to save booking' }, { status: 500 })
+  }
 
   // Send confirmation email to user
   await resend.emails.send({
@@ -74,4 +80,8 @@ export async function POST(req: Request) {
   })
 
   return NextResponse.json({ success: true })
+  } catch (err) {
+    console.error('Booking error:', err)
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+  }
 }

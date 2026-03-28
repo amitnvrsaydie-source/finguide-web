@@ -3,8 +3,8 @@
 import { use, useState } from 'react';
 
 const advisors = [
-  { id: 1, name: "Rajesh Sharma", city: "Mumbai", registration: "RIA", experience: 12, specializations: ["Retirement Planning", "Tax Planning"], languages: ["English", "Hindi"], bio: "SEBI Registered Investment Advisor with 12 years of experience helping salaried professionals plan their financial future." },
-  { id: 2, name: "Priya Nair", city: "Bangalore", registration: "ARN", experience: 8, specializations: ["Mutual Funds", "Goal-based Investing"], languages: ["English", "Kannada", "Malayalam"], bio: "Certified financial planner focused on goal-based investing for young professionals and families." },
+  { id: 1, name: "Rajesh Sharma", city: "Bangalore", registration: "RIA", experience: 12, specializations: ["Mutual Funds", "EPF Guidance", "Inheritance Planning"], languages: ["English", "Hindi"], bio: "SEBI Registered Investment Advisor with 12 years of experience helping salaried professionals plan their financial future." },
+  { id: 2, name: "Priya Nair", city: "Bangalore", registration: "RIA", experience: 8, specializations: ["Mutual Funds", "NRI Services", "Global Investments"], languages: ["English", "Kannada", "Malayalam"], bio: "SEBI RIA specializing in goal-based investing and NRI financial planning." },
 ];
 
 export default function AdvisorProfile({ params }: { params: Promise<{ id: string }> }) {
