@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 const SERVICES = [
   'Mutual Funds', 'EPF Guidance', 'NRI Services',
@@ -148,11 +148,13 @@ function CompactCalendar({ selected, onSelect }: { selected: string, onSelect: (
   )
 }
 
-export default function BookingPage() {
+function BookingPageInner() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [step, setStep] = useState(1)
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
+  const [error, setError] = useState('')
   const [form, setForm] = useState({
     name: '', email: '', phone: '', service: '',
     meeting_mode: 'video',
@@ -161,17 +163,35 @@ export default function BookingPage() {
     advisor_id: 'rajesh-sharma'
   })
 
+  useEffect(() => {
+    const advisorName = searchParams.get('advisor_name')
+    const advisorId = searchParams.get('advisor_id')
+    if (advisorName || advisorId) {
+      setForm(f => ({
+        ...f,
+        advisor_name: advisorName ?? f.advisor_name,
+        advisor_id: advisorId ?? f.advisor_id,
+      }))
+    }
+  }, [searchParams])
+
   const handleSubmit = async () => {
     setLoading(true)
+    setError('')
     try {
       const res = await fetch('/api/booking', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form)
       })
-      if (res.ok) setSuccess(true)
-    } catch (err) {
-      console.error(err)
+      if (res.ok) {
+        setSuccess(true)
+      } else {
+        const data = await res.json().catch(() => ({}))
+        setError(data.error || 'Booking failed. Please try again.')
+      }
+    } catch {
+      setError('Network error. Please check your connection and try again.')
     } finally {
       setLoading(false)
     }
@@ -381,11 +401,19 @@ export default function BookingPage() {
               <button
                 onClick={handleSubmit}
                 disabled={loading}
-                className="flex-1 bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 text-white text-sm font-semibold py-2.5 rounded-lg transition-colors"
+                className="flex-1 bg-emerald-500 hover:bg-emerald-600 active:scale-95 disabled:opacity-50 text-white text-sm font-semibold py-2.5 rounded-lg transition-all duration-150"
               >
                 {loading ? 'Confirming...' : 'Confirm Booking ✓'}
               </button>
             </div>
+            {error && (
+              <div className="mt-3 bg-red-500/10 border border-red-500/30 rounded-lg px-4 py-3 flex items-start gap-2">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-red-400 mt-0.5 shrink-0">
+                  <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                <p className="text-red-400 text-xs">{error}</p>
+              </div>
+            )}
           </div>
         )}
 
@@ -403,5 +431,15 @@ export default function BookingPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+import { Suspense } from 'react'
+
+export default function BookingPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#0a0a0f]" />}>
+      <BookingPageInner />
+    </Suspense>
   )
 }

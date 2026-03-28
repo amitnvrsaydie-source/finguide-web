@@ -1,8 +1,14 @@
 import ServicesSection from "@/components/ServicesSection";
 
-export const metadata = {
-  title: "Financial Services | FinGuide",
-  description: "Find SEBI-registered advisors for EPF, NRI services, mutual funds, insurance, and more.",
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: "Financial Services — EPF, NRI, Mutual Funds & More",
+  description: "Find SEBI-registered advisors for EPF guidance, NRI services, mutual funds, insurance, bonds, NPS, and more. First session free.",
+  openGraph: {
+    title: "FinGuide Financial Services — Find the Right SEBI Advisor",
+    description: "Expert guidance on EPF, NRI planning, mutual funds, insurance, bonds, NPS, and inheritance — from verified SEBI advisors.",
+  },
 };
 
 export default function ServicesPage() {

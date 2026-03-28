@@ -122,19 +122,19 @@ export default function FinProfilePage() {
     return (
       <div className="min-h-screen bg-[#0a0a0f] py-16 px-4">
         <div className="max-w-2xl mx-auto">
-          <div className="text-center mb-10">
+          <div className="text-center mb-10 animate-fade-up">
             <p className="text-emerald-400 text-xs uppercase tracking-widest mb-2">Your FinProfile</p>
             <div className="text-6xl mb-4">{p.emoji}</div>
             <h1 className="text-3xl font-bold text-white mb-2">{p.type}</h1>
             <p className="text-gray-400 italic">"{p.tagline}"</p>
           </div>
 
-          <div className="bg-[#111118] border border-gray-800 rounded-2xl p-8 mb-6">
+          <div className="bg-[#111118] border border-gray-800 rounded-2xl p-8 mb-6 animate-fade-up stagger-1">
             <h2 className="text-white font-semibold mb-3">About You</h2>
             <p className="text-gray-400 leading-relaxed">{p.description}</p>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 mb-6">
+          <div className="grid grid-cols-2 gap-4 mb-6 animate-fade-up stagger-2">
             <div className="bg-[#111118] border border-gray-800 rounded-2xl p-6">
               <h3 className="text-white font-semibold text-sm mb-3">Your Strengths</h3>
               <div className="space-y-2">
@@ -190,7 +190,7 @@ export default function FinProfilePage() {
     <div className="min-h-screen bg-[#0a0a0f] py-16 px-4">
       <div className="max-w-xl mx-auto">
 
-        <div className="text-center mb-10">
+        <div className="text-center mb-10 animate-fade-up">
           <p className="text-emerald-400 text-xs uppercase tracking-widest mb-2">FinProfile Quiz</p>
           <h1 className="text-2xl font-bold text-white">Discover your investor personality</h1>
           <p className="text-gray-500 text-sm mt-1">5 questions · Takes 2 minutes</p>
@@ -210,7 +210,7 @@ export default function FinProfilePage() {
           </div>
         </div>
 
-        <div className="bg-[#111118] border border-gray-800 rounded-2xl p-8">
+        <div className="bg-[#111118] border border-gray-800 rounded-2xl p-8 animate-fade-up stagger-2">
           <h2 className="text-white text-lg font-semibold mb-6">{q.question}</h2>
           <div className="space-y-3">
             {q.options.map((option, i) => (

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import type { FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 
 export default function VerifyPage() {
@@ -18,7 +19,7 @@ export default function VerifyPage() {
     setEmail(pendingEmail)
   }, [])
 
-  const handleVerify = async (e: React.FormEvent) => {
+  const handleVerify = async (e: FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setError('')

@@ -49,7 +49,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
             {/* Left */}
-            <div>
+            <div className="animate-fade-up">
               <div className="flex items-center gap-2 mb-6">
                 <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                 <span className="text-emerald-400 text-sm font-medium">India's SEBI-verified advisor network</span>
@@ -104,7 +104,7 @@ export default function HomePage() {
             </div>
 
             {/* Right — Testimonial */}
-            <div className="hidden lg:block">
+            <div className="hidden lg:block animate-fade-up stagger-2">
               <p className="text-gray-600 text-xs uppercase tracking-widest mb-6">What investors say</p>
               <div className="bg-[#111118] border border-gray-800/60 rounded-2xl p-8 min-h-[220px] flex flex-col justify-between">
                 <p className="text-white text-lg leading-relaxed font-light italic">
@@ -155,8 +155,8 @@ export default function HomePage() {
               { value: 'SEBI', label: 'Verified Only' },
               { value: '100%', label: 'Independent' },
               { value: 'Free', label: 'First Session' },
-            ].map(({ value, label }) => (
-              <div key={label} className="bg-[#111118] border border-gray-800/60 rounded-2xl py-10">
+            ].map(({ value, label }, i) => (
+              <div key={label} className={`bg-[#111118] border border-gray-800/60 rounded-2xl py-10 animate-fade-up stagger-${i + 1}`}>
                 <p className="text-4xl font-bold text-emerald-400 mb-2">{value}</p>
                 <p className="text-gray-500 text-sm">{label}</p>
               </div>
@@ -191,8 +191,8 @@ export default function HomePage() {
               { step: '02', title: 'Browse Advisors', desc: 'Filter by city, specialty and SEBI registration' },
               { step: '03', title: 'Book Free Session', desc: 'Video call, phone or in-person — your choice' },
               { step: '04', title: 'Get Your Plan', desc: 'Receive personalized, unbiased financial guidance' },
-            ].map(({ step, title, desc }) => (
-              <div key={step} className="bg-[#111118] border border-gray-800/60 rounded-2xl p-6">
+            ].map(({ step, title, desc }, i) => (
+              <div key={step} className={`bg-[#111118] border border-gray-800/60 rounded-2xl p-6 animate-fade-up stagger-${i + 1}`}>
                 <p className="text-emerald-400 text-xs font-bold tracking-widest mb-3">{step}</p>
                 <h3 className="text-white font-semibold mb-2">{title}</h3>
                 <p className="text-gray-500 text-sm leading-relaxed">{desc}</p>
@@ -204,7 +204,7 @@ export default function HomePage() {
 
       {/* CTA */}
       <section className="py-20">
-        <div className="max-w-2xl mx-auto px-6 text-center">
+        <div className="max-w-2xl mx-auto px-6 text-center animate-fade-up">
           <p className="text-emerald-400 text-xs uppercase tracking-widest mb-4">Get started today</p>
           <h2 className="text-4xl font-bold text-white mb-4">Ready to meet your advisor?</h2>
           <p className="text-gray-400 mb-8">First session is completely free. No commitments.</p>

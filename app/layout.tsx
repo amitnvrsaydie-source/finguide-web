@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import type { ReactNode } from 'react'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import NavbarClient from '@/components/NavbarClient'
@@ -7,11 +8,34 @@ import Link from 'next/link'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'FinGuide — Find the right financial advisor',
-  description: 'Connect with SEBI-registered financial advisors in India',
+  metadataBase: new URL('https://finguide.in'),
+  title: {
+    default: 'FinGuide — SEBI-Verified Financial Advisors in India',
+    template: '%s | FinGuide',
+  },
+  description: 'Find and connect with SEBI-registered, fee-only financial advisors in India. Expert guidance on mutual funds, NRI services, EPF, insurance, and more. First session absolutely free.',
+  keywords: ['SEBI registered advisor', 'financial advisor India', 'fee-only advisor', 'mutual fund advisor', 'NRI financial planning', 'EPF guidance', 'investment advisor India', 'SEBI RIA', 'financial planner India'],
+  authors: [{ name: 'FinGuide', url: 'https://finguide.in' }],
+  creator: 'FinGuide',
+  openGraph: {
+    type: 'website',
+    locale: 'en_IN',
+    url: 'https://finguide.in',
+    siteName: 'FinGuide',
+    title: 'FinGuide — SEBI-Verified Financial Advisors in India',
+    description: 'Connect with SEBI-registered, fee-only financial advisors. Expert, unbiased advice. First session free.',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'FinGuide — Find SEBI Verified Financial Advisors' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'FinGuide — SEBI-Verified Financial Advisors in India',
+    description: 'Connect with SEBI-registered, fee-only financial advisors. First session free.',
+    images: ['/og-image.png'],
+  },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
