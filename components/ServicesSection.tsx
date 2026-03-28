@@ -11,6 +11,7 @@ const services = [
   { id: "mutual-funds", label: "Mutual Funds", icon: "📈", color: "green", summary: "SIP, lumpsum & goal-based fund selection.", covered: ["Fund selection & review", "SIP planning", "Goal-based investing", "Portfolio rebalancing"], notCovered: ["Direct stock tips", "F&O advice"] },
   { id: "insurance", label: "Insurance", icon: "🛡️", color: "olive", summary: "Term, health & life cover review.", covered: ["Term insurance sizing", "Health cover review", "Policy comparison", "Claim assistance guidance"], notCovered: ["Insurance selling", "Policy issuance"] },
   { id: "bonds", label: "Bonds & FDs", icon: "💰", color: "amber", summary: "Fixed income, bonds & FD laddering strategy.", covered: ["Government bond guidance", "Corporate bond review", "FD laddering strategy", "RBI bonds & SGBs"], notCovered: ["Chit funds", "Unregulated deposits"] },
+  { id: "nps", label: "NPS", icon: "🏦", color: "purple", summary: "National Pension System guidance and planning.", covered: ["NPS account opening", "Tier 1 & Tier 2 guidance", "Fund manager selection", "Tax benefits under 80CCD(1B)"], notCovered: ["Guaranteed returns", "Early withdrawal assistance"] },
 ];
 
 const colorMap: Record<string, string> = {
