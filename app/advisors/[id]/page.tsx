@@ -4,6 +4,19 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import AdvisorInteractions from '@/components/AdvisorInteractions'
 
+function parseArr(val: unknown): string[] {
+  if (Array.isArray(val)) return val
+  if (typeof val === 'string') { try { return JSON.parse(val) } catch { return [] } }
+  return []
+}
+
+const SPEC_LABELS: Record<string, string> = {
+  epf: 'EPF Guidance', nri: 'NRI Services', global: 'Global Investments',
+  inheritance: 'Inheritance Planning', loan: 'Loan Management',
+  'mutual-funds': 'Mutual Funds', insurance: 'Insurance',
+  bonds: 'Bonds & FDs', nps: 'NPS',
+}
+
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -72,19 +85,19 @@ export default async function AdvisorProfile(
 
           <p className="text-gray-300 leading-relaxed">{advisor.bio}</p>
 
-          {advisor.specializations?.length > 0 && (
+          {parseArr(advisor.specializations).length > 0 && (
             <div className="mt-5 flex flex-wrap gap-2">
-              {(advisor.specializations as string[]).map(s => (
+              {parseArr(advisor.specializations).map(s => (
                 <span key={s} className="bg-emerald-500/10 text-emerald-400 text-xs px-3 py-1 rounded-full border border-emerald-500/20">
-                  {s}
+                  {SPEC_LABELS[s] ?? s}
                 </span>
               ))}
             </div>
           )}
 
-          {advisor.languages?.length > 0 && (
+          {parseArr(advisor.languages).length > 0 && (
             <p className="text-gray-600 text-xs mt-4">
-              Speaks: {(advisor.languages as string[]).join(', ')}
+              Speaks: {parseArr(advisor.languages).join(', ')}
             </p>
           )}
         </div>

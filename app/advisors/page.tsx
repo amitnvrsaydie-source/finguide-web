@@ -4,6 +4,19 @@ import { useSearchParams } from "next/navigation";
 import { SkeletonCard } from "@/components/Skeleton";
 import { analytics } from "@/lib/analytics";
 
+function parseArr(val: unknown): string[] {
+  if (Array.isArray(val)) return val
+  if (typeof val === 'string') { try { return JSON.parse(val) } catch { return [] } }
+  return []
+}
+
+const SPEC_LABELS: Record<string, string> = {
+  epf: "EPF Guidance", nri: "NRI Services", global: "Global Investments",
+  inheritance: "Inheritance Planning", loan: "Loan Management",
+  "mutual-funds": "Mutual Funds", insurance: "Insurance",
+  bonds: "Bonds & FDs", nps: "NPS",
+}
+
 type Advisor = {
   id: number;
   full_name: string;
@@ -121,9 +134,9 @@ function AdvisorsContent() {
                 </div>
                 <p className="text-gray-400 text-sm mb-4 leading-relaxed line-clamp-2">{advisor.bio}</p>
                 <div className="flex flex-wrap gap-2 mb-4">
-                  {advisor.specializations?.slice(0, 3).map(s => (
+                  {parseArr(advisor.specializations).slice(0, 3).map(s => (
                     <span key={s} className="bg-white/10 text-gray-300 text-xs px-3 py-1 rounded-full">
-                      {s}
+                      {SPEC_LABELS[s] ?? s}
                     </span>
                   ))}
                 </div>

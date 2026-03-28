@@ -6,19 +6,6 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 )
 
-// Label map: filter key → Supabase specialization string
-const SERVICE_LABELS: Record<string, string> = {
-  epf: 'EPF Guidance',
-  nri: 'NRI Services',
-  global: 'Global Investments',
-  inheritance: 'Inheritance Planning',
-  loan: 'Loan Management',
-  'mutual-funds': 'Mutual Funds',
-  insurance: 'Insurance',
-  bonds: 'Bonds & FDs',
-  nps: 'NPS',
-}
-
 export async function GET(req: NextRequest) {
   const service = req.nextUrl.searchParams.get('service')
 
@@ -27,8 +14,9 @@ export async function GET(req: NextRequest) {
     .select('id, full_name, city, sebi_reg_no, years_experience, specializations, bio')
     .order('id', { ascending: true })
 
-  if (service && SERVICE_LABELS[service]) {
-    query = query.contains('specializations', [SERVICE_LABELS[service]])
+  if (service) {
+    // specializations stored as keys e.g. ["epf", "mutual-funds"]
+    query = query.contains('specializations', [service])
   }
 
   const { data, error } = await query
