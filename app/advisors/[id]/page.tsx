@@ -103,7 +103,7 @@ export default async function AdvisorProfile(
         </div>
 
         {/* Book + Contact (client component) */}
-        <AdvisorInteractions advisorId={advisor.id} advisorName={advisor.full_name} />
+        <AdvisorInteractions advisorId={String(advisor.id)} advisorName={advisor.full_name} />
 
       </section>
     </main>

@@ -15,8 +15,8 @@ export async function GET(req: NextRequest) {
     .order('id', { ascending: true })
 
   if (service) {
-    // specializations stored as keys e.g. ["epf", "mutual-funds"]
-    query = query.contains('specializations', [service])
+    // TEXT[] containment: use PostgREST cs operator with {value} format
+    query = query.filter('specializations', 'cs', `{${service}}`)
   }
 
   const { data, error } = await query
