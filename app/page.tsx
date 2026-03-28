@@ -16,7 +16,7 @@ const testimonials = [
   },
   {
     quote: "The first free session was genuinely helpful. Booked 3 more sessions after that.",
-    name: "Amit Verma",
+    name: "Karthik Subramanian",
     title: "Entrepreneur, Hyderabad"
   }
 ]
