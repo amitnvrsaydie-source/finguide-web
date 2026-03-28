@@ -134,56 +134,22 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* TRUST BAR — Infinite Logo Ticker */}
+      {/* TRUST BAR — Infinite Ticker */}
       <section className="border-b border-gray-800/40 py-8 overflow-hidden">
         <p className="text-gray-600 text-xs uppercase tracking-widest text-center mb-6">Trusted by professionals from</p>
-        <div className="relative flex overflow-hidden">
-          <div className="flex items-center animate-ticker">
+        <div className="relative flex overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+          <div className="flex items-center animate-ticker whitespace-nowrap">
             {[
-              { name: 'Infosys',        domain: 'infosys.com' },
-              { name: 'Goldman Sachs',  domain: 'goldmansachs.com' },
-              { name: 'Wipro',          domain: 'wipro.com' },
-              { name: 'JPMorgan',       domain: 'jpmorgan.com' },
-              { name: 'TCS',            domain: 'tcs.com' },
-              { name: 'Microsoft',      domain: 'microsoft.com' },
-              { name: 'Flipkart',       domain: 'flipkart.com' },
-              { name: 'Deloitte',       domain: 'deloitte.com' },
-              { name: 'Razorpay',       domain: 'razorpay.com' },
-              { name: 'Google',         domain: 'google.com' },
-              { name: 'HDFC Bank',      domain: 'hdfcbank.com' },
-              { name: 'Zerodha',        domain: 'zerodha.com' },
-              { name: 'Morgan Stanley', domain: 'morganstanley.com' },
-              { name: 'Accenture',      domain: 'accenture.com' },
-              // duplicate for seamless loop
-              { name: 'Infosys',        domain: 'infosys.com' },
-              { name: 'Goldman Sachs',  domain: 'goldmansachs.com' },
-              { name: 'Wipro',          domain: 'wipro.com' },
-              { name: 'JPMorgan',       domain: 'jpmorgan.com' },
-              { name: 'TCS',            domain: 'tcs.com' },
-              { name: 'Microsoft',      domain: 'microsoft.com' },
-              { name: 'Flipkart',       domain: 'flipkart.com' },
-              { name: 'Deloitte',       domain: 'deloitte.com' },
-              { name: 'Razorpay',       domain: 'razorpay.com' },
-              { name: 'Google',         domain: 'google.com' },
-              { name: 'HDFC Bank',      domain: 'hdfcbank.com' },
-              { name: 'Zerodha',        domain: 'zerodha.com' },
-              { name: 'Morgan Stanley', domain: 'morganstanley.com' },
-              { name: 'Accenture',      domain: 'accenture.com' },
-            ].map((co, i) => (
-              <div key={i} className="mx-10 shrink-0 flex items-center justify-center" style={{ width: 80, height: 36 }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={`https://logo.clearbit.com/${co.domain}`}
-                  alt={co.name}
-                  style={{ maxHeight: 32, maxWidth: 80, objectFit: 'contain', filter: 'grayscale(100%) brightness(0.6)', opacity: 0.7 }}
-                  onError={(e) => {
-                    const t = e.currentTarget
-                    t.style.display = 'none'
-                    if (t.nextSibling) (t.nextSibling as HTMLElement).style.display = 'block'
-                  }}
-                />
-                <span style={{ display: 'none' }} className="text-gray-500 text-xs font-semibold whitespace-nowrap">{co.name}</span>
-              </div>
+              'Infosys', 'Goldman Sachs', 'Wipro', 'JPMorgan', 'TCS',
+              'Microsoft', 'Flipkart', 'Deloitte', 'Razorpay', 'Google',
+              'HDFC Bank', 'Zerodha', 'Morgan Stanley', 'Accenture', 'McKinsey & Co',
+              'Infosys', 'Goldman Sachs', 'Wipro', 'JPMorgan', 'TCS',
+              'Microsoft', 'Flipkart', 'Deloitte', 'Razorpay', 'Google',
+              'HDFC Bank', 'Zerodha', 'Morgan Stanley', 'Accenture', 'McKinsey & Co',
+            ].map((name, i) => (
+              <span key={i} className="shrink-0 mx-10 text-gray-500 font-semibold text-sm tracking-wide">
+                {name}
+              </span>
             ))}
           </div>
         </div>
