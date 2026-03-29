@@ -31,16 +31,6 @@ export default function AboutPage() {
         </div>
 
         <div className="bg-[#111118] border border-gray-800 rounded-2xl p-8 mb-6 hover:border-gray-700 transition-colors duration-200 animate-fade-up stagger-2">
-          <h2 className="text-white font-semibold text-lg mb-4">What we are not</h2>
-          <div className="space-y-3">
-            <p className="text-gray-400 text-sm flex items-center gap-2"><span className="text-red-400">✗</span> We are not a SEBI-registered entity</p>
-            <p className="text-gray-400 text-sm flex items-center gap-2"><span className="text-red-400">✗</span> We do not provide investment advice</p>
-            <p className="text-gray-400 text-sm flex items-center gap-2"><span className="text-red-400">✗</span> We do not endorse or recommend any advisor</p>
-            <p className="text-gray-400 text-sm flex items-center gap-2"><span className="text-red-400">✗</span> We do not handle payments between investors and advisors</p>
-          </div>
-        </div>
-
-        <div className="bg-[#111118] border border-gray-800 rounded-2xl p-8 mb-6 hover:border-gray-700 transition-colors duration-200 animate-fade-up stagger-3">
           <h2 className="text-white font-semibold text-lg mb-4">What we do</h2>
           <div className="space-y-3">
             <p className="text-gray-400 text-sm flex items-center gap-2"><span className="text-emerald-400">✓</span> Connect investors with SEBI-registered advisors</p>
