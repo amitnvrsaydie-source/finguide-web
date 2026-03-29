@@ -42,20 +42,21 @@ export async function PATCH(req: NextRequest) {
   if (fetchErr || !app) return NextResponse.json({ error: 'Application not found' }, { status: 404 })
 
   if (action === 'approve') {
-    // Move to advisors table
+    // Move to advisors table (only columns that exist in advisors schema)
     const { error: insertErr } = await supabase.from('advisors').insert({
       full_name: app.full_name,
-      email: app.email,
-      phone: app.phone,
-      city: app.city,
+      city: app.city || '',
       sebi_reg_no: app.sebi_reg_no,
-      years_experience: app.years_experience,
-      bio: app.bio,
+      years_experience: app.years_experience || 0,
+      bio: app.bio || '',
       specializations: [],
       languages: [],
     })
 
-    if (insertErr) return NextResponse.json({ error: insertErr.message }, { status: 500 })
+    if (insertErr) {
+      console.error('Advisor insert error:', insertErr.message)
+      return NextResponse.json({ error: insertErr.message }, { status: 500 })
+    }
 
     // Update application status
     await supabase

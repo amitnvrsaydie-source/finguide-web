@@ -44,6 +44,8 @@ export default function AdminDashboard() {
   const [bookings, setBookings] = useState<Booking[]>([])
   const [loading, setLoading] = useState(true)
   const [actionLoading, setActionLoading] = useState<string | null>(null)
+  const [actionError, setActionError] = useState<string | null>(null)
+  const [actionSuccess, setActionSuccess] = useState<string | null>(null)
   const [filter, setFilter] = useState<'all' | 'pending' | 'approved' | 'rejected'>('pending')
 
   const fetchData = useCallback(async () => {
@@ -67,13 +69,26 @@ export default function AdminDashboard() {
 
   async function handleAction(id: string, action: 'approve' | 'reject') {
     setActionLoading(id + action)
-    await fetch('/api/admin/applications', {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id, action }),
-    })
+    setActionError(null)
+    setActionSuccess(null)
+    try {
+      const res = await fetch('/api/admin/applications', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, action }),
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        setActionError(data.error || 'Something went wrong')
+      } else {
+        setActionSuccess(action === 'approve' ? 'Advisor approved and listed!' : 'Application rejected.')
+        setTimeout(() => setActionSuccess(null), 3000)
+        fetchData()
+      }
+    } catch {
+      setActionError('Network error — please try again')
+    }
     setActionLoading(null)
-    fetchData()
   }
 
   async function handleLogout() {
@@ -120,6 +135,19 @@ export default function AdminDashboard() {
             </div>
           ))}
         </div>
+
+        {/* Toasts */}
+        {actionError && (
+          <div className="mb-4 bg-red-500/10 border border-red-500/30 text-red-400 rounded-xl px-5 py-3 text-sm flex justify-between">
+            <span>❌ {actionError}</span>
+            <button onClick={() => setActionError(null)} className="ml-4 text-red-300 hover:text-white">✕</button>
+          </div>
+        )}
+        {actionSuccess && (
+          <div className="mb-4 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-xl px-5 py-3 text-sm">
+            ✅ {actionSuccess}
+          </div>
+        )}
 
         {/* Tabs */}
         <div className="flex gap-1 mb-6 bg-[#111118] border border-gray-800 rounded-xl p-1 w-fit">
