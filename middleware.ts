@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
 
+  // Protect admin dashboard
   if (pathname.startsWith('/admin/dashboard')) {
     const token = req.cookies.get('admin_session')?.value
     if (!token || token !== process.env.ADMIN_PASSWORD) {
@@ -10,9 +11,17 @@ export function middleware(req: NextRequest) {
     }
   }
 
+  // Protect advisor dashboard
+  if (pathname.startsWith('/advisor/dashboard')) {
+    const advisorEmail = req.cookies.get('advisor_session')?.value
+    if (!advisorEmail) {
+      return NextResponse.redirect(new URL('/advisor/login', req.url))
+    }
+  }
+
   return NextResponse.next()
 }
 
 export const config = {
-  matcher: ['/admin/dashboard/:path*'],
+  matcher: ['/admin/dashboard/:path*', '/advisor/dashboard/:path*'],
 }
