@@ -8,9 +8,39 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 )
 
+// In-memory rate limiter: email -> { count, windowStart }
+const rateLimitMap = new Map<string, { count: number; windowStart: number }>()
+const WINDOW_MS = 10 * 60 * 1000 // 10 minutes
+const MAX_ATTEMPTS = 3
+
+function isRateLimited(email: string): boolean {
+  const now = Date.now()
+  const entry = rateLimitMap.get(email)
+
+  if (!entry || now - entry.windowStart > WINDOW_MS) {
+    rateLimitMap.set(email, { count: 1, windowStart: now })
+    return false
+  }
+
+  if (entry.count >= MAX_ATTEMPTS) return true
+
+  entry.count++
+  return false
+}
+
 export async function POST(req: Request) {
   try {
     const { email, name, mobile } = await req.json()
+
+    if (!email) return NextResponse.json({ error: 'Email required' }, { status: 400 })
+
+    // Rate limit check
+    if (isRateLimited(email)) {
+      return NextResponse.json(
+        { error: 'Too many OTP requests. Please wait 10 minutes before trying again.' },
+        { status: 429 }
+      )
+    }
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString()
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000)
@@ -37,7 +67,7 @@ export async function POST(req: Request) {
       subject: 'Your ZeroBias OTP',
       html: `
         <div style="font-family: sans-serif; max-width: 400px; margin: 0 auto;">
-          <h2>Hi ${name},</h2>
+          <h2>Hi ${name || 'there'},</h2>
           <p>Your ZeroBias OTP is:</p>
           <h1 style="color: #10b981; font-size: 48px; letter-spacing: 8px;">${otp}</h1>
           <p style="color: #666;">Valid for 10 minutes. Do not share this with anyone.</p>
@@ -55,7 +85,6 @@ export async function POST(req: Request) {
         })
       } catch (smsErr) {
         console.error('SMS send failed:', smsErr)
-        // Don't fail the request if SMS fails — email OTP is still sent
       }
     }
 
