@@ -17,7 +17,7 @@ export default function AboutPage() {
 
         <div className="animate-fade-up">
           <p className="text-emerald-400 text-xs uppercase tracking-widest mb-3">Who we are</p>
-          <h1 className="text-4xl font-bold text-white mb-4">About ZeroBias</h1>
+          <h1 className="text-4xl font-bold text-white mb-4">About <span className="text-emerald-400">Zero</span>Bias</h1>
           <p className="text-gray-400 text-lg leading-relaxed mb-10">
             ZeroBias is a discovery platform that helps investors in India find and connect with SEBI-registered financial advisors.
           </p>
