@@ -117,7 +117,7 @@ export default function AdvisorDashboard() {
       <div className="border-b border-gray-800/60">
         <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="text-white font-bold">Zero<span className="text-emerald-400">Bias</span></span>
+            <span className="font-bold"><span className="text-emerald-400">Zero</span><span className="text-white">Bias</span></span>
             <span className="text-gray-700">|</span>
             <span className="text-gray-400 text-sm">Advisor Portal</span>
           </div>

@@ -61,7 +61,7 @@ export default function AdvisorLogin() {
       <div className="w-full max-w-sm">
         <div className="text-center mb-8 animate-fade-up">
           <Link href="/" className="inline-flex items-center gap-2 mb-6">
-            <span className="text-white font-bold text-lg">Zero<span className="text-emerald-400">Bias</span></span>
+            <span className="font-bold text-lg"><span className="text-emerald-400">Zero</span><span className="text-white">Bias</span></span>
           </Link>
           <h1 className="text-2xl font-bold text-white">Advisor Portal</h1>
           <p className="text-gray-500 text-sm mt-2">Sign in to manage your profile and bookings</p>

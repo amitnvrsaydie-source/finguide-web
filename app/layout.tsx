@@ -84,8 +84,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
               {/* Col 1 — Brand */}
               <div className="md:col-span-1">
-                <Link href="/" className="text-emerald-400 font-bold text-2xl tracking-tight">
-                  ZeroBias
+                <Link href="/" className="font-bold text-2xl tracking-tight">
+                  <span className="text-emerald-400">Zero</span><span className="text-white">Bias</span>
                 </Link>
                 <p className="text-gray-500 text-sm mt-3 leading-relaxed">
                   India's SEBI-verified advisor network. Connecting investors with qualified, unbiased financial advisors.

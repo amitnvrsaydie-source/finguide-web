@@ -105,7 +105,7 @@ export default function AdminDashboard() {
       {/* Top bar */}
       <div className="bg-[#111118] border-b border-gray-800 px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <span className="text-emerald-400 font-bold text-lg">ZeroBias</span>
+          <span className="font-bold text-lg"><span className="text-emerald-400">Zero</span><span className="text-white">Bias</span></span>
           <span className="text-gray-600 text-sm">/ Admin</span>
         </div>
         <div className="flex items-center gap-4">

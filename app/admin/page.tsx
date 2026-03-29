@@ -31,7 +31,7 @@ export default function AdminLogin() {
     <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
-          <p className="text-emerald-400 font-bold text-2xl tracking-tight">ZeroBias</p>
+          <p className="font-bold text-2xl tracking-tight"><span className="text-emerald-400">Zero</span><span className="text-white">Bias</span></p>
           <p className="text-gray-500 text-sm mt-1">Admin Panel</p>
         </div>
 
