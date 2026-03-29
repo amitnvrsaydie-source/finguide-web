@@ -42,15 +42,21 @@ export async function PATCH(req: NextRequest) {
   if (fetchErr || !app) return NextResponse.json({ error: 'Application not found' }, { status: 404 })
 
   if (action === 'approve') {
-    // Move to advisors table — only columns confirmed to exist in the schema
-    const { error: insertErr } = await supabase.from('advisors').insert({
+    // Build the advisor insert — only use columns that exist
+    const advisorRow: Record<string, unknown> = {
       full_name: app.full_name,
       city: app.city || '',
       sebi_reg_no: app.sebi_reg_no,
       years_experience: app.years_experience || 0,
       bio: app.bio || '',
-      specializations: [],
-    })
+      specializations: Array.isArray(app.specializations) ? app.specializations : [],
+    }
+
+    // Conditionally add optional columns (only if they have values)
+    if (app.fee_per_session) advisorRow.fee_per_session = app.fee_per_session
+    if (app.booking_url) advisorRow.booking_url = app.booking_url
+
+    const { error: insertErr } = await supabase.from('advisors').insert(advisorRow)
 
     if (insertErr) {
       console.error('Advisor insert error:', insertErr.message, insertErr.details, insertErr.hint)
@@ -75,7 +81,7 @@ export async function PATCH(req: NextRequest) {
           <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:16px;margin:24px 0">
             <p style="margin:0;color:#166534;font-size:14px">✅ Your profile is now visible to investors across India.</p>
           </div>
-          <p style="color:#374151">You can view your public profile at <a href="https://zerobias.in/advisors" style="color:#10b981">zerobias.in/advisors</a>.</p>
+          <p style="color:#374151">View your public profile at <a href="https://zerobias.in/advisors" style="color:#10b981">zerobias.in/advisors</a>.</p>
           <p style="color:#374151">— Team ZeroBias</p>
         </div>
       `,
