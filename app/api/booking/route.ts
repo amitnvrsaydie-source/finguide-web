@@ -59,7 +59,7 @@ export async function POST(req: Request) {
 
     // 1. Confirmation email to client
     await resend.emails.send({
-      from: 'ZeroBias <onboarding@resend.dev>',
+      from: 'ZeroBias <hello@zerobias.in>',
       to: email,
       subject: '✅ Session Confirmed — ZeroBias',
       html: `
@@ -80,7 +80,7 @@ export async function POST(req: Request) {
     // 2. Notification email to advisor (if we have their email)
     if (advisorEmail) {
       await resend.emails.send({
-        from: 'ZeroBias <onboarding@resend.dev>',
+        from: 'ZeroBias <hello@zerobias.in>',
         to: advisorEmail,
         subject: `New Booking — ${name} wants to meet you`,
         html: `
@@ -106,7 +106,7 @@ export async function POST(req: Request) {
 
     // 3. Admin notification
     await resend.emails.send({
-      from: 'ZeroBias <onboarding@resend.dev>',
+      from: 'ZeroBias <hello@zerobias.in>',
       to: 'amitnvrsaydie@gmail.com',
       subject: `New Booking — ${name} with ${advisor_name}`,
       html: `

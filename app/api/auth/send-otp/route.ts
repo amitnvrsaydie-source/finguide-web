@@ -62,7 +62,7 @@ export async function POST(req: Request) {
 
     // Send OTP via email
     await resend.emails.send({
-      from: 'ZeroBias <onboarding@resend.dev>',
+      from: 'ZeroBias <hello@zerobias.in>',
       to: email,
       subject: 'Your ZeroBias OTP',
       html: `

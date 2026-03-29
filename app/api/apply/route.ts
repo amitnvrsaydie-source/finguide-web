@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
 
     // Admin notification
     await resend.emails.send({
-      from: 'ZeroBias <onboarding@resend.dev>',
+      from: 'ZeroBias <hello@zerobias.in>',
       to: 'amitnvrsaydie@gmail.com',
       subject: `New Advisor Application — ${full_name} (${sebi_reg_no})`,
       html: `
@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
 
     // Applicant confirmation
     await resend.emails.send({
-      from: 'ZeroBias <onboarding@resend.dev>',
+      from: 'ZeroBias <hello@zerobias.in>',
       to: email,
       subject: 'We received your application — ZeroBias',
       html: `

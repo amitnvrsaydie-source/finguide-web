@@ -71,7 +71,7 @@ export async function PATCH(req: NextRequest) {
 
     // Send approval email
     await resend.emails.send({
-      from: 'ZeroBias <onboarding@resend.dev>',
+      from: 'ZeroBias <hello@zerobias.in>',
       to: app.email,
       subject: '🎉 You are now listed on ZeroBias!',
       html: `
@@ -95,7 +95,7 @@ export async function PATCH(req: NextRequest) {
       .eq('id', id)
 
     await resend.emails.send({
-      from: 'ZeroBias <onboarding@resend.dev>',
+      from: 'ZeroBias <hello@zerobias.in>',
       to: app.email,
       subject: 'Update on your ZeroBias application',
       html: `
