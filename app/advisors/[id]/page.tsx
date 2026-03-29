@@ -52,7 +52,7 @@ export default async function AdvisorProfile(
 
   const { data: advisor } = await supabase
     .from('advisors')
-    .select('id, full_name, city, sebi_reg_no, years_experience, specializations, languages, bio, fee_per_session, booking_url, photo_url')
+    .select('id, full_name, city, sebi_reg_no, years_experience, specializations, languages, bio')
     .eq('id', id)
     .single()
 
@@ -62,8 +62,9 @@ export default async function AdvisorProfile(
 
   const specs = parseArr(advisor.specializations)
   const langs = parseArr(advisor.languages)
-  const fee = (advisor as Record<string, unknown>).fee_per_session as number | null
-  const photoUrl = (advisor as Record<string, unknown>).photo_url as string | null
+  // These columns added via SQL — safe fallback until migration is run
+  const fee: number | null = null
+  const photoUrl: string | null = null
 
   return (
     <main className="min-h-screen bg-[#0a0a0f] text-white">
