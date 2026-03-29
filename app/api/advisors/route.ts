@@ -8,13 +8,13 @@ const supabase = createClient(
 
 export async function GET(req: NextRequest) {
   const service = req.nextUrl.searchParams.get('service')
+  const city    = req.nextUrl.searchParams.get('city')
+  const maxFee  = req.nextUrl.searchParams.get('maxFee')
 
-  let query = supabase
+  const { data, error } = await supabase
     .from('advisors')
-    .select('id, full_name, city, sebi_reg_no, years_experience, specializations, bio')
+    .select('id, full_name, city, sebi_reg_no, years_experience, specializations, bio, fee_per_session, photo_url')
     .order('id', { ascending: true })
-
-  const { data, error } = await query
 
   if (error) {
     console.error('Advisors fetch error:', error.message)
@@ -30,6 +30,19 @@ export async function GET(req: NextRequest) {
         : (typeof a.specializations === 'string' ? (() => { try { return JSON.parse(a.specializations) } catch { return [] } })() : [])
       return specs.includes(service)
     })
+  }
+
+  if (city) {
+    advisors = advisors.filter(a =>
+      a.city?.toLowerCase() === city.toLowerCase()
+    )
+  }
+
+  if (maxFee) {
+    const max = parseInt(maxFee)
+    advisors = advisors.filter(a =>
+      !a.fee_per_session || a.fee_per_session <= max
+    )
   }
 
   return NextResponse.json({ advisors })

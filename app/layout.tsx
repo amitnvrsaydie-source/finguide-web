@@ -42,6 +42,36 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "Organization",
+                "@id": "https://zerobias.in/#organization",
+                "name": "ZeroBias",
+                "url": "https://zerobias.in",
+                "logo": "https://zerobias.in/og-image.png",
+                "description": "India's SEBI-verified financial advisor discovery platform. Connect with fee-only, unbiased financial advisors.",
+                "contactPoint": { "@type": "ContactPoint", "email": "hello@zerobias.in", "contactType": "customer support" },
+                "sameAs": []
+              },
+              {
+                "@type": "WebSite",
+                "@id": "https://zerobias.in/#website",
+                "url": "https://zerobias.in",
+                "name": "ZeroBias",
+                "publisher": { "@id": "https://zerobias.in/#organization" },
+                "potentialAction": {
+                  "@type": "SearchAction",
+                  "target": { "@type": "EntryPoint", "urlTemplate": "https://zerobias.in/advisors?service={search_term_string}" },
+                  "query-input": "required name=search_term_string"
+                }
+              }
+            ]
+          })}}
+        />
       </head>
       <body className={`${inter.className} bg-[#0a0a0f]`}>
         <NavbarClient />
