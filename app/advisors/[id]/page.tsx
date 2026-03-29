@@ -63,7 +63,6 @@ export default async function AdvisorProfile(
   const specs = parseArr(advisor.specializations)
   const langs = parseArr(advisor.languages)
   const fee = (advisor as Record<string, unknown>).fee_per_session as number | null
-  const bookingUrl = (advisor as Record<string, unknown>).booking_url as string | null
   const photoUrl = (advisor as Record<string, unknown>).photo_url as string | null
 
   return (
@@ -161,24 +160,6 @@ export default async function AdvisorProfile(
             </div>
           )}
         </div>
-
-        {/* External booking link (if advisor has own calendar) */}
-        {bookingUrl && (
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5 flex items-center justify-between gap-4 animate-fade-up">
-            <div>
-              <p className="text-white text-sm font-semibold">Book directly with {advisor.full_name.split(' ')[0]}</p>
-              <p className="text-gray-500 text-xs mt-0.5">Use their personal calendar for scheduling</p>
-            </div>
-            <a
-              href={bookingUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="shrink-0 bg-white/10 hover:bg-white/15 border border-white/20 text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition-colors"
-            >
-              Open Calendar →
-            </a>
-          </div>
-        )}
 
         {/* Book + Contact (client component) */}
         <AdvisorInteractions
