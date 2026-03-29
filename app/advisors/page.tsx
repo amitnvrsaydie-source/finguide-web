@@ -150,18 +150,6 @@ function AdvisorsContent() {
             </select>
           </div>
 
-          {/* Fee */}
-          <div className="flex items-center gap-2">
-            <span className="text-gray-500 text-sm font-medium shrink-0">₹</span>
-            <select
-              value={selectedFee}
-              onChange={e => { setSelectedFee(e.target.value); updateFilter("maxFee", e.target.value); }}
-              className="bg-[#111118] border border-white/10 text-gray-300 text-sm rounded-full px-4 py-1.5 focus:outline-none focus:border-emerald-500/40 cursor-pointer"
-            >
-              {FEE_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
-            </select>
-          </div>
-
           {/* Clear filters */}
           {(selectedCity || selectedFee) && (
             <button
