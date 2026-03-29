@@ -9,7 +9,6 @@ const supabase = createClient(
 export async function GET(req: NextRequest) {
   const service = req.nextUrl.searchParams.get('service')
   const city    = req.nextUrl.searchParams.get('city')
-  const maxFee  = req.nextUrl.searchParams.get('maxFee')
 
   const { data, error } = await supabase
     .from('advisors')
@@ -35,13 +34,6 @@ export async function GET(req: NextRequest) {
   if (city) {
     advisors = advisors.filter(a =>
       a.city?.toLowerCase() === city.toLowerCase()
-    )
-  }
-
-  if (maxFee) {
-    const max = parseInt(maxFee)
-    advisors = advisors.filter(a =>
-      !a.fee_per_session || a.fee_per_session <= max
     )
   }
 
