@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
 
   const { data, error } = await supabase
     .from('advisors')
-    .select('id, full_name, city, sebi_reg_no, years_experience, specializations, bio, fee_per_session, photo_url')
+    .select('id, full_name, city, sebi_reg_no, years_experience, specializations, bio')
     .order('id', { ascending: true })
 
   if (error) {

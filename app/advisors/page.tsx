@@ -200,13 +200,9 @@ function AdvisorsContent() {
               >
                 <div className="flex justify-between items-start mb-4">
                   <div className="flex items-center gap-3">
-                    {advisor.photo_url ? (
-                      <img src={advisor.photo_url} alt={advisor.full_name} className="w-12 h-12 rounded-full object-cover border border-white/10" />
-                    ) : (
-                      <div className="w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 font-bold text-lg shrink-0">
-                        {advisor.full_name[0]}
-                      </div>
-                    )}
+                    <div className="w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 font-bold text-lg shrink-0">
+                      {advisor.full_name[0]}
+                    </div>
                     <div>
                       <h2 className="text-xl font-bold">{advisor.full_name}</h2>
                       <p className="text-gray-400 text-sm">{advisor.city}</p>
@@ -225,12 +221,7 @@ function AdvisorsContent() {
                   ))}
                 </div>
                 <div className="flex justify-between items-center pt-4 border-t border-white/10">
-                  <div className="flex items-center gap-3">
-                    <span className="text-gray-500 text-xs">{advisor.years_experience} yrs exp</span>
-                    {advisor.fee_per_session && (
-                      <span className="text-emerald-400 text-xs font-medium">₹{advisor.fee_per_session.toLocaleString('en-IN')}/session</span>
-                    )}
-                  </div>
+                  <span className="text-gray-500 text-xs">{advisor.years_experience} yrs exp</span>
                   <a
                     href={`/advisors/${advisor.id}`}
                     onClick={() => analytics.advisorCardClicked(advisor.id, advisor.full_name)}

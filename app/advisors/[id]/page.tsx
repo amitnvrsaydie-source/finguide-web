@@ -51,7 +51,7 @@ export default async function AdvisorProfile(
 
   const { data: advisor } = await supabase
     .from('advisors')
-    .select('id, full_name, city, sebi_reg_no, years_experience, specializations, languages, bio, fee_per_session, photo_url, booking_url')
+    .select('id, full_name, city, sebi_reg_no, years_experience, specializations, languages, bio')
     .eq('id', id)
     .single()
 
@@ -78,17 +78,9 @@ export default async function AdvisorProfile(
 
           {/* Avatar + Name */}
           <div className="flex items-start gap-5 mb-6">
-            {advisor.photo_url ? (
-              <img
-                src={advisor.photo_url}
-                alt={advisor.full_name}
-                className="w-20 h-20 rounded-2xl object-cover border border-white/10 shrink-0"
-              />
-            ) : (
-              <div className="w-20 h-20 rounded-2xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 font-bold text-3xl shrink-0">
-                {advisor.full_name[0]}
-              </div>
-            )}
+            <div className="w-20 h-20 rounded-2xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 font-bold text-3xl shrink-0">
+              {advisor.full_name[0]}
+            </div>
             <div className="flex-1">
               <div className="flex justify-between items-start">
                 <div>
@@ -109,20 +101,13 @@ export default async function AdvisorProfile(
 
           {/* Key stats row */}
           <div className="grid grid-cols-2 gap-3 mb-6">
-            {advisor.fee_per_session && (
-              <div className="bg-white/5 rounded-xl p-4 border border-white/10">
-                <p className="text-gray-500 text-xs mb-1">Session Fee</p>
-                <p className="text-emerald-400 font-bold text-lg">₹{advisor.fee_per_session.toLocaleString('en-IN')}</p>
-                <p className="text-gray-600 text-xs">First session free</p>
-              </div>
-            )}
             <div className="bg-white/5 rounded-xl p-4 border border-white/10">
               <p className="text-gray-500 text-xs mb-1">Experience</p>
               <p className="text-white font-bold text-lg">{advisor.years_experience} yrs</p>
               <p className="text-gray-600 text-xs">SEBI registered</p>
             </div>
             {langs.length > 0 && (
-              <div className="bg-white/5 rounded-xl p-4 border border-white/10 col-span-2">
+              <div className="bg-white/5 rounded-xl p-4 border border-white/10">
                 <p className="text-gray-500 text-xs mb-1">Languages</p>
                 <p className="text-white text-sm">{langs.join(', ')}</p>
               </div>
@@ -146,26 +131,6 @@ export default async function AdvisorProfile(
             </div>
           )}
         </div>
-
-        {/* Booking CTA — Calendly link if available */}
-        {advisor.booking_url && (
-          <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-6 mb-6 animate-fade-up">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-white font-semibold mb-1">Book a Session</p>
-                <p className="text-gray-400 text-sm">Schedule directly on the advisor's calendar</p>
-              </div>
-              <a
-                href={advisor.booking_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-emerald-500 hover:bg-emerald-400 text-black font-bold px-5 py-2.5 rounded-full text-sm transition-colors shrink-0"
-              >
-                Book Now →
-              </a>
-            </div>
-          </div>
-        )}
 
         {/* Book + Contact (client component) */}
         <AdvisorInteractions advisorId={String(advisor.id)} advisorName={advisor.full_name} />
