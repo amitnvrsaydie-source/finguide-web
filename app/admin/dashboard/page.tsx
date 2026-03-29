@@ -79,14 +79,14 @@ export default function AdminDashboard() {
       })
       const data = await res.json()
       if (!res.ok) {
-        setActionError(data.error || 'Something went wrong')
+        setActionError(data.error || `HTTP ${res.status} — something went wrong`)
       } else {
-        setActionSuccess(action === 'approve' ? 'Advisor approved and listed!' : 'Application rejected.')
-        setTimeout(() => setActionSuccess(null), 3000)
+        setActionSuccess(action === 'approve' ? '✅ Advisor approved and listed on ZeroBias!' : '✅ Application rejected.')
+        setFilter('all') // switch to 'all' so the updated item is still visible
         fetchData()
       }
-    } catch {
-      setActionError('Network error — please try again')
+    } catch (err) {
+      setActionError(`Network error — ${String(err)}`)
     }
     setActionLoading(null)
   }
@@ -144,8 +144,9 @@ export default function AdminDashboard() {
           </div>
         )}
         {actionSuccess && (
-          <div className="mb-4 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-xl px-5 py-3 text-sm">
-            ✅ {actionSuccess}
+          <div className="mb-4 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-xl px-5 py-3 text-sm flex justify-between">
+            <span>{actionSuccess}</span>
+            <button onClick={() => setActionSuccess(null)} className="ml-4 text-emerald-300 hover:text-white">✕</button>
           </div>
         )}
 
