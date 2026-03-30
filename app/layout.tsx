@@ -113,26 +113,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 </ul>
               </div>
 
-              {/* Col 3 — Legal */}
-              <div>
-                <p className="text-gray-400 text-xs font-semibold uppercase tracking-widest mb-4">Legal</p>
-                <ul className="space-y-3">
-                  {[
-                    { label: 'Privacy Policy', href: '#' },
-                    { label: 'Terms of Service', href: '#' },
-                    { label: 'Disclaimer', href: '#' },
-                    { label: 'SEBI Guidelines', href: '#' },
-                  ].map(({ label, href }) => (
-                    <li key={label}>
-                      <Link href={href} className="text-gray-500 text-sm hover:text-emerald-400 transition-colors">
-                        {label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Col 4 — Contact + Social */}
+              {/* Col 3 — Contact + Social */}
               <div>
                 <p className="text-gray-400 text-xs font-semibold uppercase tracking-widest mb-4">Connect</p>
                 <p className="text-gray-500 text-sm mb-1">For queries & advisor applications:</p>
