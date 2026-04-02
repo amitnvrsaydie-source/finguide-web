@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
 
   const { data, error } = await supabase
     .from('bookings')
-    .select('id, advisor_name, service, meeting_mode, meeting_date, meeting_time')
+    .select('id, advisor_name, meeting_mode, meeting_date, meeting_time')
     .eq('email', email)
     .order('meeting_date', { ascending: false })
 

@@ -27,12 +27,12 @@ export default function AdvisorInteractions({ advisorId, advisorName, fee }: Pro
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div>
           <p className="text-white font-semibold">
-            {fee ? `Book a Session — ₹${fee.toLocaleString('en-IN')}` : 'Book a Free Session'}
+            {fee ? `Book a Session — ₹${fee.toLocaleString('en-IN')}` : 'Book a Session'}
           </p>
           <p className="text-gray-400 text-sm mt-0.5">
             {fee
-              ? `First session is free · ₹${fee.toLocaleString('en-IN')} from 2nd session`
-              : 'First session is absolutely free · No hidden charges'}
+              ? `₹${fee.toLocaleString('en-IN')} per session · No hidden charges`
+              : 'No payment asked · No hidden charges'}
           </p>
         </div>
         <button

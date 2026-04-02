@@ -7,7 +7,7 @@ const supabase = createClient(
 )
 
 export async function POST(req: Request) {
-  const { email, otp } = await req.json()
+  const { email, otp, name, mobile } = await req.json()
 
   const { data, error } = await supabase
     .from('otp_sessions')
@@ -27,7 +27,24 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'OTP expired' }, { status: 400 })
   }
 
+  // Delete used OTP session
   await supabase.from('otp_sessions').delete().eq('email', email)
 
-  return NextResponse.json({ success: true })
+  // Upsert user — creates on first login, updates name/mobile if provided
+  const upsertData: Record<string, string> = { email }
+  if (name) upsertData.name = name
+  if (mobile) upsertData.mobile = mobile
+
+  await supabase
+    .from('users')
+    .upsert(upsertData, { onConflict: 'email', ignoreDuplicates: false })
+
+  // Fetch user record to return name
+  const { data: userData } = await supabase
+    .from('users')
+    .select('name, mobile')
+    .eq('email', email)
+    .single()
+
+  return NextResponse.json({ success: true, name: userData?.name || name || '' })
 }

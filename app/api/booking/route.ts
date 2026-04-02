@@ -18,17 +18,20 @@ export async function POST(req: Request) {
       advisor_name, advisor_id
     } = body
 
-    // Save booking to DB
+    // Save booking to DB — 'service' column doesn't exist yet, store package in advisor_name
+    const advisorLabel = advisor_id
+      ? (advisor_name || 'To be assigned')
+      : `TBA — ${service}`  // e.g. "TBA — Investment Kickstart"
+
     const { error: dbError } = await supabase.from('bookings').insert({
-      advisor_id,
-      advisor_name,
+      advisor_id: advisor_id || null,
+      advisor_name: advisorLabel,
       meeting_mode,
       meeting_date,
       meeting_time,
       name,
       email,
       phone,
-      service,
       status: 'confirmed'
     })
 
@@ -66,12 +69,13 @@ export async function POST(req: Request) {
         <div style="font-family:sans-serif;max-width:520px;margin:0 auto">
           <h2 style="color:#10b981">Session Confirmed! 🎉</h2>
           <p style="color:#374151">Hi ${name},</p>
-          <p style="color:#374151">Your session with <strong>${advisor_name}</strong> is confirmed.</p>
+          <p style="color:#374151">Your session has been booked. We are assigning a <strong>SEBI RIA-registered advisor</strong> best suited to your package — <strong>${service}</strong>.</p>
           ${bookingDetails}
           <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:14px;margin:20px 0">
-            <p style="margin:0;color:#166534;font-size:14px">⭐ First session is completely free — no hidden charges.</p>
+            <p style="margin:0;color:#166534;font-size:14px">🛡️ Your advisor is unbiased and fee-only — zero commissions, ever.</p>
+            <p style="margin:6px 0 0;color:#166534;font-size:14px">⭐ First session is completely free — no hidden charges.</p>
           </div>
-          <p style="color:#6b7280;font-size:13px">Your advisor will reach out to confirm the meeting link shortly. If you need to reschedule, reply to this email.</p>
+          <p style="color:#6b7280;font-size:13px">Your assigned advisor will reach out before your session to share the meeting link. If you need to reschedule, reply to this email.</p>
           <p style="color:#374151;margin-top:24px">— Team ZeroBias</p>
         </div>
       `
@@ -104,22 +108,23 @@ export async function POST(req: Request) {
       })
     }
 
-    // 3. Admin notification
+    // 3. Admin notification — action required: assign an advisor
     await resend.emails.send({
       from: 'ZeroBias <hello@zerobias.in>',
       to: 'amitnvrsaydie@gmail.com',
-      subject: `New Booking — ${name} with ${advisor_name}`,
+      subject: `⚡ New Booking — Assign Advisor for ${name} (${service})`,
       html: `
-        <div style="font-family:sans-serif;">
-          <h2>New Booking Received</h2>
+        <div style="font-family:sans-serif;max-width:520px">
+          <h2 style="color:#10b981">New Booking — Action Required</h2>
+          <div style="background:#fef9c3;border:1px solid #fde047;border-radius:8px;padding:14px;margin:16px 0">
+            <p style="margin:0;color:#713f12;font-weight:bold">👉 Please assign a SEBI RIA-registered advisor for this package: <em>${service}</em></p>
+          </div>
           <p><strong>Client:</strong> ${name}</p>
           <p><strong>Email:</strong> ${email}</p>
           <p><strong>Phone:</strong> ${phone}</p>
-          <p><strong>Advisor:</strong> ${advisor_name} (ID: ${advisor_id})</p>
-          <p><strong>Service:</strong> ${service}</p>
+          <p><strong>Package:</strong> ${service}</p>
           <p><strong>Date:</strong> ${meeting_date} at ${meeting_time}</p>
           <p><strong>Mode:</strong> ${meeting_mode}</p>
-          ${advisorEmail ? `<p><strong>Advisor Email:</strong> ${advisorEmail}</p>` : '<p><em>Advisor email not found in DB</em></p>'}
         </div>
       `
     })

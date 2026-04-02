@@ -22,8 +22,7 @@ export default function NavbarClient() {
 
   const navLinks = [
     { label: 'Home', href: '/' },
-    { label: 'Browse Advisors', href: '/advisors' },
-    { label: 'Services', href: '/services' },
+    { label: 'Packages', href: '/services' },
     { label: 'About', href: '/about' },
   ]
 

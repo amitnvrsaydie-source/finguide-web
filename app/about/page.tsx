@@ -3,10 +3,10 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'About ZeroBias',
-  description: 'ZeroBias is a SEBI-advisor discovery platform in India. We connect investors with verified, fee-only financial advisors — with no commissions, no bias.',
+  description: 'ZeroBias is a financial advisor discovery platform in India. We connect investors with expert, unbiased financial advisors — no sales pitch, no hidden agenda.',
   openGraph: {
-    title: 'About ZeroBias — India\'s SEBI Advisor Discovery Platform',
-    description: 'We connect investors with SEBI-registered, fee-only financial advisors. No commissions, no bias.',
+    title: 'About ZeroBias — India\'s Unbiased Financial Advisor Platform',
+    description: 'We connect investors with expert, unbiased financial advisors across India. No sales pitch, no hidden agenda.',
   },
 }
 
@@ -19,7 +19,7 @@ export default function AboutPage() {
           <p className="text-emerald-400 text-xs uppercase tracking-widest mb-3">Who we are</p>
           <h1 className="text-4xl font-bold text-white mb-4">About <span className="text-emerald-400">Zero</span>Bias</h1>
           <p className="text-gray-400 text-lg leading-relaxed mb-10">
-            ZeroBias is a discovery platform that helps investors in India find and connect with SEBI-registered financial advisors.
+            ZeroBias is a discovery platform that helps investors in India find and connect with expert, unbiased financial advisors.
           </p>
         </div>
 
@@ -33,10 +33,19 @@ export default function AboutPage() {
         <div className="bg-[#111118] border border-gray-800 rounded-2xl p-8 mb-6 hover:border-gray-700 transition-colors duration-200 animate-fade-up stagger-2">
           <h2 className="text-white font-semibold text-lg mb-4">What we do</h2>
           <div className="space-y-3">
-            <p className="text-gray-400 text-sm flex items-center gap-2"><span className="text-emerald-400">✓</span> Connect investors with SEBI-registered advisors</p>
-            <p className="text-gray-400 text-sm flex items-center gap-2"><span className="text-emerald-400">✓</span> Verify advisor credentials from public SEBI registry</p>
-            <p className="text-gray-400 text-sm flex items-center gap-2"><span className="text-emerald-400">✓</span> Make it easier to find qualified professionals</p>
-            <p className="text-gray-400 text-sm flex items-center gap-2"><span className="text-emerald-400">✓</span> Provide a neutral unbiased discovery platform</p>
+            {[
+              'Connect investors with expert, unbiased financial advisors',
+              'Verify advisor expertise and credentials',
+              'Make it easier to find qualified professionals across India',
+              'Provide a neutral, unbiased discovery platform',
+            ].map(item => (
+              <p key={item} className="text-gray-400 text-sm flex items-center gap-2">
+                <span className="text-emerald-400 shrink-0">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </span>
+                {item}
+              </p>
+            ))}
           </div>
         </div>
 
@@ -47,8 +56,8 @@ export default function AboutPage() {
         </div>
 
         <div className="text-center animate-fade-up stagger-5">
-          <Link href="/advisors" className="bg-emerald-500 hover:bg-emerald-600 active:scale-95 text-white font-semibold px-8 py-3 rounded-full transition-all duration-150">
-            Browse SEBI Advisors →
+          <Link href="/services" className="bg-emerald-500 hover:bg-emerald-600 active:scale-95 text-white font-semibold px-8 py-3 rounded-full transition-all duration-150">
+            Explore Packages →
           </Link>
         </div>
 

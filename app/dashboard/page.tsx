@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
@@ -13,10 +13,10 @@ type Booking = {
   meeting_time: string
 }
 
-const MODE_ICONS: Record<string, string> = {
-  video: '📹',
-  phone: '📞',
-  'in-person': '🏢',
+const MODE_ICONS: Record<string, React.ReactNode> = {
+  video: <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>,
+  phone: <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.22 1.18 2 2 0 012.22 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.09a16 16 0 006 6l.66-.66a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>,
+  'in-person': <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>,
 }
 
 export default function DashboardPage() {
@@ -73,12 +73,12 @@ export default function DashboardPage() {
         {/* Quick actions */}
         <div className="grid grid-cols-2 gap-4 mb-10 animate-fade-up stagger-1">
           <Link
-            href="/advisors"
+            href="/services"
             className="bg-[#111118] border border-gray-800 rounded-2xl p-5 hover:border-emerald-500/30 transition-colors group"
           >
-            <p className="text-emerald-400 text-xs uppercase tracking-widest mb-2">Browse</p>
-            <p className="text-white font-semibold group-hover:text-emerald-400 transition-colors">Find Advisors →</p>
-            <p className="text-gray-600 text-xs mt-1">View SEBI-verified advisors</p>
+            <p className="text-emerald-400 text-xs uppercase tracking-widest mb-2">Explore</p>
+            <p className="text-white font-semibold group-hover:text-emerald-400 transition-colors">View Packages →</p>
+            <p className="text-gray-600 text-xs mt-1">Browse financial packages</p>
           </Link>
           <Link
             href="/booking"
@@ -86,7 +86,7 @@ export default function DashboardPage() {
           >
             <p className="text-emerald-400 text-xs uppercase tracking-widest mb-2">Book</p>
             <p className="text-white font-semibold group-hover:text-emerald-400 transition-colors">New Session →</p>
-            <p className="text-gray-600 text-xs mt-1">Schedule a free advisory session</p>
+            <p className="text-gray-600 text-xs mt-1">Schedule an advisory session</p>
           </Link>
         </div>
 
@@ -114,10 +114,10 @@ export default function DashboardPage() {
               </div>
               <p className="text-gray-500 text-sm mb-4">No bookings yet.</p>
               <Link
-                href="/advisors"
+                href="/services"
                 className="inline-flex items-center gap-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-5 py-2 rounded-full text-sm transition-all"
               >
-                Browse advisors and book your first free session →
+                Explore packages and book your first session →
               </Link>
             </div>
           ) : (
@@ -130,8 +130,9 @@ export default function DashboardPage() {
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <p className="text-white font-medium">{b.advisor_name}</p>
-                      <p className="text-gray-500 text-sm mt-0.5">
-                        {MODE_ICONS[b.meeting_mode] || ''} {b.service} · {b.meeting_mode}
+                      <p className="text-gray-500 text-sm mt-0.5 flex items-center gap-1.5">
+                        <span className="text-gray-600">{MODE_ICONS[b.meeting_mode] || null}</span>
+                        {b.meeting_mode}
                       </p>
                     </div>
                     <div className="text-right shrink-0">

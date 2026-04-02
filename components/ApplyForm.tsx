@@ -161,7 +161,7 @@ export default function ApplyForm() {
             <label className={labelClass}>Fee Per Session (₹) <span className="text-gray-700 normal-case">optional</span></label>
             <input type="number" min="0" placeholder="e.g. 2000" value={form.fee_per_session}
               onChange={e => set('fee_per_session', e.target.value)} className={inputClass} />
-            <p className="text-gray-700 text-xs mt-1">Leave blank if first session is free</p>
+            <p className="text-gray-700 text-xs mt-1">Your fee per session</p>
           </div>
           <div>
             <label className={labelClass}>Your Booking / Calendar URL <span className="text-gray-700 normal-case">optional</span></label>
@@ -218,7 +218,7 @@ export default function ApplyForm() {
         </button>
 
         <p className="text-xs text-gray-600 text-center">
-          We review all applications within 3–5 business days · Listing is free
+          We review all applications within 3–5 business days
         </p>
       </form>
     </div>

@@ -5,9 +5,13 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { analytics } from '@/lib/analytics'
 
 const SERVICES = [
-  'Mutual Funds', 'EPF Guidance', 'NRI Services',
-  'Global Investments', 'Inheritance Planning',
-  'Loan Management', 'Insurance', 'Bonds & FDs', 'NPS'
+  'Investment Kickstart',
+  'Portfolio Optimizer',
+  'Tax Smart Planner',
+  'NRI Financial Plan',
+  'Retirement Blueprint',
+  'Wealth & Legacy',
+  'Other / Not Sure',
 ]
 
 const TIME_SLOTS = [
@@ -156,45 +160,119 @@ function BookingPageInner() {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
+  const [sessionPrice, setSessionPrice] = useState<number | null>(null)
   const [form, setForm] = useState({
     name: '', email: '', phone: '', service: '',
     meeting_mode: 'video',
     meeting_date: '', meeting_time: '',
-    advisor_name: '',
+    advisor_name: 'To be assigned by ZeroBias',
     advisor_id: ''
   })
 
   useEffect(() => {
-    const advisorName = searchParams.get('advisor_name')
-    const advisorId = searchParams.get('advisor_id')
-    if (advisorName || advisorId) {
-      setForm(f => ({
-        ...f,
-        advisor_name: advisorName ?? f.advisor_name,
-        advisor_id: advisorId ?? f.advisor_id,
-      }))
-    }
+    const pkg = searchParams.get('package_label')
+    const price = searchParams.get('price')
+    if (pkg) setForm(f => ({ ...f, service: pkg }))
+    if (price) setSessionPrice(Number(price))
   }, [searchParams])
+
+  // Load Razorpay script
+  useEffect(() => {
+    const script = document.createElement('script')
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js'
+    script.async = true
+    document.body.appendChild(script)
+    return () => { document.body.removeChild(script) }
+  }, [])
 
   const handleSubmit = async () => {
     setLoading(true)
     setError('')
     try {
-      const res = await fetch('/api/booking', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form)
-      })
-      if (res.ok) {
-        analytics.bookingCompleted(form.advisor_id, form.advisor_name, form.meeting_mode, form.service)
-        setSuccess(true)
+      if (sessionPrice && sessionPrice > 0) {
+        // --- RAZORPAY PAYMENT FLOW ---
+        // 1. Create order
+        const orderRes = await fetch('/api/payment/create-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            amount: sessionPrice,
+            packageName: form.service,
+            customerName: form.name,
+            customerEmail: form.email,
+          })
+        })
+        const orderData = await orderRes.json()
+        if (!orderRes.ok) {
+          setError(orderData.error || 'Failed to initiate payment.')
+          setLoading(false)
+          return
+        }
+
+        // 2. Open Razorpay checkout
+        const rzpKey = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID
+        const options = {
+          key: rzpKey,
+          amount: orderData.amount,
+          currency: orderData.currency,
+          name: 'ZeroBias',
+          description: form.service,
+          order_id: orderData.orderId,
+          prefill: {
+            name: form.name,
+            email: form.email,
+            contact: form.phone,
+          },
+          theme: { color: '#10b981' },
+          handler: async (response: { razorpay_payment_id: string; razorpay_order_id: string; razorpay_signature: string }) => {
+            // 3. Verify payment + save booking
+            const verifyRes = await fetch('/api/payment/verify', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                ...response,
+                ...form,
+                amount: sessionPrice,
+              })
+            })
+            if (verifyRes.ok) {
+              analytics.bookingCompleted(form.advisor_id, form.advisor_name, form.meeting_mode, form.service)
+              setSuccess(true)
+            } else {
+              const d = await verifyRes.json().catch(() => ({}))
+              setError(d.error || 'Payment verification failed.')
+            }
+            setLoading(false)
+          },
+          modal: {
+            ondismiss: () => {
+              setLoading(false)
+              setError('Payment was cancelled. Please try again.')
+            }
+          }
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const rzp = new (window as any).Razorpay(options)
+        rzp.open()
       } else {
-        const data = await res.json().catch(() => ({}))
-        setError(data.error || 'Booking failed. Please try again.')
+        // No price — direct booking (fallback)
+        const res = await fetch('/api/booking', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(form)
+        })
+        if (res.ok) {
+          analytics.bookingCompleted(form.advisor_id, form.advisor_name, form.meeting_mode, form.service)
+          setSuccess(true)
+          setLoading(false)
+        } else {
+          const data = await res.json().catch(() => ({}))
+          setError(data.error || 'Booking failed. Please try again.')
+          setLoading(false)
+        }
       }
     } catch {
       setError('Network error. Please check your connection and try again.')
-    } finally {
       setLoading(false)
     }
   }
@@ -206,17 +284,17 @@ function BookingPageInner() {
           <div className="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-5">
             <IconCheck />
           </div>
-          <h1 className="text-2xl font-bold text-white mb-2">Booking Confirmed</h1>
+          <h1 className="text-2xl font-bold text-white mb-1">Payment Received!</h1>
+          <p className="text-gray-500 text-sm mb-1">Session booked successfully</p>
           <p className="text-gray-400 text-sm mb-6">
             Confirmation sent to <span className="text-emerald-400">{form.email}</span>
           </p>
-          <div className="bg-[#111118] border border-gray-800 rounded-xl p-5 text-left mb-6 space-y-3">
+          <div className="bg-[#111118] border border-gray-800 rounded-xl p-5 text-left mb-4 space-y-3">
             {[
-              ['Advisor', form.advisor_name],
+              ['Package', form.service],
               ['Date', form.meeting_date],
               ['Time', form.meeting_time],
               ['Mode', form.meeting_mode],
-              ['Service', form.service],
             ].map(([label, value]) => (
               <div key={label} className="flex justify-between">
                 <span className="text-gray-500 text-sm">{label}</span>
@@ -224,11 +302,31 @@ function BookingPageInner() {
               </div>
             ))}
           </div>
+          <div className="bg-[#111118] border border-emerald-500/20 rounded-xl p-4 text-left mb-3 flex items-start gap-3">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            <div>
+              <p className="text-emerald-400 text-sm font-semibold">Your advisor is being assigned</p>
+              <p className="text-gray-500 text-xs mt-1">An independent, unbiased advisor will be matched to your package and reach out before your session.</p>
+            </div>
+          </div>
+          {sessionPrice && (
+            <div className="bg-[#111118] border border-gray-800 rounded-xl p-4 text-left mb-4 flex items-start gap-3">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0">
+                <path d="M6 3h12M6 8h12M6 13l8 8M6 8a5 5 0 000 5h3"/>
+              </svg>
+              <div>
+                <p className="text-white text-sm font-semibold">Session fee: ₹{sessionPrice.toLocaleString('en-IN')}</p>
+                <p className="text-gray-500 text-xs mt-1">Our team will share payment details via email before your session. Fee goes directly to your advisor.</p>
+              </div>
+            </div>
+          )}
           <button
-            onClick={() => router.push('/advisors')}
+            onClick={() => router.push('/services')}
             className="w-full bg-emerald-500 hover:bg-emerald-600 text-white py-3 rounded-lg font-semibold text-sm transition-colors"
           >
-            Browse More Advisors
+            Explore More Packages
           </button>
         </div>
       </div>
@@ -241,13 +339,19 @@ function BookingPageInner() {
 
         {/* Header */}
         <div className="text-center mb-8">
-          <p className="text-xs text-emerald-400 uppercase tracking-widest mb-2 font-medium">Free Session</p>
+          <p className="text-xs text-emerald-400 uppercase tracking-widest mb-2 font-medium">Fee-Based · Independent · On-Demand</p>
           <h1 className="text-2xl font-bold text-white">
-            {form.advisor_name ? `Book with ${form.advisor_name}` : 'Book a Free Session'}
+            Book Your Session
           </h1>
           <p className="text-gray-500 text-sm mt-1">
-            {form.advisor_name ? 'SEBI Registered Investment Advisor' : 'With a SEBI Registered Advisor'}
+            Expert advisor assigned · Transparent fee · All India coverage
           </p>
+          {sessionPrice && (
+            <div className="inline-flex items-center gap-2 mt-3 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-4 py-1.5">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 3h12M6 8h12M6 13l8 8M6 8a5 5 0 000 5h3"/></svg>
+              <span className="text-emerald-400 text-sm font-semibold">Session fee: ₹{sessionPrice.toLocaleString('en-IN')}</span>
+            </div>
+          )}
         </div>
 
         {/* Step indicator */}
@@ -257,7 +361,9 @@ function BookingPageInner() {
               <div className={`flex items-center gap-1.5 ${step >= i + 1 ? 'text-emerald-400' : 'text-gray-700'}`}>
                 <div className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold
                   ${step > i + 1 ? 'bg-emerald-500 text-white' : step === i + 1 ? 'border-2 border-emerald-500 text-emerald-400' : 'border border-gray-700 text-gray-700'}`}>
-                  {step > i + 1 ? '✓' : i + 1}
+                  {step > i + 1 ? (
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  ) : i + 1}
                 </div>
                 <span className="text-xs hidden sm:block">{label}</span>
               </div>
@@ -287,13 +393,13 @@ function BookingPageInner() {
               </div>
             ))}
             <div>
-              <label className="block text-xs text-gray-500 mb-1">Service Needed</label>
+              <label className="block text-xs text-gray-500 mb-1">Financial Goal / Package</label>
               <select
                 value={form.service}
                 onChange={(e) => setForm({ ...form, service: e.target.value })}
                 className="w-full bg-[#0a0a0f] border border-gray-800 text-white rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-emerald-500/60"
               >
-                <option value="">Select a service...</option>
+                <option value="">Select a package...</option>
                 {SERVICES.map(s => <option key={s} value={s}>{s}</option>)}
               </select>
             </div>
@@ -381,11 +487,10 @@ function BookingPageInner() {
             <h2 className="text-sm font-semibold text-gray-300 uppercase tracking-wide mb-4">Review & Confirm</h2>
             <div className="space-y-2.5 mb-5">
               {[
-                ['Advisor', form.advisor_name],
                 ['Name', form.name],
                 ['Email', form.email],
                 ['Phone', form.phone],
-                ['Service', form.service],
+                ['Package', form.service],
                 ['Mode', form.meeting_mode],
                 ['Date', form.meeting_date],
                 ['Time', form.meeting_time],
@@ -396,9 +501,21 @@ function BookingPageInner() {
                 </div>
               ))}
             </div>
+            <div className="bg-[#111118] border border-emerald-500/20 rounded-lg p-3 mb-3 flex items-start gap-2.5">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+              <div>
+                <p className="text-emerald-400 text-xs font-medium">Expert advisor assigned to you</p>
+                <p className="text-gray-500 text-xs mt-0.5">We match you with the right advisor for your package. No sales pitch · No pressure · All India.</p>
+              </div>
+            </div>
             <div className="bg-emerald-500/5 border border-emerald-500/15 rounded-lg p-3 mb-5">
-              <p className="text-emerald-400 text-xs font-medium">First session is absolutely free</p>
-              <p className="text-gray-600 text-xs mt-0.5">No subscription · No hidden charges</p>
+              <p className="text-emerald-400 text-xs font-medium flex items-center gap-1.5">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M6 3h12M6 8h12M6 13l8 8M6 8a5 5 0 000 5h3"/></svg>
+                {sessionPrice ? `Session fee: ₹${sessionPrice.toLocaleString('en-IN')}` : 'Fee-based advisory'}
+              </p>
+              <p className="text-gray-600 text-xs mt-0.5">Payment details will be sent via email · No hidden charges · Fee goes to your advisor</p>
             </div>
             <div className="flex gap-2">
               <button onClick={() => setStep(2)} className="flex-1 border border-gray-800 text-gray-500 py-2.5 rounded-lg text-sm hover:border-gray-700">
@@ -409,7 +526,12 @@ function BookingPageInner() {
                 disabled={loading}
                 className="flex-1 bg-emerald-500 hover:bg-emerald-600 active:scale-95 disabled:opacity-50 text-white text-sm font-semibold py-2.5 rounded-lg transition-all duration-150"
               >
-                {loading ? 'Confirming...' : 'Confirm Booking ✓'}
+                {loading ? 'Processing...' : (
+                  <span className="flex items-center justify-center gap-1.5">
+                    {sessionPrice ? `Pay ₹${sessionPrice.toLocaleString('en-IN')} & Confirm` : 'Confirm Booking'}
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  </span>
+                )}
               </button>
             </div>
             {error && (
@@ -429,10 +551,11 @@ function BookingPageInner() {
             <IconLock /> Secure
           </span>
           <span className="text-gray-700 text-xs flex items-center gap-1.5">
-            <IconShield /> SEBI Verified
+            <IconGift /> Transparent Fee
           </span>
           <span className="text-gray-700 text-xs flex items-center gap-1.5">
-            <IconGift /> Free Session
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+            All India
           </span>
         </div>
       </div>

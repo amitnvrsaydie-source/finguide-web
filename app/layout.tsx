@@ -12,11 +12,11 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   metadataBase: new URL('https://zerobias.in'),
   title: {
-    default: 'ZeroBias — SEBI-Verified Financial Advisors in India',
+    default: 'ZeroBias — Expert Financial Advisors Across India',
     template: '%s | ZeroBias',
   },
-  description: 'Find and connect with SEBI-registered, fee-only financial advisors in India. Expert guidance on mutual funds, NRI services, EPF, insurance, and more. First session absolutely free.',
-  keywords: ['SEBI registered advisor', 'financial advisor India', 'fee-only advisor', 'mutual fund advisor', 'NRI financial planning', 'EPF guidance', 'investment advisor India', 'SEBI RIA', 'financial planner India'],
+  description: 'Connect with expert financial advisors across India. Fee-based, independent, on-demand advisory. All India coverage.',
+  keywords: ['financial advisor India', 'financial advisor near me', 'unbiased financial advice India', 'investment advisor India', 'mutual fund advisor', 'NRI financial planning', 'retirement planning India', 'financial planner India'],
   authors: [{ name: 'ZeroBias', url: 'https://zerobias.in' }],
   creator: 'ZeroBias',
   openGraph: {
@@ -24,14 +24,14 @@ export const metadata: Metadata = {
     locale: 'en_IN',
     url: 'https://zerobias.in',
     siteName: 'ZeroBias',
-    title: 'ZeroBias — SEBI-Verified Financial Advisors in India',
-    description: 'Connect with SEBI-registered, fee-only financial advisors. Expert, unbiased advice. First session free.',
+    title: 'ZeroBias — Expert Financial Advisors Across India',
+    description: 'Connect with expert financial advisors across India. Fee-based, independent, on-demand advisory.',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'ZeroBias — Find SEBI Verified Financial Advisors' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'ZeroBias — SEBI-Verified Financial Advisors in India',
-    description: 'Connect with SEBI-registered, fee-only financial advisors. First session free.',
+    title: 'ZeroBias — Expert Financial Advisors Across India',
+    description: 'Connect with expert financial advisors across India. Fee-based, independent advisory.',
     images: ['/og-image.png'],
   },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
@@ -88,7 +88,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                   <span className="text-emerald-400">Zero</span><span className="text-white">Bias</span>
                 </Link>
                 <p className="text-gray-500 text-sm mt-3 leading-relaxed">
-                  India's SEBI-verified advisor network. Connecting investors with qualified, unbiased financial advisors.
+                  Expert financial advisors across India. Fee-based, independent, on-demand service.
                 </p>
                 <p className="text-gray-700 text-xs mt-6">© 2026 ZeroBias. All rights reserved.</p>
               </div>
@@ -98,10 +98,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 <p className="text-gray-400 text-xs font-semibold uppercase tracking-widest mb-4">Platform</p>
                 <ul className="space-y-3">
                   {[
-                    { label: 'Browse Advisors', href: '/advisors' },
-                    { label: 'Financial Services', href: '/services' },
-                    { label: 'FinProfile Quiz', href: '/finprofile' },
+                    { label: 'Financial Packages', href: '/services' },
                     { label: 'Book a Session', href: '/booking' },
+                    { label: 'FinProfile Quiz', href: '/finprofile' },
                     { label: 'About ZeroBias', href: '/about' },
                   ].map(({ label, href }) => (
                     <li key={href}>
@@ -164,7 +163,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             {/* Bottom bar */}
             <div className="border-t border-gray-800/50 pt-6 flex flex-col md:flex-row items-center justify-between gap-3">
               <p className="text-gray-700 text-xs">
-                ZeroBias is not a SEBI-registered entity. We are a discovery platform only. We do not provide investment advice.
+                ZeroBias is a financial advisor discovery platform. We connect clients with expert advisors across India.
               </p>
               <div className="flex items-center gap-4">
                 <span className="text-gray-700 text-xs flex items-center gap-1">
@@ -172,8 +171,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                   Secure
                 </span>
                 <span className="text-gray-700 text-xs flex items-center gap-1">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                  SEBI Verified Advisors
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+                  All India Coverage
                 </span>
               </div>
             </div>

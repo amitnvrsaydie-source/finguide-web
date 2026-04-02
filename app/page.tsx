@@ -5,19 +5,19 @@ import { useState, useEffect } from 'react'
 
 const testimonials = [
   {
-    quote: "ZeroBias connected me with a SEBI-registered advisor who restructured my entire portfolio. No product pushing — just honest advice.",
+    quote: "ZeroBias connected me with an expert advisor who restructured my entire portfolio. No product pushing — just honest advice.",
     name: "Rahul Mehta",
     title: "CTO, Bangalore",
     rating: 5,
   },
   {
-    quote: "Finally found an unbiased advisor. No commission products, no hidden agenda. Pure fee-only advice that actually works.",
+    quote: "Finally found an unbiased advisor. No hidden products, no agenda. Pure honest advice that actually works.",
     name: "Priya Sharma",
     title: "Senior Manager, Infosys",
     rating: 5,
   },
   {
-    quote: "The free first session was genuinely useful. My advisor had done their homework before we even spoke.",
+    quote: "The first session was genuinely useful. My advisor had done their homework before we even spoke.",
     name: "Karthik Subramanian",
     title: "Entrepreneur, Hyderabad",
     rating: 5,
@@ -35,31 +35,31 @@ const steps = [
     step: '01',
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
+        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
       </svg>
     ),
-    title: 'Take FinProfile Quiz',
-    desc: 'Understand your financial personality, goals and risk tolerance in 3 minutes.',
+    title: 'Choose a Package',
+    desc: 'Pick a financial package that matches your goal — investing, tax, NRI planning, retirement, or more.',
   },
   {
     step: '02',
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
       </svg>
     ),
-    title: 'Browse SEBI Advisors',
-    desc: 'Filter by city, specialization, and experience. Every advisor is SEBI-verified.',
+    title: 'Book an Appointment',
+    desc: 'Select your preferred date and time. No commitments, no pressure.',
   },
   {
     step: '03',
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
       </svg>
     ),
-    title: 'Book a Free Session',
-    desc: 'Video call, phone, or in-person. First session is completely free, no commitments.',
+    title: 'We Assign Your Advisor',
+    desc: 'We match you with an expert advisor best suited to your package. Unbiased. No sales pitch.',
   },
   {
     step: '04',
@@ -77,29 +77,29 @@ const whyUs = [
   {
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/>
       </svg>
     ),
-    title: 'SEBI Verified Only',
-    desc: 'Every advisor is manually verified against SEBI\'s registration database before being listed.',
+    title: 'All India Coverage',
+    desc: 'Advisors available across every state and city in India. Wherever you are, we have someone for you.',
   },
   {
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+        <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
       </svg>
     ),
-    title: 'Fee-Only Advice',
-    desc: 'Our advisors earn only from client fees — never from product commissions or referral kickbacks.',
+    title: 'Fee-Based Advisory',
+    desc: 'Transparent, fee-based service. You pay for advice — not commissions, not products, not hidden charges.',
   },
   {
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
       </svg>
     ),
-    title: 'Zero Bias, Zero Selling',
-    desc: 'No hidden agendas. Advisors on ZeroBias are contractually prohibited from product-pushing.',
+    title: 'Independent & On-Demand',
+    desc: 'Advisors work for you, not for any bank or product house. Book when you need it — no long-term tie-ins.',
   },
 ]
 
@@ -150,7 +150,7 @@ export default function HomePage() {
             <div className="animate-fade-up">
               <div className="flex items-center gap-2 mb-6">
                 <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-emerald-400 text-sm font-medium">India&apos;s SEBI-verified advisor network</span>
+                <span className="text-emerald-400 text-sm font-medium">India&apos;s unbiased financial advisor network</span>
               </div>
 
               <h1 className="text-5xl lg:text-[3.5rem] font-bold text-white leading-[1.1] mb-6">
@@ -161,30 +161,42 @@ export default function HomePage() {
               </h1>
 
               <p className="text-gray-400 text-lg mb-8 leading-relaxed max-w-lg">
-                Connect with SEBI-registered, fee-only advisors who earn from your success — not from product commissions.
+                Fee-based advisory. Independent. Time-bound. On-demand. Professional financial guidance across India.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3 mb-10">
                 <Link
-                  href="/advisors"
+                  href="/services"
                   className="inline-flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-black font-bold px-8 py-4 rounded-full transition-colors text-sm"
                 >
-                  Browse Advisors →
+                  Explore Packages →
                 </Link>
                 <Link
-                  href="/finprofile"
+                  href="/booking"
                   className="inline-flex items-center justify-center gap-2 border border-gray-700 text-white font-semibold px-8 py-4 rounded-full hover:border-emerald-500/60 hover:text-emerald-400 transition-colors text-sm"
                 >
-                  Take FinProfile Quiz
+                  Book a Session
                 </Link>
               </div>
 
               <div className="flex flex-wrap gap-6">
                 {[
-                  { icon: '⚖', label: 'Unbiased' },
-                  { icon: '🚫', label: 'No Commissions' },
-                  { icon: '✓', label: 'SEBI Verified' },
-                  { icon: '★', label: 'Free First Session' },
+                  {
+                    icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>,
+                    label: 'All India Coverage'
+                  },
+                  {
+                    icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 3h12M6 8h12M6 13l8 8M6 8a5 5 0 000 5h3"/></svg>,
+                    label: 'Fee-Based Advisory'
+                  },
+                  {
+                    icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
+                    label: 'Time-Bound Service'
+                  },
+                  {
+                    icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
+                    label: 'Independent Advisors'
+                  },
                 ].map(({ icon, label }) => (
                   <div key={label} className="flex items-center gap-1.5 text-gray-400 text-sm">
                     <span className="text-emerald-400">{icon}</span> {label}
@@ -253,10 +265,10 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { value: '50+', label: 'SEBI-Verified Advisors', sub: 'manually screened' },
-              { value: '20+', label: 'Cities Covered', sub: 'pan-India' },
-              { value: '100%', label: 'Fee-Only', sub: 'zero commissions' },
-              { value: 'Free', label: 'First Session', sub: 'no credit card needed' },
+              { value: '50+', label: 'Expert Advisors', sub: 'across India' },
+              { value: 'All India', label: 'Coverage', sub: 'every city, every state' },
+              { value: '100%', label: 'Fee-Based', sub: 'transparent advisory fees' },
+              { value: '0', label: 'Commissions', sub: 'no product incentives' },
             ].map(({ value, label, sub }, i) => (
               <div key={label} className={`bg-[#111118] border border-gray-800/60 rounded-2xl p-6 text-center animate-fade-up stagger-${i + 1}`}>
                 <p className="text-3xl font-bold text-emerald-400 mb-1">{value}</p>
@@ -275,7 +287,7 @@ export default function HomePage() {
             <p className="text-emerald-400 text-xs uppercase tracking-widest mb-3">Simple process</p>
             <h2 className="text-3xl font-bold text-white">How ZeroBias Works</h2>
             <p className="text-gray-500 text-sm mt-2 max-w-md mx-auto">
-              From discovery to personalized plan — your path to the right advisor in 4 steps
+              Choose a package, book your session, and we assign an expert advisor — unbiased, no sales pitch.
             </p>
           </div>
 
@@ -309,7 +321,7 @@ export default function HomePage() {
                 Built differently.<br />For investors who demand more.
               </h2>
               <p className="text-gray-400 leading-relaxed mb-8">
-                Traditional financial platforms are ridden with conflicts of interest — advisors earn from the products they sell you. ZeroBias flips this model. Every advisor on our platform is fee-only, SEBI-registered, and contractually unbiased.
+                Most financial advice comes with a hidden agenda — products pushed for commissions, unsolicited follow-ups, and pressure to invest. ZeroBias is different. We connect you with advisors who are here purely to help you — no selling, no follow-up, just honest guidance.
               </p>
               <Link href="/about"
                 className="text-emerald-400 text-sm font-medium hover:text-emerald-300 transition-colors">
@@ -372,16 +384,16 @@ export default function HomePage() {
               <div>
                 <p className="text-emerald-400 text-xs uppercase tracking-widest mb-3">For advisors</p>
                 <h2 className="text-3xl font-bold text-white mb-4">
-                  Are you a SEBI-registered advisor?
+                  Are you an unbiased financial advisor?
                 </h2>
                 <p className="text-gray-400 leading-relaxed mb-6">
-                  Join India&apos;s growing network of verified, fee-only advisors. Get discovered by serious investors who are actively looking for unbiased financial guidance.
+                  Join India&apos;s growing network of expert, unbiased advisors. Get discovered by serious investors who are actively looking for honest financial guidance.
                 </p>
                 <div className="space-y-3 mb-8">
                   {[
-                    'Free listing — no monthly fees',
-                    'Direct bookings from verified investors',
-                    'Showcase your SEBI credentials',
+                    'No listing fees, no monthly charges',
+                    'Direct bookings from genuine clients',
+                    'Showcase your expertise and credentials',
                     'Manage your profile and availability',
                   ].map(item => (
                     <div key={item} className="flex items-center gap-3 text-gray-300 text-sm">
@@ -404,9 +416,7 @@ export default function HomePage() {
               <div className="space-y-4">
                 {[
                   { label: 'Review timeline', value: '3–5 business days' },
-                  { label: 'Listing fee', value: '₹0 — completely free' },
-                  { label: 'Required', value: 'Active SEBI RIA or ARN registration' },
-                  { label: 'Commission taken', value: 'None — keep 100% of your fees' },
+                  { label: 'Required', value: 'Qualified financial advisor' },
                 ].map(({ label, value }) => (
                   <div key={label} className="bg-white/5 border border-white/10 rounded-xl px-5 py-4 flex justify-between items-center">
                     <span className="text-gray-500 text-sm">{label}</span>
@@ -427,23 +437,23 @@ export default function HomePage() {
             Your financial plan starts here.
           </h2>
           <p className="text-gray-400 mb-8 text-lg">
-            Book a free session with a SEBI-verified advisor. No commitments.
+            Choose a package, book your session — fee-based, independent, on-demand advisory across India.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
-              href="/advisors"
+              href="/services"
               className="inline-flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-black font-bold px-10 py-4 rounded-full transition-colors"
             >
-              Browse Advisors →
+              Explore Packages →
             </Link>
             <Link
-              href="/finprofile"
+              href="/booking"
               className="inline-flex items-center justify-center gap-2 border border-gray-700 text-white font-semibold px-10 py-4 rounded-full hover:border-emerald-500/60 hover:text-emerald-400 transition-colors"
             >
-              Take FinProfile Quiz
+              Book a Session
             </Link>
           </div>
-          <p className="text-gray-700 text-xs mt-6">First session is always free · No credit card required</p>
+          <p className="text-gray-700 text-xs mt-6">Fee-based · Independent · Time-bound · All India coverage</p>
         </div>
       </section>
 
