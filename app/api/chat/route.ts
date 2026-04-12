@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
-import Groq from 'groq-sdk'
+import { GoogleGenerativeAI } from '@google/generative-ai'
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
 
 const SYSTEM_PROMPT = `You are ZeroBias Assistant — a friendly, knowledgeable financial guidance chatbot on ZeroBias.in, India's fee-based financial advisor marketplace.
 
@@ -90,16 +90,28 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Messages required' }, { status: 400 })
     }
 
-    const response = await groq.chat.completions.create({
-      model: 'llama-3.3-70b-versatile',
-      max_tokens: 500,
-      messages: [
-        { role: 'system', content: SYSTEM_PROMPT },
-        ...messages,
-      ],
+    const model = genAI.getGenerativeModel({
+      model: 'gemini-2.0-flash',
+      systemInstruction: SYSTEM_PROMPT,
     })
 
-    const reply = response.choices[0]?.message?.content || ''
+    // Gemini history must start with a 'user' message — skip leading assistant messages
+    const firstUserIdx = messages.findIndex(m => m.role === 'user')
+    if (firstUserIdx === -1) {
+      return NextResponse.json({ error: 'No user message found' }, { status: 400 })
+    }
+
+    const history = messages.slice(firstUserIdx, -1).map(m => ({
+      role: m.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: m.content }],
+    }))
+
+    const lastMessage = messages[messages.length - 1].content
+
+    const chat = model.startChat({ history })
+    const result = await chat.sendMessage(lastMessage)
+    const reply = result.response.text()
+
     return NextResponse.json({ reply })
 
   } catch (err) {
