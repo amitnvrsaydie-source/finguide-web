@@ -11,12 +11,11 @@ export default function LoginPage() {
   const [tab, setTab] = useState<Tab>('login')
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
-  const [mobile, setMobile] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const router = useRouter()
 
-  const switchTab = (t: Tab) => { setTab(t); setError(''); setEmail(''); setName(''); setMobile('') }
+  const switchTab = (t: Tab) => { setTab(t); setError(''); setEmail(''); setName('') }
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault()
@@ -34,7 +33,7 @@ export default function LoginPage() {
         setLoading(false)
         return
       }
-      await sendOTP(data.name || '', true)
+      await sendOTP(data.name || '')
     } catch {
       setError('Network error. Please try again.')
     }
@@ -57,24 +56,23 @@ export default function LoginPage() {
         setLoading(false)
         return
       }
-      await sendOTP(name, false)
+      await sendOTP(name)
     } catch {
       setError('Network error. Please try again.')
     }
     setLoading(false)
   }
 
-  const sendOTP = async (userName: string, isLogin: boolean) => {
+  const sendOTP = async (userName: string) => {
     const res = await fetch('/api/auth/send-otp', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, name: userName, mobile: isLogin ? '' : mobile }),
+      body: JSON.stringify({ email, name: userName }),
     })
     const data = await res.json()
     if (!res.ok) { setError(data.error || 'Something went wrong'); return }
     sessionStorage.setItem('pending_email', email)
     sessionStorage.setItem('pending_name', userName)
-    sessionStorage.setItem('pending_mobile', isLogin ? '' : mobile)
     router.push('/login/verify')
   }
 
@@ -240,21 +238,6 @@ export default function LoginPage() {
                     required
                     className="w-full bg-[#111118] border border-gray-800 hover:border-gray-700 focus:border-emerald-500 text-white rounded-xl px-4 py-3.5 text-sm outline-none transition-colors"
                   />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-medium text-gray-400 mb-2">Mobile number</label>
-                  <div className="flex">
-                    <div className="bg-[#111118] border border-r-0 border-gray-800 rounded-l-xl px-4 flex items-center text-gray-500 text-sm font-medium">+91</div>
-                    <input
-                      type="tel"
-                      value={mobile}
-                      onChange={e => setMobile(e.target.value.replace(/\D/g, '').slice(0, 10))}
-                      required
-                      inputMode="numeric"
-                      className="flex-1 bg-[#111118] border border-gray-800 hover:border-gray-700 focus:border-emerald-500 text-white rounded-r-xl px-4 py-3.5 text-sm outline-none transition-colors"
-                    />
-                  </div>
                 </div>
 
                 {error && (
