@@ -95,9 +95,11 @@ export async function POST(req: Request) {
       systemInstruction: SYSTEM_PROMPT,
     })
 
-    // Convert messages to Gemini format
-    // Gemini needs alternating user/model turns, starting with user
-    const history = messages.slice(0, -1).map(m => ({
+    // Build history: exclude the last message (sent separately) and any
+    // leading assistant messages (Gemini requires history to start with user)
+    const prior = messages.slice(0, -1).filter(m => m.role === 'user' || m.role === 'assistant')
+    const firstUserIdx = prior.findIndex(m => m.role === 'user')
+    const history = (firstUserIdx === -1 ? [] : prior.slice(firstUserIdx)).map(m => ({
       role: m.role === 'assistant' ? 'model' : 'user',
       parts: [{ text: m.content }],
     }))
