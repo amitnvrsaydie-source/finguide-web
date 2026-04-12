@@ -75,25 +75,26 @@ export default function ChatWidget() {
       <button
         onClick={() => setOpen(o => !o)}
         aria-label="Open chat"
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-emerald-500 hover:bg-emerald-400 rounded-full shadow-2xl flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95"
+        className="fixed bottom-6 right-6 z-50 h-12 bg-emerald-500 hover:bg-emerald-400 rounded-full shadow-2xl flex items-center gap-2.5 px-4 transition-all duration-200 hover:scale-105 active:scale-95"
       >
         {open ? (
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-          </svg>
+          <>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+            <span className="text-black text-sm font-bold">Close</span>
+          </>
         ) : (
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
-          </svg>
+          <>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+            </svg>
+            <span className="text-black text-sm font-bold">Ask ZeroBias</span>
+            {/* Unread dot */}
+            <span className="w-2 h-2 rounded-full bg-red-500 shrink-0" />
+          </>
         )}
       </button>
-
-      {/* ── UNREAD DOT (only when closed) ── */}
-      {!open && (
-        <svg className="fixed bottom-[62px] right-5 z-50" width="12" height="12" viewBox="0 0 12 12">
-          <circle cx="6" cy="6" r="5" fill="#ef4444" stroke="#0a0a0f" strokeWidth="2"/>
-        </svg>
-      )}
 
       {/* ── CHAT WINDOW ── */}
       {open && (
