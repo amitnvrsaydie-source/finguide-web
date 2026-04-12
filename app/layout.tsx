@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import NavbarClient from '@/components/NavbarClient'
 import PageTracker from '@/components/PageTracker'
+import ChatWidget from '@/components/ChatWidget'
 import Link from 'next/link'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
@@ -180,6 +181,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             </div>
           </div>
         </footer>
+        <ChatWidget />
         <Analytics />
         <SpeedInsights />
       </body>
