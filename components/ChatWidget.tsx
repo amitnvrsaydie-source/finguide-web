@@ -19,7 +19,7 @@ export default function ChatWidget() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: "Hi! I'm the ZeroBias Assistant. I can help you find the right financial package, understand our advisors, or answer any questions. What's on your mind? 💬",
+      content: "Hi! I'm the ZeroBias Assistant. I can help you find the right financial package, understand our advisors, or answer any questions. What's on your mind?",
     },
   ])
   const [input, setInput] = useState('')
@@ -90,7 +90,9 @@ export default function ChatWidget() {
 
       {/* ── UNREAD DOT (only when closed) ── */}
       {!open && (
-        <span className="fixed bottom-[62px] right-5 z-50 w-3 h-3 bg-red-500 rounded-full border-2 border-[#0a0a0f]" />
+        <svg className="fixed bottom-[62px] right-5 z-50" width="12" height="12" viewBox="0 0 12 12">
+          <circle cx="6" cy="6" r="5" fill="#ef4444" stroke="#0a0a0f" strokeWidth="2"/>
+        </svg>
       )}
 
       {/* ── CHAT WINDOW ── */}
@@ -107,8 +109,8 @@ export default function ChatWidget() {
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-white text-sm font-semibold leading-tight">ZeroBias Assistant</p>
-              <p className="text-emerald-400 text-xs flex items-center gap-1">
-                <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full inline-block" />
+              <p className="text-emerald-400 text-xs flex items-center gap-1.5">
+                <svg width="7" height="7" viewBox="0 0 7 7"><circle cx="3.5" cy="3.5" r="3.5" fill="#34d399"/></svg>
                 Online — typically replies instantly
               </p>
             </div>
