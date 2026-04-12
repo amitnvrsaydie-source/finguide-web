@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import NavbarClient from '@/components/NavbarClient'
+import PageTracker from '@/components/PageTracker'
 import Link from 'next/link'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
@@ -75,6 +76,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body className={`${inter.className} bg-[#0a0a0f]`}>
         <NavbarClient />
+        <PageTracker />
         <main>{children}</main>
 
         {/* FOOTER */}

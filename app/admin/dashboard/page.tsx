@@ -37,11 +37,18 @@ const STATUS_BADGE: Record<string, string> = {
   confirmed:'bg-blue-500/20 text-blue-400 border-blue-500/30',
 }
 
+type SiteStats = {
+  totalViews: number
+  todayViews: number
+  registeredUsers: number
+}
+
 export default function AdminDashboard() {
   const router = useRouter()
   const [tab, setTab] = useState<'applications' | 'bookings' | 'advisors'>('applications')
   const [applications, setApplications] = useState<Application[]>([])
   const [bookings, setBookings] = useState<Booking[]>([])
+  const [siteStats, setSiteStats] = useState<SiteStats>({ totalViews: 0, todayViews: 0, registeredUsers: 0 })
   const [loading, setLoading] = useState(true)
   const [actionLoading, setActionLoading] = useState<string | null>(null)
   const [actionError, setActionError] = useState<string | null>(null)
@@ -51,15 +58,18 @@ export default function AdminDashboard() {
   const fetchData = useCallback(async () => {
     setLoading(true)
     try {
-      const [appsRes, bookingsRes] = await Promise.all([
+      const [appsRes, bookingsRes, statsRes] = await Promise.all([
         fetch('/api/admin/applications'),
         fetch('/api/admin/bookings'),
+        fetch('/api/admin/stats'),
       ])
       if (appsRes.status === 401) { router.push('/admin'); return }
       const appsData = await appsRes.json()
       const bookingsData = await bookingsRes.json()
+      const statsData = await statsRes.json()
       setApplications(appsData.applications || [])
       setBookings(bookingsData.bookings || [])
+      setSiteStats(statsData)
     } finally {
       setLoading(false)
     }
@@ -122,7 +132,22 @@ export default function AdminDashboard() {
 
       <div className="max-w-6xl mx-auto px-6 py-8">
 
-        {/* Stats row */}
+        {/* Visitor stats row */}
+        <div className="grid grid-cols-3 gap-4 mb-4">
+          {[
+            { label: 'Total Page Views', value: siteStats.totalViews, color: 'text-blue-400', sub: 'All time' },
+            { label: "Today's Views", value: siteStats.todayViews, color: 'text-purple-400', sub: 'Since midnight' },
+            { label: 'Registered Users', value: siteStats.registeredUsers, color: 'text-emerald-400', sub: 'OTP verified' },
+          ].map(({ label, value, color, sub }) => (
+            <div key={label} className="bg-[#111118] border border-gray-800 rounded-2xl p-6">
+              <p className="text-gray-500 text-xs uppercase tracking-widest mb-2">{label}</p>
+              <p className={`text-3xl font-bold ${color}`}>{value.toLocaleString('en-IN')}</p>
+              <p className="text-gray-700 text-xs mt-1">{sub}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Business stats row */}
         <div className="grid grid-cols-3 gap-4 mb-8">
           {[
             { label: 'Total Applications', value: applications.length, color: 'text-white' },
