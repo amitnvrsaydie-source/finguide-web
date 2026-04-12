@@ -55,7 +55,7 @@ export default function ChatWidget() {
       if (data.reply) {
         setMessages(prev => [...prev, { role: 'assistant', content: data.reply }])
       } else {
-        setMessages(prev => [...prev, { role: 'assistant', content: "Sorry, I couldn't process that. Please try again!" }])
+        setMessages(prev => [...prev, { role: 'assistant', content: `Error: ${data.error || 'Unknown'}` }])
       }
     } catch {
       setMessages(prev => [...prev, { role: 'assistant', content: "Network error. Please check your connection and try again." }])
