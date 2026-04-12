@@ -75,7 +75,12 @@ TONE:
 THINGS YOU DON'T KNOW (say so honestly):
 - Specific advisor availability
 - Which advisor will be assigned (ZeroBias matches after booking)
-- Exact tax calculations or investment returns`
+- Exact tax calculations or investment returns
+
+ESCALATION:
+- If the user seems unsatisfied, confused, or asks something you cannot answer, always end with:
+  "For more help, you can write to us at hello@zerobias.in — our team will get back to you personally."
+- You can also mention this email at the end of longer conversations as a soft closing line.`
 
 type Message = {
   role: 'user' | 'assistant'
