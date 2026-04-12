@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
-import Anthropic from '@anthropic-ai/sdk'
+import { GoogleGenerativeAI } from '@google/generative-ai'
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
 
 const SYSTEM_PROMPT = `You are ZeroBias Assistant — a friendly, knowledgeable financial guidance chatbot on ZeroBias.in, India's fee-based financial advisor marketplace.
 
@@ -90,14 +90,24 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Messages required' }, { status: 400 })
     }
 
-    const response = await client.messages.create({
-      model: 'claude-3-5-haiku-20241022',
-      max_tokens: 500,
-      system: SYSTEM_PROMPT,
-      messages,
+    const model = genAI.getGenerativeModel({
+      model: 'gemini-1.5-flash',
+      systemInstruction: SYSTEM_PROMPT,
     })
 
-    const reply = response.content[0].type === 'text' ? response.content[0].text : ''
+    // Convert messages to Gemini format
+    // Gemini needs alternating user/model turns, starting with user
+    const history = messages.slice(0, -1).map(m => ({
+      role: m.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: m.content }],
+    }))
+
+    const lastMessage = messages[messages.length - 1]
+
+    const chat = model.startChat({ history })
+    const result = await chat.sendMessage(lastMessage.content)
+    const reply = result.response.text()
+
     return NextResponse.json({ reply })
 
   } catch (err) {
