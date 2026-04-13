@@ -69,7 +69,7 @@ export async function POST(req: Request) {
         <div style="font-family:sans-serif;max-width:520px;margin:0 auto">
           <h2 style="color:#10b981">Session Confirmed! 🎉</h2>
           <p style="color:#374151">Hi ${name},</p>
-          <p style="color:#374151">Your session has been booked. We are assigning a <strong>SEBI RIA-registered advisor</strong> best suited to your package — <strong>${service}</strong>.</p>
+          <p style="color:#374151">Your session has been booked. We are assigning a <strong>fee-based, independent advisor</strong> best suited to your package — <strong>${service}</strong>.</p>
           ${bookingDetails}
           <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:14px;margin:20px 0">
             <p style="margin:0;color:#166534;font-size:14px">🛡️ Your advisor is unbiased and fee-only — zero commissions, ever.</p>
@@ -117,7 +117,7 @@ export async function POST(req: Request) {
         <div style="font-family:sans-serif;max-width:520px">
           <h2 style="color:#10b981">New Booking — Action Required</h2>
           <div style="background:#fef9c3;border:1px solid #fde047;border-radius:8px;padding:14px;margin:16px 0">
-            <p style="margin:0;color:#713f12;font-weight:bold">👉 Please assign a SEBI RIA-registered advisor for this package: <em>${service}</em></p>
+            <p style="margin:0;color:#713f12;font-weight:bold">👉 Please assign a fee-based, independent advisor for this package: <em>${service}</em></p>
           </div>
           <p><strong>Client:</strong> ${name}</p>
           <p><strong>Email:</strong> ${email}</p>

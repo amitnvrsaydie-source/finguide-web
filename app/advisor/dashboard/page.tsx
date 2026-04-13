@@ -173,7 +173,7 @@ export default function AdvisorDashboard() {
                   )}
                 </div>
                 <span className="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full border border-emerald-500/30">
-                  SEBI RIA ✓
+                  Fee-Based Advisor ✓
                 </span>
               </div>
               {uploading && <p className="text-gray-500 text-xs mt-2">Uploading photo...</p>}

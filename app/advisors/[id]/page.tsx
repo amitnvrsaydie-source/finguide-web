@@ -36,10 +36,10 @@ export async function generateMetadata(
     .single()
   if (!data) return { title: 'Advisor Not Found' }
   return {
-    title: `${data.full_name} — SEBI Advisor, ${data.city}`,
+    title: `${data.full_name} — Fee-Based Advisor, ${data.city}`,
     description: data.bio?.slice(0, 155),
     openGraph: {
-      title: `${data.full_name} — SEBI-Registered Financial Advisor`,
+      title: `${data.full_name} — Independent Fee-Based Financial Advisor`,
       description: data.bio?.slice(0, 155),
     },
   }
@@ -105,7 +105,7 @@ export default async function AdvisorProfile(
                   </p>
                 </div>
                 <span className="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full border border-emerald-500/30 shrink-0">
-                  SEBI RIA
+                  Fee-Based Advisor
                 </span>
               </div>
               {advisor.sebi_reg_no && (
@@ -119,7 +119,7 @@ export default async function AdvisorProfile(
             <div className="bg-white/5 rounded-xl p-4 border border-white/10">
               <p className="text-gray-500 text-xs mb-1">Experience</p>
               <p className="text-white font-bold text-lg">{advisor.years_experience} yrs</p>
-              <p className="text-gray-600 text-xs">SEBI registered</p>
+              <p className="text-gray-600 text-xs">Independent advisor</p>
             </div>
             {fee ? (
               <div className="bg-white/5 rounded-xl p-4 border border-white/10">

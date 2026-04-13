@@ -79,7 +79,7 @@ export async function POST(req: NextRequest) {
         <div style="font-family:sans-serif;max-width:520px;margin:0 auto">
           <h2 style="color:#10b981">Application Received</h2>
           <p style="color:#374151">Hi ${full_name},</p>
-          <p style="color:#374151">Thank you for applying to be listed on ZeroBias. We will manually review your SEBI registration details.</p>
+          <p style="color:#374151">Thank you for applying to be listed on ZeroBias. We will manually review your application details.</p>
           <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:16px;margin:24px 0">
             <p style="margin:0;color:#166534;font-size:14px">⏱ <strong>What happens next?</strong></p>
             <p style="margin:8px 0 0;color:#166534;font-size:14px">We review all applications within <strong>3–5 business days</strong>. We will contact you at ${email} with the outcome.</p>
