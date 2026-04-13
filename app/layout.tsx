@@ -126,37 +126,38 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 <p className="text-gray-400 text-xs font-semibold uppercase tracking-widest mt-6 mb-3">Follow Us</p>
                 <div className="flex items-center gap-3">
                   {/* LinkedIn */}
-                  <a href="#" className="w-8 h-8 rounded-full bg-gray-800 hover:bg-emerald-500/20 flex items-center justify-center text-gray-400 hover:text-emerald-400 transition-all">
+                  <a href="https://www.linkedin.com/in/bhavna-jaiswal-7aa49a402/" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-gray-800 hover:bg-emerald-500/20 flex items-center justify-center text-gray-400 hover:text-emerald-400 transition-all">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/>
                       <circle cx="4" cy="4" r="2"/>
                     </svg>
                   </a>
                   {/* YouTube */}
-                  <a href="#" className="w-8 h-8 rounded-full bg-gray-800 hover:bg-emerald-500/20 flex items-center justify-center text-gray-400 hover:text-emerald-400 transition-all">
+                  <a href="https://www.youtube.com/@ZeroBias0B" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-gray-800 hover:bg-emerald-500/20 flex items-center justify-center text-gray-400 hover:text-emerald-400 transition-all">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z"/>
                       <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#080810"/>
                     </svg>
                   </a>
                   {/* X */}
-                  <a href="#" className="w-8 h-8 rounded-full bg-gray-800 hover:bg-emerald-500/20 flex items-center justify-center text-gray-400 hover:text-emerald-400 transition-all">
+                  <a href="https://x.com/zerobiasob" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-gray-800 hover:bg-emerald-500/20 flex items-center justify-center text-gray-400 hover:text-emerald-400 transition-all">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25z"/>
                     </svg>
                   </a>
                   {/* Instagram */}
-                  <a href="#" className="w-8 h-8 rounded-full bg-gray-800 hover:bg-emerald-500/20 flex items-center justify-center text-gray-400 hover:text-emerald-400 transition-all">
+                  <a href="https://www.instagram.com/zerobias0b" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-gray-800 hover:bg-emerald-500/20 flex items-center justify-center text-gray-400 hover:text-emerald-400 transition-all">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
                       <circle cx="12" cy="12" r="4"/>
                       <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
                     </svg>
                   </a>
-                  {/* Facebook */}
-                  <a href="#" className="w-8 h-8 rounded-full bg-gray-800 hover:bg-emerald-500/20 flex items-center justify-center text-gray-400 hover:text-emerald-400 transition-all">
+                  {/* Reddit */}
+                  <a href="https://www.reddit.com/user/zerobias0b/submitted/?sort=hot" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-gray-800 hover:bg-emerald-500/20 flex items-center justify-center text-gray-400 hover:text-emerald-400 transition-all">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+                      <circle cx="12" cy="12" r="10"/>
+                      <path fill="#080810" d="M15.5 13.5c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5S13.17 12 14 12s1.5.67 1.5 1.5zm-6 0c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5S11.83 12 11 12s-1.5.67-1.5 1.5zm7.07-3.57A1.5 1.5 0 0118 11.5a1.5 1.5 0 01-1.5 1.5 1.5 1.5 0 01-1.5-1.5c0-.28.08-.54.21-.76C14.5 10.5 13.3 10 12 10s-2.5.5-3.21.74c.13.22.21.48.21.76A1.5 1.5 0 017.5 13a1.5 1.5 0 01-1.5-1.5 1.5 1.5 0 011.43-1.57C8.5 8.5 10.12 7.5 12 7.5s3.5 1 4.57 2.43zM12 16.5c-1.1 0-2-.4-2.5-.9l-.7.7c.7.7 1.9 1.2 3.2 1.2s2.5-.5 3.2-1.2l-.7-.7c-.5.5-1.4.9-2.5.9zm1-10a1 1 0 110 2 1 1 0 010-2z"/>
                     </svg>
                   </a>
                 </div>
