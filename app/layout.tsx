@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     siteName: 'ZeroBias',
     title: 'ZeroBias — Expert Financial Advisors Across India',
     description: 'Connect with expert financial advisors across India. Fee-based, independent, on-demand advisory.',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'ZeroBias — Find SEBI Verified Financial Advisors' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'ZeroBias — Find Fee-Based Financial Advisors in India' }],
   },
   twitter: {
     card: 'summary_large_image',
@@ -55,7 +55,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 "name": "ZeroBias",
                 "url": "https://zerobias.in",
                 "logo": "https://zerobias.in/og-image.png",
-                "description": "India's SEBI-verified financial advisor discovery platform. Connect with fee-only, unbiased financial advisors.",
+                "description": "India's fee-based financial advisor discovery platform. Connect with fee-only, unbiased financial advisors.",
                 "contactPoint": { "@type": "ContactPoint", "email": "hello@zerobias.in", "contactType": "customer support" },
                 "sameAs": []
               },
