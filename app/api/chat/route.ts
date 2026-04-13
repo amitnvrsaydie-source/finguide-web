@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import Groq from 'groq-sdk'
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
+const getGroq = () => new Groq({ apiKey: process.env.GROQ_API_KEY })
 
 const SYSTEM_PROMPT = `You are ZeroBias Assistant — a friendly, knowledgeable financial guidance chatbot on ZeroBias.in, India's fee-based financial advisor marketplace.
 
@@ -157,7 +157,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Messages required' }, { status: 400 })
     }
 
-    const response = await groq.chat.completions.create({
+    const response = await getGroq().chat.completions.create({
       model: 'llama-3.3-70b-versatile',
       max_tokens: 500,
       messages: [

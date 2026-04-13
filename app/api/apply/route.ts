@@ -2,7 +2,7 @@ import { Resend } from 'resend'
 import { createClient } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+const getResend = () => new Resend(process.env.RESEND_API_KEY)
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
       : '—'
 
     // Admin notification
-    await resend.emails.send({
+    await getResend().emails.send({
       from: 'ZeroBias <hello@zerobias.in>',
       to: 'amitnvrsaydie@gmail.com',
       subject: `New Advisor Application — ${full_name} (${sebi_reg_no})`,
@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
     })
 
     // Applicant confirmation
-    await resend.emails.send({
+    await getResend().emails.send({
       from: 'ZeroBias <hello@zerobias.in>',
       to: email,
       subject: 'We received your application — ZeroBias',

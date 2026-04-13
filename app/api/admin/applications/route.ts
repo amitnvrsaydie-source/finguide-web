@@ -6,7 +6,7 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 )
-const resend = new Resend(process.env.RESEND_API_KEY)
+const getResend = () => new Resend(process.env.RESEND_API_KEY)
 
 function isAdmin(req: NextRequest) {
   return req.cookies.get('admin_session')?.value === process.env.ADMIN_PASSWORD
@@ -70,7 +70,7 @@ export async function PATCH(req: NextRequest) {
       .eq('id', id)
 
     // Send approval email
-    await resend.emails.send({
+    await getResend().emails.send({
       from: 'ZeroBias <hello@zerobias.in>',
       to: app.email,
       subject: '🎉 You are now listed on ZeroBias!',
@@ -94,7 +94,7 @@ export async function PATCH(req: NextRequest) {
       .update({ status: 'rejected', reviewed_at: new Date().toISOString() })
       .eq('id', id)
 
-    await resend.emails.send({
+    await getResend().emails.send({
       from: 'ZeroBias <hello@zerobias.in>',
       to: app.email,
       subject: 'Update on your ZeroBias application',

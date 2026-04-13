@@ -7,7 +7,7 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 )
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+const getResend = () => new Resend(process.env.RESEND_API_KEY)
 
 export async function POST(req: Request) {
   try {
@@ -61,7 +61,7 @@ export async function POST(req: Request) {
     `
 
     // 1. Confirmation email to client
-    await resend.emails.send({
+    await getResend().emails.send({
       from: 'ZeroBias <hello@zerobias.in>',
       to: email,
       subject: '✅ Session Confirmed — ZeroBias',
@@ -83,7 +83,7 @@ export async function POST(req: Request) {
 
     // 2. Notification email to advisor (if we have their email)
     if (advisorEmail) {
-      await resend.emails.send({
+      await getResend().emails.send({
         from: 'ZeroBias <hello@zerobias.in>',
         to: advisorEmail,
         subject: `New Booking — ${name} wants to meet you`,
@@ -109,7 +109,7 @@ export async function POST(req: Request) {
     }
 
     // 3. Admin notification — action required: assign an advisor
-    await resend.emails.send({
+    await getResend().emails.send({
       from: 'ZeroBias <hello@zerobias.in>',
       to: 'amitnvrsaydie@gmail.com',
       subject: `⚡ New Booking — Assign Advisor for ${name} (${service})`,
