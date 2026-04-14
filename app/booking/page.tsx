@@ -297,7 +297,7 @@ function BookingPageInner() {
       <motion.div
         initial={{ opacity: 0, scale: 0.97 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.4, ease: EASE }}
         className="min-h-screen bg-[#0a0a0f] flex items-center justify-center px-4"
       >
         <div className="text-center max-w-md w-full">
