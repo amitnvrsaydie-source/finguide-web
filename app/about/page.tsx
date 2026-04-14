@@ -43,18 +43,18 @@ export default function AboutPage() {
           </p>
         </div>
 
-        {/* How We Vet Advisors */}
+        {/* Who Are Our Advisors */}
         <div className="bg-[#111118] border border-gray-800 rounded-2xl p-8 mb-6 hover:border-gray-700 transition-colors duration-200 animate-fade-up stagger-3">
-          <h2 className="text-white font-semibold text-lg mb-4">How We Vet Advisors</h2>
+          <h2 className="text-white font-semibold text-lg mb-3">Who are our advisors?</h2>
           <p className="text-gray-400 leading-relaxed mb-5">
-            Not everyone who claims to be a financial advisor makes it onto ZeroBias. Every advisor goes through a manual review before being listed on our platform.
+            Our advisors are qualified financial professionals — SEBI Registered Investment Advisors (RIAs), Certified Financial Planners (CFPs), and Chartered Accountants with financial planning expertise. Not everyone who applies gets listed. We manually review each advisor before they appear on ZeroBias.
           </p>
           <div className="space-y-3">
             {[
-              { title: 'Qualification check', desc: 'We verify relevant financial qualifications and certifications.' },
-              { title: 'No commission structures', desc: 'Advisors on ZeroBias operate on a fee-only basis — no product selling, no trailing commissions.' },
-              { title: 'Independence verified', desc: 'Advisors must not be employed by or affiliated with any bank, AMC, or insurance company in a sales capacity.' },
-              { title: 'Ongoing accountability', desc: 'Advisors who receive poor feedback or operate outside our standards are removed.' },
+              { title: 'Qualified professionals only', desc: 'We check their qualifications and experience before listing them.' },
+              { title: 'No product selling — ever', desc: 'Our advisors do not earn commissions from mutual funds, insurance, real estate, or any other product. Their only income is the fee you pay them.' },
+              { title: 'No hidden ties', desc: 'They are not employed by or linked to any bank, fund house, brokerage, or company that could influence their advice.' },
+              { title: 'Accountability', desc: 'Advisors who receive poor feedback or do not meet our standards are removed from the platform.' },
             ].map(({ title, desc }) => (
               <div key={title} className="flex items-start gap-3">
                 <span className="text-emerald-400 mt-0.5 shrink-0">
