@@ -15,7 +15,7 @@ const packages = [
     tagline: "Start your investment journey right",
     idealFor: "New investors & first salary earners",
     color: "emerald",
-    price: 999,
+    price: 499,
     duration: "60 min session",
     includes: [
       "Goal mapping & financial health check",
@@ -36,7 +36,7 @@ const packages = [
     tagline: "Fine-tune your existing investments",
     idealFor: "Investors with 2+ years of portfolio",
     color: "blue",
-    price: 1999,
+    price: 1499,
     duration: "90 min session",
     includes: [
       "Portfolio health & overlap check",
@@ -57,7 +57,7 @@ const packages = [
     tagline: "Keep more of what you earn",
     idealFor: "Salaried & self-employed professionals",
     color: "amber",
-    price: 1499,
+    price: 999,
     duration: "60 min session",
     includes: [
       "ITR filing strategy",
@@ -78,7 +78,7 @@ const packages = [
     tagline: "India finance, simplified for NRIs",
     idealFor: "NRIs in USA, UK, Middle East, Singapore",
     color: "purple",
-    price: 2999,
+    price: 2499,
     duration: "90 min session",
     includes: [
       "NRE / NRO account guidance",
@@ -99,7 +99,7 @@ const packages = [
     tagline: "Build a corpus that lasts",
     idealFor: "Professionals planning for retirement",
     color: "teal",
-    price: 1999,
+    price: 1499,
     duration: "90 min session",
     includes: [
       "Retirement corpus calculation",
@@ -120,7 +120,7 @@ const packages = [
     tagline: "Protect and pass on your wealth",
     idealFor: "HNIs, business owners & families",
     color: "red",
-    price: 2999,
+    price: 2499,
     duration: "90 min session",
     includes: [
       "Will drafting guidance",
