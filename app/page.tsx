@@ -155,6 +155,8 @@ const whyUs = [
 ]
 
 // Reusable animation variants
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
+
 const fadeUp = {
   hidden: { opacity: 0, y: 50 },
   visible: { opacity: 1, y: 0 },
@@ -171,7 +173,7 @@ const staggerContainer = {
 
 const staggerItem = {
   hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
 }
 
 function StarRating({ count }: { count: number }) {
@@ -318,7 +320,7 @@ export default function HomePage() {
               className="hidden lg:block"
               initial={{ opacity: 0, x: 60 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.7, delay: 0.4, ease: EASE }}
             >
               <p className="text-gray-600 text-xs uppercase tracking-widest mb-5">What investors say</p>
               <motion.div
@@ -421,7 +423,7 @@ export default function HomePage() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.65, ease: EASE }}
           >
             <p className="text-emerald-400 text-xs uppercase tracking-widest mb-3">Simple process</p>
             <h2 className="text-3xl font-bold text-white">How ZeroBias Works</h2>
@@ -470,7 +472,7 @@ export default function HomePage() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.65, ease: EASE }}
             >
               <p className="text-emerald-400 text-xs uppercase tracking-widest mb-3">Why us</p>
               <h2 className="text-3xl font-bold text-white mb-4">
@@ -558,7 +560,7 @@ export default function HomePage() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.65, ease: EASE }}
           >
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
               <div>
@@ -617,7 +619,7 @@ export default function HomePage() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.65, ease: EASE }}
         >
           <p className="text-emerald-400 text-xs uppercase tracking-widest mb-4">Get started today</p>
           <h2 className="text-4xl font-bold text-white mb-4">

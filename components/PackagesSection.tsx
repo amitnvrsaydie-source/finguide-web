@@ -141,6 +141,8 @@ const cardStyle = {
   glow: "rgba(52,211,153,0.15)",
 };
 
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
 const staggerContainer = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.1 } },
@@ -148,12 +150,12 @@ const staggerContainer = {
 
 const cardVariant = {
   hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EASE } },
 };
 
 const headerVariant = {
   hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
 };
 
 export default function PackagesSection() {

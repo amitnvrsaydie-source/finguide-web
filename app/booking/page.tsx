@@ -155,10 +155,11 @@ function CompactCalendar({ selected, onSelect }: { selected: string, onSelect: (
 }
 
 // Step slide variants — direction: 1 = forward, -1 = backward
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 const stepVariants = {
   enter: (dir: number) => ({ x: dir > 0 ? 60 : -60, opacity: 0 }),
-  center: { x: 0, opacity: 1, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } },
-  exit: (dir: number) => ({ x: dir > 0 ? -60 : 60, opacity: 0, transition: { duration: 0.25, ease: [0.22, 1, 0.36, 1] } }),
+  center: { x: 0, opacity: 1, transition: { duration: 0.35, ease: EASE } },
+  exit: (dir: number) => ({ x: dir > 0 ? -60 : 60, opacity: 0, transition: { duration: 0.25, ease: EASE } }),
 }
 
 function BookingPageInner() {
