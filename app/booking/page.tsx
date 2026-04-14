@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { analytics } from '@/lib/analytics'
+import { motion, AnimatePresence } from 'framer-motion'
 
 const SERVICES = [
   'Investment Kickstart',
@@ -153,10 +154,18 @@ function CompactCalendar({ selected, onSelect }: { selected: string, onSelect: (
   )
 }
 
+// Step slide variants — direction: 1 = forward, -1 = backward
+const stepVariants = {
+  enter: (dir: number) => ({ x: dir > 0 ? 60 : -60, opacity: 0 }),
+  center: { x: 0, opacity: 1, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } },
+  exit: (dir: number) => ({ x: dir > 0 ? -60 : 60, opacity: 0, transition: { duration: 0.25, ease: [0.22, 1, 0.36, 1] } }),
+}
+
 function BookingPageInner() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [step, setStep] = useState(1)
+  const [direction, setDirection] = useState(1)
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
@@ -277,9 +286,19 @@ function BookingPageInner() {
     }
   }
 
+  const goTo = (next: number) => {
+    setDirection(next > step ? 1 : -1)
+    setStep(next)
+  }
+
   if (success) {
     return (
-      <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center px-4">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.97 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        className="min-h-screen bg-[#0a0a0f] flex items-center justify-center px-4"
+      >
         <div className="text-center max-w-md w-full">
           <div className="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-5">
             <IconCheck />
@@ -329,7 +348,7 @@ function BookingPageInner() {
             Explore More Packages
           </button>
         </div>
-      </div>
+      </motion.div>
     )
   }
 
@@ -358,23 +377,53 @@ function BookingPageInner() {
         <div className="flex items-center justify-center gap-2 mb-8">
           {['Details', 'Schedule', 'Confirm'].map((label, i) => (
             <div key={i} className="flex items-center gap-2">
-              <div className={`flex items-center gap-1.5 ${step >= i + 1 ? 'text-emerald-400' : 'text-gray-700'}`}>
-                <div className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold
-                  ${step > i + 1 ? 'bg-emerald-500 text-white' : step === i + 1 ? 'border-2 border-emerald-500 text-emerald-400' : 'border border-gray-700 text-gray-700'}`}>
+              <div className={`flex items-center gap-1.5 transition-colors duration-300 ${step >= i + 1 ? 'text-emerald-400' : 'text-gray-700'}`}>
+                <motion.div
+                  animate={
+                    step > i + 1
+                      ? { backgroundColor: '#10b981', borderColor: '#10b981', scale: 1 }
+                      : step === i + 1
+                      ? { borderColor: '#10b981', scale: 1.15 }
+                      : { scale: 1 }
+                  }
+                  transition={{ duration: 0.3 }}
+                  className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold
+                    ${step > i + 1 ? 'bg-emerald-500 text-white' : step === i + 1 ? 'border-2 border-emerald-500 text-emerald-400' : 'border border-gray-700 text-gray-700'}`}
+                >
                   {step > i + 1 ? (
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                   ) : i + 1}
-                </div>
+                </motion.div>
                 <span className="text-xs hidden sm:block">{label}</span>
               </div>
-              {i < 2 && <div className={`w-6 h-px ${step > i + 1 ? 'bg-emerald-500' : 'bg-gray-800'}`} />}
+              {i < 2 && (
+                <div className="relative w-6 h-px bg-gray-800">
+                  <motion.div
+                    className="absolute inset-y-0 left-0 bg-emerald-500"
+                    animate={{ width: step > i + 1 ? '100%' : '0%' }}
+                    transition={{ duration: 0.4, ease: 'easeOut' }}
+                  />
+                </div>
+              )}
             </div>
           ))}
         </div>
 
+        {/* Animated step panels */}
+        <div className="relative overflow-hidden">
+        <AnimatePresence mode="wait" custom={direction}>
+
         {/* STEP 1 */}
         {step === 1 && (
-          <div className="bg-[#0d0d18] border border-gray-800/60 rounded-2xl p-6 space-y-4">
+          <motion.div
+            key="step1"
+            custom={direction}
+            variants={stepVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            className="bg-[#0d0d18] border border-gray-800/60 rounded-2xl p-6 space-y-4"
+          >
             <h2 className="text-sm font-semibold text-gray-300 uppercase tracking-wide mb-2">Your Details</h2>
             {[
               { label: 'Full Name', key: 'name', type: 'text', placeholder: 'Enter your full name' },
@@ -404,18 +453,26 @@ function BookingPageInner() {
               </select>
             </div>
             <button
-              onClick={() => { analytics.bookingStarted(form.advisor_id, form.advisor_name); setStep(2) }}
+              onClick={() => { analytics.bookingStarted(form.advisor_id, form.advisor_name); goTo(2) }}
               disabled={!form.name || !form.email || !form.service}
               className="w-full bg-emerald-500 hover:bg-emerald-600 disabled:opacity-30 disabled:cursor-not-allowed text-white text-sm font-semibold py-2.5 rounded-lg transition-colors mt-2"
             >
               Continue →
             </button>
-          </div>
+          </motion.div>
         )}
 
         {/* STEP 2 */}
         {step === 2 && (
-          <div className="bg-[#0d0d18] border border-gray-800/60 rounded-2xl p-6 space-y-5">
+          <motion.div
+            key="step2"
+            custom={direction}
+            variants={stepVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            className="bg-[#0d0d18] border border-gray-800/60 rounded-2xl p-6 space-y-5"
+          >
             <h2 className="text-sm font-semibold text-gray-300 uppercase tracking-wide">Pick a Schedule</h2>
 
             <div className="flex gap-2">
@@ -467,23 +524,31 @@ function BookingPageInner() {
             )}
 
             <div className="flex gap-2 pt-1">
-              <button onClick={() => setStep(1)} className="flex-1 border border-gray-800 text-gray-500 py-2.5 rounded-lg text-sm hover:border-gray-700 transition-colors">
+              <button onClick={() => goTo(1)} className="flex-1 border border-gray-800 text-gray-500 py-2.5 rounded-lg text-sm hover:border-gray-700 transition-colors">
                 ← Back
               </button>
               <button
-                onClick={() => setStep(3)}
+                onClick={() => goTo(3)}
                 disabled={!form.meeting_date || !form.meeting_time}
                 className="flex-1 bg-emerald-500 hover:bg-emerald-600 disabled:opacity-30 disabled:cursor-not-allowed text-white text-sm font-semibold py-2.5 rounded-lg transition-colors"
               >
                 Continue →
               </button>
             </div>
-          </div>
+          </motion.div>
         )}
 
         {/* STEP 3 */}
         {step === 3 && (
-          <div className="bg-[#0d0d18] border border-gray-800/60 rounded-2xl p-6">
+          <motion.div
+            key="step3"
+            custom={direction}
+            variants={stepVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            className="bg-[#0d0d18] border border-gray-800/60 rounded-2xl p-6"
+          >
             <h2 className="text-sm font-semibold text-gray-300 uppercase tracking-wide mb-4">Review & Confirm</h2>
             <div className="space-y-2.5 mb-5">
               {[
@@ -518,7 +583,7 @@ function BookingPageInner() {
               <p className="text-gray-600 text-xs mt-0.5">Payment details will be sent via email · No hidden charges · Fee goes to your advisor</p>
             </div>
             <div className="flex gap-2">
-              <button onClick={() => setStep(2)} className="flex-1 border border-gray-800 text-gray-500 py-2.5 rounded-lg text-sm hover:border-gray-700">
+              <button onClick={() => goTo(2)} className="flex-1 border border-gray-800 text-gray-500 py-2.5 rounded-lg text-sm hover:border-gray-700">
                 ← Back
               </button>
               <button
@@ -542,8 +607,11 @@ function BookingPageInner() {
                 <p className="text-red-400 text-xs">{error}</p>
               </div>
             )}
-          </div>
+          </motion.div>
         )}
+
+        </AnimatePresence>
+        </div>
 
         {/* Trust badges */}
         <div className="flex items-center justify-center gap-5 mt-6">

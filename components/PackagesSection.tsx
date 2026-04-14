@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 
 const packages = [
   {
@@ -131,43 +132,28 @@ const packages = [
   },
 ];
 
-const colorMap: Record<string, { card: string; icon: string; badge: string; btn: string }> = {
-  emerald: {
-    card: "border-emerald-500/30 hover:border-emerald-500/60",
-    icon: "bg-emerald-500/10 text-emerald-400",
-    badge: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
-    btn: "bg-emerald-500 hover:bg-emerald-400 text-black",
-  },
-  blue: {
-    card: "border-blue-500/30 hover:border-blue-500/60",
-    icon: "bg-blue-500/10 text-blue-400",
-    badge: "bg-blue-500/10 text-blue-400 border-blue-500/20",
-    btn: "bg-blue-500 hover:bg-blue-400 text-white",
-  },
-  amber: {
-    card: "border-amber-500/30 hover:border-amber-500/60",
-    icon: "bg-amber-500/10 text-amber-400",
-    badge: "bg-amber-500/10 text-amber-400 border-amber-500/20",
-    btn: "bg-amber-500 hover:bg-amber-400 text-black",
-  },
-  purple: {
-    card: "border-purple-500/30 hover:border-purple-500/60",
-    icon: "bg-purple-500/10 text-purple-400",
-    badge: "bg-purple-500/10 text-purple-400 border-purple-500/20",
-    btn: "bg-purple-500 hover:bg-purple-400 text-white",
-  },
-  teal: {
-    card: "border-teal-500/30 hover:border-teal-500/60",
-    icon: "bg-teal-500/10 text-teal-400",
-    badge: "bg-teal-500/10 text-teal-400 border-teal-500/20",
-    btn: "bg-teal-500 hover:bg-teal-400 text-black",
-  },
-  red: {
-    card: "border-rose-500/30 hover:border-rose-500/60",
-    icon: "bg-rose-500/10 text-rose-400",
-    badge: "bg-rose-500/10 text-rose-400 border-rose-500/20",
-    btn: "bg-rose-500 hover:bg-rose-400 text-white",
-  },
+// Single professional palette — all cards consistent
+const cardStyle = {
+  card: "border-gray-800/60",
+  icon: "bg-emerald-500/10 text-emerald-400",
+  badge: "bg-white/5 text-gray-400 border-white/10",
+  btn: "bg-emerald-500 hover:bg-emerald-400 text-black",
+  glow: "rgba(52,211,153,0.15)",
+};
+
+const staggerContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1 } },
+};
+
+const cardVariant = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+};
+
+const headerVariant = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
 };
 
 export default function PackagesSection() {
@@ -176,8 +162,15 @@ export default function PackagesSection() {
 
   return (
     <section id="packages" className="max-w-6xl mx-auto px-6 py-20">
+
       {/* Header */}
-      <div className="text-center mb-4">
+      <motion.div
+        className="text-center mb-4"
+        variants={headerVariant}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-60px" }}
+      >
         <p className="text-emerald-400 text-xs uppercase tracking-widest mb-3">Financial packages</p>
         <h2 className="text-3xl font-bold text-white mb-3">
           What do you need help with?
@@ -185,49 +178,55 @@ export default function PackagesSection() {
         <p className="text-gray-400 max-w-lg mx-auto text-sm leading-relaxed">
           Choose a package based on your financial goals. Fee-based, independent, time-bound advisory. We cover all of India.
         </p>
-      </div>
+      </motion.div>
 
-      {/* Unbiased trust bar */}
-      <div className="flex flex-wrap justify-center gap-3 mb-12 mt-6">
+      {/* Trust bar */}
+      <motion.div
+        className="flex flex-wrap justify-center gap-3 mb-12 mt-6"
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.15 }}
+      >
         {[
-          {
-            icon: <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>,
-            text: "All India Coverage"
-          },
-          {
-            icon: <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 3h12M6 8h12M6 13l8 8M6 8a5 5 0 000 5h3"/></svg>,
-            text: "Fee-Based Advisory"
-          },
-          {
-            icon: <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
-            text: "Time-Bound Service"
-          },
-          {
-            icon: <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
-            text: "Independent Advisors"
-          },
+          { icon: <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>, text: "All India Coverage" },
+          { icon: <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 3h12M6 8h12M6 13l8 8M6 8a5 5 0 000 5h3"/></svg>, text: "Fee-Based Advisory" },
+          { icon: <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>, text: "Time-Bound Service" },
+          { icon: <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>, text: "Independent Advisors" },
         ].map(({ icon, text }) => (
           <span key={text} className="flex items-center gap-1.5 text-xs text-gray-400 border border-white/10 px-3 py-1.5 rounded-full bg-white/3">
             <span className="text-emerald-400">{icon}</span> {text}
           </span>
         ))}
-      </div>
+      </motion.div>
 
       {/* Package grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <motion.div
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-40px" }}
+      >
         {packages.map((pkg) => {
-          const c = colorMap[pkg.color];
           const isHovered = hovered === pkg.id;
           return (
-            <div
+            <motion.div
               key={pkg.id}
+              variants={cardVariant}
+              whileHover={{
+                y: -8,
+                borderColor: "rgba(52,211,153,0.3)",
+                boxShadow: `0 20px 60px ${cardStyle.glow}`,
+                transition: { duration: 0.22 },
+              }}
               onMouseEnter={() => setHovered(pkg.id)}
               onMouseLeave={() => setHovered(null)}
-              className={`bg-[#111118] border rounded-2xl p-6 flex flex-col transition-all duration-200 cursor-default ${c.card} ${isHovered ? "shadow-lg" : ""}`}
+              className={`bg-[#111118] border rounded-2xl p-6 flex flex-col cursor-default ${cardStyle.card}`}
             >
               {/* Icon + label */}
               <div className="flex items-center gap-3 mb-4">
-                <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${c.icon}`}>
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${cardStyle.icon}`}>
                   {pkg.icon}
                 </div>
                 <div>
@@ -237,7 +236,7 @@ export default function PackagesSection() {
               </div>
 
               {/* Ideal for badge */}
-              <span className={`self-start text-xs px-2.5 py-1 rounded-full border mb-4 ${c.badge}`}>
+              <span className={`self-start text-xs px-2.5 py-1 rounded-full border mb-4 ${cardStyle.badge}`}>
                 {pkg.idealFor}
               </span>
 
@@ -265,23 +264,32 @@ export default function PackagesSection() {
                     {pkg.duration}
                   </span>
                 </div>
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ duration: 0.15 }}
                   onClick={() => router.push(`/booking?package=${pkg.id}&package_label=${encodeURIComponent(pkg.label)}&price=${pkg.price}`)}
-                  className={`w-full font-bold text-sm py-2.5 rounded-full transition-all ${c.btn}`}
+                  className={`w-full font-bold text-sm py-2.5 rounded-full transition-colors ${cardStyle.btn}`}
                 >
                   Book a Session →
-                </button>
+                </motion.button>
               </div>
-            </div>
+            </motion.div>
           );
         })}
-      </div>
+      </motion.div>
 
       {/* Bottom trust note */}
-      <p className="text-center text-gray-600 text-xs mt-10">
+      <motion.p
+        className="text-center text-gray-600 text-xs mt-10"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.3 }}
+      >
         After booking, we match you with the right advisor for your package.
         <span className="text-gray-500"> Transparent fees. No hidden charges. You pay the advisor through ZeroBias.</span>
-      </p>
+      </motion.p>
     </section>
   );
 }

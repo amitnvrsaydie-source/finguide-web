@@ -1,7 +1,58 @@
 'use client'
 
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { motion, useInView } from 'framer-motion'
+
+
+// Counts up (or down for Commissions) when scrolled into view
+function StatCounter({ value, label }: { value: string; label: string }) {
+  const ref = useRef<HTMLSpanElement>(null)
+  const isInView = useInView(ref, { once: true, margin: '-40px' })
+  const [display, setDisplay] = useState<string>('')
+
+  useEffect(() => {
+    if (!isInView) return
+
+    // "0 Commissions" — count DOWN from 99 to 0 for drama
+    if (label === 'Commissions') {
+      const duration = 1000
+      const from = 99
+      const start = performance.now()
+      const tick = (now: number) => {
+        const p = Math.min((now - start) / duration, 1)
+        const eased = 1 - Math.pow(1 - p, 3)
+        setDisplay(String(Math.floor(from - eased * from)))
+        if (p < 1) requestAnimationFrame(tick)
+      }
+      requestAnimationFrame(tick)
+      return
+    }
+
+    // Non-numeric e.g. "All India"
+    const match = value.match(/^(\d+)(.*)$/)
+    if (!match) { setDisplay(value); return }
+
+    const num = parseInt(match[1])
+    const suffix = match[2]
+    const duration = 1400
+    const start = performance.now()
+
+    const tick = (now: number) => {
+      const p = Math.min((now - start) / duration, 1)
+      const eased = 1 - Math.pow(1 - p, 3)
+      setDisplay(Math.floor(eased * num) + suffix)
+      if (p < 1) requestAnimationFrame(tick)
+    }
+    requestAnimationFrame(tick)
+  }, [isInView, value, label])
+
+  return (
+    <span ref={ref}>
+      {display || (value.match(/^\d/) ? '0' : value)}
+    </span>
+  )
+}
 
 const testimonials = [
   {
@@ -103,6 +154,26 @@ const whyUs = [
   },
 ]
 
+// Reusable animation variants
+const fadeUp = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, y: 0 },
+}
+
+const staggerContainer = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.15,
+    },
+  },
+}
+
+const staggerItem = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
+}
+
 function StarRating({ count }: { count: number }) {
   return (
     <div className="flex gap-0.5">
@@ -140,46 +211,83 @@ export default function HomePage() {
           backgroundColor: '#0a0a0f',
         }}
       >
-        {/* Glow orb */}
-        <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
+        {/* Animated glow orbs */}
+        <motion.div
+          className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-emerald-500/20 rounded-full blur-[120px] pointer-events-none"
+          animate={{
+            scale: [1, 1.3, 1],
+            opacity: [0.5, 1, 0.5],
+          }}
+          transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-emerald-400/10 rounded-full blur-[80px] pointer-events-none"
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.7, 0.3],
+          }}
+          transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+        />
 
         <div className="max-w-6xl mx-auto px-6 w-full py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
             {/* Left */}
-            <div className="animate-fade-up">
-              <div className="flex items-center gap-2 mb-6">
+            <motion.div
+              variants={staggerContainer}
+              initial="hidden"
+              animate="visible"
+              transition={{ delayChildren: 0.1 }}
+            >
+              <motion.div variants={staggerItem} className="flex items-center gap-2 mb-6">
                 <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                 <span className="text-emerald-400 text-sm font-medium">India&apos;s unbiased financial advisor network</span>
-              </div>
+              </motion.div>
 
-              <h1 className="text-5xl lg:text-[3.5rem] font-bold text-white leading-[1.1] mb-6">
+              <motion.h1
+                variants={staggerItem}
+                className="text-5xl lg:text-[3.5rem] font-bold text-white leading-[1.1] mb-6"
+              >
                 Find the right{' '}
                 <span className="text-emerald-400">financial</span>{' '}
                 advisor.{' '}
                 <span className="text-gray-500">Not noise.</span>
-              </h1>
+              </motion.h1>
 
-              <p className="text-gray-400 text-lg mb-8 leading-relaxed max-w-lg">
+              <motion.p variants={staggerItem} className="text-gray-400 text-lg mb-8 leading-relaxed max-w-lg">
                 Fee-based advisory. Independent. Time-bound. On-demand. Professional financial guidance across India.
-              </p>
+              </motion.p>
 
-              <div className="flex flex-col sm:flex-row gap-3 mb-10">
-                <Link
-                  href="/services"
-                  className="inline-flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-black font-bold px-8 py-4 rounded-full transition-colors text-sm"
+              <motion.div variants={staggerItem} className="flex flex-col sm:flex-row gap-3 mb-10">
+                <motion.div
+                  whileHover={{ scale: 1.04, boxShadow: '0 0 24px rgba(52,211,153,0.45)' }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ duration: 0.18 }}
+                  className="rounded-full"
                 >
-                  Explore Packages →
-                </Link>
-                <Link
-                  href="/booking"
-                  className="inline-flex items-center justify-center gap-2 border border-gray-700 text-white font-semibold px-8 py-4 rounded-full hover:border-emerald-500/60 hover:text-emerald-400 transition-colors text-sm"
+                  <Link
+                    href="/services"
+                    className="inline-flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-black font-bold px-8 py-4 rounded-full transition-colors text-sm"
+                  >
+                    Explore Packages →
+                  </Link>
+                </motion.div>
+                <motion.div
+                  whileHover={{ scale: 1.04 }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ duration: 0.18 }}
+                  className="rounded-full"
                 >
-                  Book a Session
-                </Link>
-              </div>
+                  <Link
+                    href="/booking"
+                    className="inline-flex items-center justify-center gap-2 border border-gray-700 text-white font-semibold px-8 py-4 rounded-full hover:border-emerald-500/60 hover:text-emerald-400 transition-colors text-sm"
+                  >
+                    Book a Session
+                  </Link>
+                </motion.div>
+              </motion.div>
 
-              <div className="flex flex-wrap gap-6">
+              <motion.div variants={staggerItem} className="flex flex-wrap gap-6">
                 {[
                   {
                     icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>,
@@ -202,13 +310,24 @@ export default function HomePage() {
                     <span className="text-emerald-400">{icon}</span> {label}
                   </div>
                 ))}
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
             {/* Right — Testimonial card */}
-            <div className="hidden lg:block animate-fade-up">
+            <motion.div
+              className="hidden lg:block"
+              initial={{ opacity: 0, x: 60 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            >
               <p className="text-gray-600 text-xs uppercase tracking-widest mb-5">What investors say</p>
-              <div className="relative bg-[#111118] border border-gray-800/60 rounded-2xl p-8 min-h-[240px] flex flex-col justify-between transition-all">
+              <motion.div
+                key={currentTestimonial}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, ease: 'easeOut' }}
+                className="relative bg-[#111118] border border-gray-800/60 rounded-2xl p-8 min-h-[240px] flex flex-col justify-between"
+              >
                 <div>
                   <StarRating count={testimonials[currentTestimonial].rating} />
                   <p className="text-white text-lg leading-relaxed font-light italic mt-4">
@@ -224,7 +343,7 @@ export default function HomePage() {
                     <p className="text-gray-500 text-xs">{testimonials[currentTestimonial].title}</p>
                   </div>
                 </div>
-              </div>
+              </motion.div>
               <div className="flex gap-2 mt-4">
                 {testimonials.map((_, i) => (
                   <button
@@ -234,7 +353,7 @@ export default function HomePage() {
                   />
                 ))}
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -263,37 +382,68 @@ export default function HomePage() {
       {/* ── STATS ── */}
       <section className="py-16 border-b border-gray-800/40">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <motion.div
+            className="grid grid-cols-2 md:grid-cols-4 gap-4"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-60px' }}
+          >
             {[
               { value: '50+', label: 'Expert Advisors', sub: 'across India' },
               { value: 'All India', label: 'Coverage', sub: 'every city, every state' },
               { value: '100%', label: 'Fee-Based', sub: 'transparent advisory fees' },
               { value: '0', label: 'Commissions', sub: 'no product incentives' },
-            ].map(({ value, label, sub }, i) => (
-              <div key={label} className={`bg-[#111118] border border-gray-800/60 rounded-2xl p-6 text-center animate-fade-up stagger-${i + 1}`}>
-                <p className="text-3xl font-bold text-emerald-400 mb-1">{value}</p>
+            ].map(({ value, label, sub }) => (
+              <motion.div
+                key={label}
+                variants={staggerItem}
+                whileHover={{ y: -6, borderColor: 'rgba(52,211,153,0.4)', transition: { duration: 0.2 } }}
+                className="bg-[#111118] border border-gray-800/60 rounded-2xl p-6 text-center cursor-default"
+              >
+                <p className="text-3xl font-bold text-emerald-400 mb-1">
+                  <StatCounter value={value} label={label} />
+                </p>
                 <p className="text-white text-sm font-medium">{label}</p>
                 <p className="text-gray-600 text-xs mt-1">{sub}</p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* ── HOW IT WORKS ── */}
       <section className="py-20 border-b border-gray-800/40">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-14">
+          <motion.div
+            className="text-center mb-14"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          >
             <p className="text-emerald-400 text-xs uppercase tracking-widest mb-3">Simple process</p>
             <h2 className="text-3xl font-bold text-white">How ZeroBias Works</h2>
             <p className="text-gray-500 text-sm mt-2 max-w-md mx-auto">
               Choose a package, book your session, and we assign an expert advisor — unbiased, no sales pitch.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-60px' }}
+          >
             {steps.map(({ step, icon, title, desc }, i) => (
-              <div key={step} className={`relative bg-[#111118] border border-gray-800/60 rounded-2xl p-6 animate-fade-up stagger-${i + 1}`}>
+              <motion.div
+                key={step}
+                variants={staggerItem}
+                whileHover={{ y: -8, borderColor: 'rgba(52,211,153,0.35)', transition: { duration: 0.2 } }}
+                className="relative bg-[#111118] border border-gray-800/60 rounded-2xl p-6 cursor-default"
+              >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
                     {icon}
@@ -305,9 +455,9 @@ export default function HomePage() {
                 {i < 3 && (
                   <div className="hidden lg:block absolute top-1/2 -right-3 text-gray-700 text-lg">→</div>
                 )}
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -315,7 +465,13 @@ export default function HomePage() {
       <section className="py-20 border-b border-gray-800/40">
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+            >
               <p className="text-emerald-400 text-xs uppercase tracking-widest mb-3">Why us</p>
               <h2 className="text-3xl font-bold text-white mb-4">
                 Built differently.<br />For investors who demand more.
@@ -327,10 +483,21 @@ export default function HomePage() {
                 className="text-emerald-400 text-sm font-medium hover:text-emerald-300 transition-colors">
                 Learn about our vetting process →
               </Link>
-            </div>
-            <div className="space-y-4">
+            </motion.div>
+            <motion.div
+              className="space-y-4"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-60px' }}
+            >
               {whyUs.map(({ icon, title, desc }) => (
-                <div key={title} className="bg-[#111118] border border-gray-800/60 rounded-xl p-5 flex items-start gap-4">
+                <motion.div
+                  key={title}
+                  variants={staggerItem}
+                  whileHover={{ x: 6, borderColor: 'rgba(52,211,153,0.35)', transition: { duration: 0.2 } }}
+                  className="bg-[#111118] border border-gray-800/60 rounded-xl p-5 flex items-start gap-4 cursor-default"
+                >
                   <div className="w-10 h-10 bg-emerald-500/10 rounded-xl flex items-center justify-center shrink-0">
                     {icon}
                   </div>
@@ -338,9 +505,9 @@ export default function HomePage() {
                     <h3 className="text-white font-semibold text-sm mb-1">{title}</h3>
                     <p className="text-gray-500 text-sm leading-relaxed">{desc}</p>
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -349,7 +516,13 @@ export default function HomePage() {
       <section className="py-16 border-b border-gray-800/40 lg:hidden">
         <div className="max-w-6xl mx-auto px-6">
           <p className="text-gray-600 text-xs uppercase tracking-widest mb-6 text-center">What investors say</p>
-          <div className="bg-[#111118] border border-gray-800/60 rounded-2xl p-6">
+          <motion.div
+            key={currentTestimonial}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, ease: 'easeOut' }}
+            className="bg-[#111118] border border-gray-800/60 rounded-2xl p-6"
+          >
             <StarRating count={testimonials[currentTestimonial].rating} />
             <p className="text-white text-base leading-relaxed font-light italic mt-3 mb-5">
               &ldquo;{testimonials[currentTestimonial].quote}&rdquo;
@@ -363,7 +536,7 @@ export default function HomePage() {
                 <p className="text-gray-500 text-xs">{testimonials[currentTestimonial].title}</p>
               </div>
             </div>
-          </div>
+          </motion.div>
           <div className="flex gap-2 mt-4 justify-center">
             {testimonials.map((_, i) => (
               <button
@@ -379,7 +552,14 @@ export default function HomePage() {
       {/* ── FOR ADVISORS ── */}
       <section className="py-20 border-b border-gray-800/40">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="bg-[#111118] border border-gray-800/60 rounded-3xl p-10 lg:p-14">
+          <motion.div
+            className="bg-[#111118] border border-gray-800/60 rounded-3xl p-10 lg:p-14"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          >
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
               <div>
                 <p className="text-emerald-400 text-xs uppercase tracking-widest mb-3">For advisors</p>
@@ -425,13 +605,20 @@ export default function HomePage() {
                 ))}
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* ── FINAL CTA ── */}
       <section className="py-24">
-        <div className="max-w-2xl mx-auto px-6 text-center animate-fade-up">
+        <motion.div
+          className="max-w-2xl mx-auto px-6 text-center"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+        >
           <p className="text-emerald-400 text-xs uppercase tracking-widest mb-4">Get started today</p>
           <h2 className="text-4xl font-bold text-white mb-4">
             Your financial plan starts here.
@@ -440,21 +627,35 @@ export default function HomePage() {
             Choose a package, book your session — fee-based, independent, on-demand advisory across India.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link
-              href="/services"
-              className="inline-flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-black font-bold px-10 py-4 rounded-full transition-colors"
+            <motion.div
+              whileHover={{ scale: 1.04, boxShadow: '0 0 28px rgba(52,211,153,0.45)' }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.18 }}
+              className="rounded-full"
             >
-              Explore Packages →
-            </Link>
-            <Link
-              href="/booking"
-              className="inline-flex items-center justify-center gap-2 border border-gray-700 text-white font-semibold px-10 py-4 rounded-full hover:border-emerald-500/60 hover:text-emerald-400 transition-colors"
+              <Link
+                href="/services"
+                className="inline-flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-black font-bold px-10 py-4 rounded-full transition-colors"
+              >
+                Explore Packages →
+              </Link>
+            </motion.div>
+            <motion.div
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.18 }}
+              className="rounded-full"
             >
-              Book a Session
-            </Link>
+              <Link
+                href="/booking"
+                className="inline-flex items-center justify-center gap-2 border border-gray-700 text-white font-semibold px-10 py-4 rounded-full hover:border-emerald-500/60 hover:text-emerald-400 transition-colors"
+              >
+                Book a Session
+              </Link>
+            </motion.div>
           </div>
           <p className="text-gray-700 text-xs mt-6">Fee-based · Independent · Time-bound · All India coverage</p>
-        </div>
+        </motion.div>
       </section>
 
     </div>
