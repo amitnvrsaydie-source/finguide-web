@@ -54,6 +54,7 @@ export default function AboutPage() {
               { title: 'Qualified professionals only', desc: 'We check their qualifications and experience before listing them.' },
               { title: 'No product selling — ever', desc: 'Our advisors do not earn commissions from mutual funds, insurance, real estate, or any other product. Their only income is the fee you pay them.' },
               { title: 'No hidden ties', desc: 'They are not employed by or linked to any bank, fund house, brokerage, or company that could influence their advice.' },
+              { title: 'Honest exit advice', desc: 'If you are in the wrong product — a bad insurance policy, an underperforming fund, an unsuitable investment — our advisors will tell you directly and guide you toward what actually works for your situation. No one else does this, because no one else has the incentive to.' },
               { title: 'Accountability', desc: 'Advisors who receive poor feedback or do not meet our standards are removed from the platform.' },
             ].map(({ title, desc }) => (
               <div key={title} className="flex items-start gap-3">
