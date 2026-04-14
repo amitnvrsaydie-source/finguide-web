@@ -25,11 +25,8 @@ export default function AboutPage() {
 
         <div className="bg-[#111118] border border-gray-800 rounded-2xl p-8 mb-6 hover:border-gray-700 transition-colors duration-200 animate-fade-up stagger-1">
           <h2 className="text-white font-semibold text-lg mb-3">Our Mission</h2>
-          <p className="text-gray-400 leading-relaxed mb-4">
-            Every Indian investor deserves access to a qualified, trustworthy financial advisor — one whose sole purpose is to serve the client&apos;s best interest, not the interest of a product house or commission structure.
-          </p>
           <p className="text-gray-400 leading-relaxed">
-            At ZeroBias, we believe advice should be driven by the merit of your financial situation, not by who pays the highest commission. We exist to make fee-based, independent financial guidance accessible to every investor across India — honest, transparent, and entirely on your terms.
+            Every Indian investor deserves access to a qualified, trustworthy financial advisor — one whose advice is driven purely by the merit of their financial situation, not by commissions or product incentives. We exist to make fee-based, independent guidance accessible to every investor across India, honest and entirely on their terms.
           </p>
         </div>
 
