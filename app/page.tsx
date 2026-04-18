@@ -486,7 +486,7 @@ export default function HomePage() {
               </p>
               <Link href="/about"
                 className="text-emerald-400 text-sm font-medium hover:text-emerald-300 transition-colors">
-                Learn about our vetting process →
+                Learn how we verify our advisors →
               </Link>
             </motion.div>
             <motion.div
