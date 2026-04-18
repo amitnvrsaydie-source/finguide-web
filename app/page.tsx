@@ -14,18 +14,9 @@ function StatCounter({ value, label }: { value: string; label: string }) {
   useEffect(() => {
     if (!isInView) return
 
-    // "0 Commissions" — count DOWN from 99 to 0 for drama
+    // "Zero Commissions" — show instantly
     if (label === 'Commissions') {
-      const duration = 1000
-      const from = 99
-      const start = performance.now()
-      const tick = (now: number) => {
-        const p = Math.min((now - start) / duration, 1)
-        const eased = 1 - Math.pow(1 - p, 3)
-        setDisplay(String(Math.floor(from - eased * from)))
-        if (p < 1) requestAnimationFrame(tick)
-      }
-      requestAnimationFrame(tick)
+      setDisplay('Zero')
       return
     }
 
@@ -58,25 +49,37 @@ const testimonials = [
   {
     quote: "ZeroBias connected me with an expert advisor who restructured my entire portfolio. No product pushing — just honest advice.",
     name: "Rahul Mehta",
-    title: "CTO, Bangalore",
+    title: "CTO · Bangalore",
     rating: 5,
   },
   {
     quote: "Finally found an unbiased advisor. No hidden products, no agenda. Pure honest advice that actually works.",
     name: "Priya Sharma",
-    title: "Senior Manager, Infosys",
+    title: "Senior Manager · Mumbai",
     rating: 5,
   },
   {
     quote: "The first session was genuinely useful. My advisor had done their homework before we even spoke.",
     name: "Karthik Subramanian",
-    title: "Entrepreneur, Hyderabad",
+    title: "Entrepreneur · Hyderabad",
     rating: 5,
   },
   {
     quote: "As an NRI, finding a trustworthy advisor in India was impossible — until ZeroBias. My advisor handles DTAA and FBAR seamlessly.",
     name: "Ananya Krishnan",
-    title: "Software Engineer, USA",
+    title: "Software Engineer · USA",
+    rating: 5,
+  },
+  {
+    quote: "I had been mis-sold three insurance policies I didn't need. My ZeroBias advisor helped me exit two of them and redirected that money properly.",
+    name: "Deepak Nair",
+    title: "Business Owner · Kochi",
+    rating: 5,
+  },
+  {
+    quote: "Clear, no-nonsense retirement planning. My advisor explained everything in plain language and built a plan I actually understand.",
+    name: "Sunita Rao",
+    title: "Government Officer · Pune",
     rating: 5,
   },
 ]
@@ -308,7 +311,7 @@ export default function HomePage() {
                     label: 'Independent Advisors'
                   },
                 ].map(({ icon, label }) => (
-                  <div key={label} className="flex items-center gap-1.5 text-gray-400 text-sm">
+                  <div key={label} className="flex items-center gap-1.5 text-gray-400 text-sm whitespace-nowrap">
                     <span className="text-emerald-400">{icon}</span> {label}
                   </div>
                 ))}
@@ -362,7 +365,7 @@ export default function HomePage() {
 
       {/* ── TRUST BAR ── */}
       <section className="border-b border-gray-800/40 py-8 overflow-hidden">
-        <p className="text-gray-600 text-xs uppercase tracking-widest text-center mb-6">Trusted by professionals from</p>
+        <p className="text-gray-600 text-xs uppercase tracking-widest text-center mb-6">Our users work at</p>
         <div className="relative flex overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
           <div className="flex items-center animate-ticker whitespace-nowrap">
             {[
@@ -395,7 +398,7 @@ export default function HomePage() {
               { value: '50+', label: 'Expert Advisors', sub: 'across India' },
               { value: 'All India', label: 'Coverage', sub: 'every city, every state' },
               { value: '100%', label: 'Fee-Based', sub: 'transparent advisory fees' },
-              { value: '0', label: 'Commissions', sub: 'no product incentives' },
+              { value: 'Zero', label: 'Commissions', sub: 'no product incentives' },
             ].map(({ value, label, sub }) => (
               <motion.div
                 key={label}
