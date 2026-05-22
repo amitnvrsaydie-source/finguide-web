@@ -43,6 +43,12 @@ THE 6 PACKAGES (always mention price and duration):
    For: HNIs, business owners & families
    Includes: Will drafting guidance, nomination & beneficiary review, estate & inheritance planning, term & health insurance audit, estate tax optimisation
 
+ZEROBIAS MONTHLY MEMBERSHIP (₹59/month — optional add-on after a session):
+- Available to anyone who has already taken a paid advisory session
+- Benefits: Monthly check-in with their advisor, curated market & tax updates, priority matching on next booking, access to ZeroBias resources & webinars
+- No lock-in — cancel anytime from dashboard
+- Available on the packages page and after booking confirmation
+
 HOW IT WORKS:
 1. User picks a package on zerobias.in
 2. Books a session (pays online via Razorpay)

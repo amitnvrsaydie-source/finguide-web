@@ -298,7 +298,7 @@ function BookingPageInner() {
         initial={{ opacity: 0, scale: 0.97 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.4, ease: EASE }}
-        className="min-h-screen bg-[#0a0a0f] flex items-center justify-center px-4"
+        className="min-h-screen bg-[#0a0a0f] flex items-center justify-center px-4 py-12"
       >
         <div className="text-center max-w-md w-full">
           <div className="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-5">
@@ -342,9 +342,13 @@ function BookingPageInner() {
               </div>
             </div>
           )}
+
+          {/* Subscription upsell */}
+          <SubscriptionUpsell name={form.name} email={form.email} phone={form.phone} />
+
           <button
             onClick={() => router.push('/services')}
-            className="w-full bg-emerald-500 hover:bg-emerald-600 text-white py-3 rounded-lg font-semibold text-sm transition-colors"
+            className="w-full mt-3 border border-gray-800 hover:border-gray-600 text-gray-400 hover:text-white py-3 rounded-lg font-semibold text-sm transition-colors"
           >
             Explore More Packages
           </button>
@@ -633,6 +637,105 @@ function BookingPageInner() {
 }
 
 import { Suspense } from 'react'
+
+function SubscriptionUpsell({ name, email, phone }: { name: string; email: string; phone: string }) {
+  const [subState, setSubState] = useState<'idle' | 'loading' | 'done'>('idle')
+  const [subError, setSubError] = useState('')
+
+  const handleSubscribe = async () => {
+    setSubState('loading')
+    setSubError('')
+    try {
+      const res = await fetch('/api/subscription/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, phone }),
+      })
+      const data = await res.json()
+      if (!res.ok) { setSubError(data.error || 'Failed to start subscription'); setSubState('idle'); return }
+
+      const rzpKey = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID
+      const options = {
+        key: rzpKey,
+        subscription_id: data.subscriptionId,
+        name: 'ZeroBias',
+        description: 'Monthly Membership — ₹59/month',
+        prefill: { name, email, contact: phone },
+        theme: { color: '#10b981' },
+        handler: async (response: { razorpay_payment_id: string; razorpay_subscription_id: string; razorpay_signature: string }) => {
+          const verifyRes = await fetch('/api/subscription/verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ...response, name, email, phone }),
+          })
+          if (verifyRes.ok) {
+            setSubState('done')
+          } else {
+            setSubError('Subscription activation failed. Contact hello@zerobias.in')
+            setSubState('idle')
+          }
+        },
+        modal: { ondismiss: () => setSubState('idle') },
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const rzp = new (window as any).Razorpay(options)
+      rzp.open()
+    } catch {
+      setSubError('Network error. Please try again.')
+      setSubState('idle')
+    }
+  }
+
+  if (subState === 'done') {
+    return (
+      <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-4 text-left mb-3 flex items-start gap-3">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        <div>
+          <p className="text-emerald-400 text-sm font-semibold">Membership activated!</p>
+          <p className="text-gray-500 text-xs mt-1">You will receive monthly check-ins, updates, and priority booking access. Cancel anytime from your dashboard.</p>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="bg-[#111118] border border-amber-500/20 rounded-xl p-4 text-left mb-3">
+      <div className="flex items-start gap-3 mb-3">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+        <div className="flex-1">
+          <p className="text-white text-sm font-semibold">Stay connected · ₹59/month</p>
+          <p className="text-gray-500 text-xs mt-0.5">Keep the momentum going after your session</p>
+        </div>
+        <span className="text-amber-400 text-xs font-bold border border-amber-500/30 px-2 py-0.5 rounded-full">Optional</span>
+      </div>
+      <ul className="space-y-1 mb-3">
+        {[
+          'Monthly check-in with your advisor',
+          'Curated market & tax updates',
+          'Priority matching on next booking',
+          'Access to resources & webinars',
+        ].map(item => (
+          <li key={item} className="flex items-center gap-2 text-xs text-gray-400">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            {item}
+          </li>
+        ))}
+      </ul>
+      <button
+        onClick={handleSubscribe}
+        disabled={subState === 'loading'}
+        className="w-full bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-400 py-2.5 rounded-lg text-sm font-semibold transition-colors disabled:opacity-50"
+      >
+        {subState === 'loading' ? 'Starting...' : 'Subscribe for ₹59/month →'}
+      </button>
+      {subError && <p className="text-red-400 text-xs mt-2">{subError}</p>}
+    </div>
+  )
+}
 
 export default function BookingPage() {
   return (

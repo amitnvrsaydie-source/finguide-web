@@ -281,9 +281,50 @@ export default function PackagesSection() {
         })}
       </motion.div>
 
+      {/* Membership strip */}
+      <motion.div
+        className="mt-12 bg-[#111118] border border-amber-500/20 rounded-2xl p-6 flex flex-col sm:flex-row items-start sm:items-center gap-5"
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.55, delay: 0.2 }}
+      >
+        <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center shrink-0">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+        </div>
+        <div className="flex-1">
+          <p className="text-white font-semibold text-sm mb-0.5">ZeroBias Monthly Membership · <span className="text-amber-400">₹59/month</span></p>
+          <p className="text-gray-500 text-xs mb-2">Already had a session? Stay connected and keep the momentum going.</p>
+          <div className="flex flex-wrap gap-x-4 gap-y-1">
+            {[
+              'Monthly advisor check-in',
+              'Market & tax updates',
+              'Priority booking access',
+              'Resources & webinars',
+            ].map(b => (
+              <span key={b} className="flex items-center gap-1.5 text-xs text-gray-400">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                {b}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="shrink-0 text-right">
+          <p className="text-gray-600 text-xs mb-2">Cancel anytime. No lock-in.</p>
+          <button
+            onClick={() => router.push('/booking?membership=true')}
+            className="bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-400 px-5 py-2 rounded-full text-sm font-semibold transition-colors"
+          >
+            Subscribe →
+          </button>
+        </div>
+      </motion.div>
+
       {/* Bottom trust note */}
       <motion.p
-        className="text-center text-gray-600 text-xs mt-10"
+        className="text-center text-gray-600 text-xs mt-8"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
