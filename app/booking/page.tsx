@@ -657,12 +657,14 @@ function SubscriptionUpsell({ name, email, phone }: { name: string; email: strin
       const rzpKey = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID
       const options = {
         key: rzpKey,
-        subscription_id: data.subscriptionId,
+        amount: data.amount,
+        currency: data.currency,
+        order_id: data.orderId,
         name: 'ZeroBias',
         description: 'Monthly Membership — ₹59/month',
         prefill: { name, email, contact: phone },
         theme: { color: '#10b981' },
-        handler: async (response: { razorpay_payment_id: string; razorpay_subscription_id: string; razorpay_signature: string }) => {
+        handler: async (response: { razorpay_payment_id: string; razorpay_order_id: string; razorpay_signature: string }) => {
           const verifyRes = await fetch('/api/subscription/verify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

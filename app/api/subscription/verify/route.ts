@@ -12,14 +12,14 @@ const getResend = () => new Resend(process.env.RESEND_API_KEY)
 export async function POST(req: Request) {
   try {
     const {
+      razorpay_order_id,
       razorpay_payment_id,
-      razorpay_subscription_id,
       razorpay_signature,
       name, email, phone,
     } = await req.json()
 
-    // Verify Razorpay signature for subscriptions
-    const body = razorpay_payment_id + '|' + razorpay_subscription_id
+    // Verify signature (same format as session payments)
+    const body = razorpay_order_id + '|' + razorpay_payment_id
     const expectedSignature = crypto
       .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET!)
       .update(body)
@@ -29,21 +29,17 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Signature verification failed' }, { status: 400 })
     }
 
-    // Upsert subscription (replace if re-subscribing with same email)
-    await supabase.from('subscriptions').upsert(
-      {
-        email,
-        name,
-        phone,
-        razorpay_subscription_id,
-        razorpay_payment_id,
-        status: 'active',
-        start_date: new Date().toISOString(),
-      },
-      { onConflict: 'razorpay_subscription_id' }
-    )
+    await supabase.from('subscriptions').insert({
+      email,
+      name,
+      phone,
+      razorpay_subscription_id: razorpay_order_id,
+      razorpay_payment_id,
+      status: 'active',
+      start_date: new Date().toISOString(),
+    })
 
-    // Welcome email to subscriber
+    // Welcome email
     await getResend().emails.send({
       from: 'ZeroBias <hello@zerobias.in>',
       to: email,
@@ -55,9 +51,9 @@ export async function POST(req: Request) {
           <p style="color:#374151">Your ₹59/month membership is active. Here's what you get every month:</p>
           <ul style="color:#374151;line-height:1.8">
             <li>Monthly check-in with your assigned advisor</li>
-            <li>Curated market & tax updates for your goals</li>
+            <li>Curated market &amp; tax updates for your goals</li>
             <li>Priority matching on your next session booking</li>
-            <li>Access to ZeroBias resources & webinars</li>
+            <li>Access to ZeroBias resources &amp; webinars</li>
           </ul>
           <p style="color:#6b7280;font-size:13px">You can cancel anytime from your dashboard. No lock-in.</p>
           <p style="color:#374151;margin-top:24px">— Team ZeroBias</p>
@@ -69,14 +65,13 @@ export async function POST(req: Request) {
     await getResend().emails.send({
       from: 'ZeroBias <hello@zerobias.in>',
       to: 'amitnvrsaydie@gmail.com',
-      subject: `New Subscriber — ${name} (${email})`,
+      subject: `New Member — ${name} (${email})`,
       html: `
         <div style="font-family:sans-serif;max-width:520px">
-          <h2 style="color:#10b981">New ₹59/month Subscriber</h2>
+          <h2 style="color:#10b981">New ₹59/month Member</h2>
           <p><strong>Name:</strong> ${name}</p>
           <p><strong>Email:</strong> ${email}</p>
           <p><strong>Phone:</strong> ${phone || '—'}</p>
-          <p><strong>Subscription ID:</strong> ${razorpay_subscription_id}</p>
           <p><strong>Payment ID:</strong> ${razorpay_payment_id}</p>
         </div>
       `,
