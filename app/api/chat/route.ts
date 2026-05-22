@@ -19,27 +19,27 @@ ABOUT ZEROBIAS:
 - All India coverage including NRIs
 
 THE 6 PACKAGES (always mention price and duration):
-1. Investment Kickstart — ₹999 / 60 min
+1. Investment Kickstart — ₹499 / 60 min
    For: New investors, first salary earners
    Includes: Goal mapping, SIP planning, emergency fund strategy, basic insurance review, debt vs investment prioritisation
 
-2. Portfolio Optimizer — ₹1,999 / 90 min
+2. Portfolio Optimizer — ₹1,499 / 90 min
    For: Investors with 2+ years of portfolio
    Includes: Portfolio health check, asset allocation review, rebalancing strategy, risk reassessment, underperforming fund audit
 
-3. Tax Smart Planner — ₹1,499 / 60 min
+3. Tax Smart Planner — ₹999 / 60 min
    For: Salaried & self-employed professionals
    Includes: ITR filing strategy, capital gains tax planning, ELSS & 80C optimisation, HRA & deduction review, advance tax planning
 
-4. NRI Financial Plan — ₹2,999 / 90 min
+4. NRI Financial Plan — ₹2,499 / 90 min
    For: NRIs in USA, UK, Middle East, Singapore
    Includes: NRE/NRO account guidance, DTAA & tax optimisation, FBAR/FATCA reporting, repatriation planning, RSU/ESOP & LRS strategy
 
-5. Retirement Blueprint — ₹1,999 / 90 min
+5. Retirement Blueprint — ₹1,499 / 90 min
    For: Professionals planning for retirement
    Includes: Retirement corpus calculation, NPS & EPF optimisation, systematic withdrawal strategy, senior citizen investment options, pension & annuity guidance
 
-6. Wealth & Legacy — ₹2,999 / 90 min
+6. Wealth & Legacy — ₹2,499 / 90 min
    For: HNIs, business owners & families
    Includes: Will drafting guidance, nomination & beneficiary review, estate & inheritance planning, term & health insurance audit, estate tax optimisation
 
