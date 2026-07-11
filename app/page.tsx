@@ -597,6 +597,12 @@ export default function HomePage() {
                 >
                   Apply to Join →
                 </Link>
+                <p className="mt-4 text-sm text-gray-600">
+                  Already listed?{' '}
+                  <Link href="/advisor/login" className="text-gray-400 hover:text-emerald-400 transition-colors underline underline-offset-2">
+                    Advisor login →
+                  </Link>
+                </p>
               </div>
               <div className="space-y-4">
                 {[
