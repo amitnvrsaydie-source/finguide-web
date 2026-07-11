@@ -9,7 +9,7 @@ type Message = {
 
 const SUGGESTED_QUESTIONS = [
   "Which package is right for me?",
-  "I'm an NRI — what do I need?",
+  "I'm an NRI, what do I need?",
   "How does booking work?",
   "What's fee-based advisory?",
 ]
@@ -112,7 +112,7 @@ export default function ChatWidget() {
               <p className="text-white text-sm font-semibold leading-tight">ZeroBias Assistant</p>
               <p className="text-emerald-400 text-xs flex items-center gap-1.5">
                 <svg width="7" height="7" viewBox="0 0 7 7"><circle cx="3.5" cy="3.5" r="3.5" fill="#34d399"/></svg>
-                Online — typically replies instantly
+                Online, typically replies instantly
               </p>
             </div>
             <button onClick={() => setOpen(false)} className="text-gray-600 hover:text-gray-400 transition-colors p-1">

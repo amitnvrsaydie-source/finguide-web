@@ -157,7 +157,7 @@ export default function VerifyPage() {
             <span className="text-emerald-400">One last step.</span>
           </h1>
           <p className="text-gray-400 text-base leading-relaxed mb-10">
-            We sent a 6-digit OTP to verify your identity. No passwords, no hassle — just one code and you&apos;re in.
+            We sent a 6-digit OTP to verify your identity. No passwords, no hassle. Just one code and you&apos;re in.
           </p>
 
           {/* Step indicator */}
@@ -165,7 +165,7 @@ export default function VerifyPage() {
             {[
               { done: true, label: 'Email verified', sub: email },
               { done: true, label: 'Profile ready', sub: name ? `Welcome, ${name}` : 'Account set up' },
-              { done: false, label: 'OTP verification', sub: 'In progress — almost done!', active: true },
+              { done: false, label: 'OTP verification', sub: 'In progress, almost done!', active: true },
             ].map(({ done, label, sub, active }) => (
               <div key={label} className="flex items-center gap-3">
                 <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${

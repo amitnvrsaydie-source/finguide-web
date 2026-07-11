@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: 'Apply as an Advisor',
   description: 'Join ZeroBias as a fee-based, independent advisor. Apply to be listed on India\'s trusted fee-only advisor discovery platform.',
   openGraph: {
-    title: 'Apply as an Advisor — ZeroBias',
+    title: 'Apply as an Advisor | ZeroBias',
     description: 'Join ZeroBias\'s network of verified, fee-only independent advisors. Applications reviewed within 3–5 business days.',
   },
 }

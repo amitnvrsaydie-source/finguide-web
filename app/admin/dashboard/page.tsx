@@ -89,14 +89,14 @@ export default function AdminDashboard() {
       })
       const data = await res.json()
       if (!res.ok) {
-        setActionError(data.error || `HTTP ${res.status} — something went wrong`)
+        setActionError(data.error || `HTTP ${res.status}: something went wrong`)
       } else {
         setActionSuccess(action === 'approve' ? '✅ Advisor approved and listed on ZeroBias!' : '✅ Application rejected.')
         setFilter('all') // switch to 'all' so the updated item is still visible
         fetchData()
       }
     } catch (err) {
-      setActionError(`Network error — ${String(err)}`)
+      setActionError(`Network error: ${String(err)}`)
     }
     setActionLoading(null)
   }

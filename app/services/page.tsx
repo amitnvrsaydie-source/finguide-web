@@ -3,10 +3,10 @@ import PackagesSection from "@/components/PackagesSection";
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: "Financial Packages — Unbiased Financial Advice",
+  title: "Financial Packages | Unbiased Financial Advice",
   description: "Choose a financial package tailored to your needs. Our unbiased, fee-only advisors provide honest advice. No payment asked.",
   openGraph: {
-    title: "ZeroBias Financial Packages — Unbiased Advice",
+    title: "ZeroBias Financial Packages | Unbiased Advice",
     description: "Investment Kickstart, Portfolio Review, Tax Planning, NRI Services, Retirement & more - matched to an unbiased advisor, no sales pitch.",
   },
 };

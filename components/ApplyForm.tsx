@@ -136,8 +136,8 @@ export default function ApplyForm() {
           <select required value={form.registration_type} onChange={e => set('registration_type', e.target.value)}
             className={`${inputClass} ${form.registration_type ? 'text-white' : 'text-gray-700'}`}>
             <option value="">Select registration type</option>
-            <option value="RIA">RIA — SEBI Registered Investment Advisor</option>
-            <option value="ARN">ARN — AMFI Registered Mutual Fund Distributor</option>
+            <option value="RIA">RIA: SEBI Registered Investment Advisor</option>
+            <option value="ARN">ARN: AMFI Registered Mutual Fund Distributor</option>
             <option value="RIA+ARN">Both RIA and ARN</option>
           </select>
         </div>

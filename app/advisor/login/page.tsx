@@ -29,7 +29,7 @@ export default function AdvisorLogin() {
         setError(data.error || 'Failed to send OTP')
       }
     } catch {
-      setError('Network error — please try again')
+      setError('Network error. Please try again.')
     }
     setLoading(false)
   }
@@ -51,7 +51,7 @@ export default function AdvisorLogin() {
         setError(data.error || 'Invalid OTP or email not registered as an advisor')
       }
     } catch {
-      setError('Network error — please try again')
+      setError('Network error. Please try again.')
     }
     setLoading(false)
   }

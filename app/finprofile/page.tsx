@@ -82,7 +82,7 @@ const personalities = {
     emoji: "🚀",
     color: "orange",
     tagline: "High risk, high reward mindset.",
-    description: "You're willing to take calculated risks for potentially higher returns. Market volatility doesn't scare you — it excites you.",
+    description: "You're willing to take calculated risks for potentially higher returns. Market volatility doesn't scare you. It excites you.",
     strengths: ["High risk tolerance", "Long investment horizon", "Return-focused"],
     bestFor: ["Direct Equities", "Small-cap Funds", "International Stocks", "REITs"],
     advisorFocus: "Global Investments, Mutual Funds, Inheritance Planning",

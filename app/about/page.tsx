@@ -3,9 +3,9 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'About ZeroBias',
-  description: 'ZeroBias is a financial advisor discovery platform in India. We connect investors with expert, unbiased financial advisors — no sales pitch, no hidden agenda.',
+  description: 'ZeroBias is a financial advisor discovery platform in India. We connect investors with expert, unbiased financial advisors. No sales pitch, no hidden agenda.',
   openGraph: {
-    title: 'About ZeroBias — India\'s Unbiased Financial Advisor Platform',
+    title: 'About ZeroBias | India\'s Unbiased Financial Advisor Platform',
     description: 'We connect investors with expert, unbiased financial advisors across India. No sales pitch, no hidden agenda.',
   },
 }
@@ -20,7 +20,7 @@ export default function AboutPage() {
           <p className="text-emerald-400 text-xs uppercase tracking-widest mb-3">Who we are</p>
           <h1 className="text-4xl font-bold text-white mb-4">About <span className="text-emerald-400">Zero</span>Bias</h1>
           <p className="text-gray-400 text-lg leading-relaxed">
-            ZeroBias is a discovery platform that connects investors across India with qualified, fee-based financial advisors — advisors who work for you, not for a product house.
+            ZeroBias is a discovery platform that connects investors across India with qualified, fee-based financial advisors who work for you, not for a product house.
           </p>
         </div>
 
@@ -28,7 +28,7 @@ export default function AboutPage() {
         <div className="bg-[#111118] border border-gray-800 rounded-2xl p-8 mb-6 hover:border-gray-700 transition-colors duration-200 animate-fade-up stagger-1">
           <h2 className="text-white font-semibold text-lg mb-3">Our Mission</h2>
           <p className="text-gray-400 leading-relaxed">
-            Every Indian investor deserves access to a qualified, trustworthy financial advisor — one whose advice is driven purely by the merit of their financial situation, not by commissions or product incentives. We exist to make fee-based, independent guidance accessible to every investor across India, honest and entirely on their terms.
+            Every Indian investor deserves access to a qualified, trustworthy financial advisor, one whose advice is driven purely by the merit of their financial situation, not by commissions or product incentives. We exist to make fee-based, independent guidance accessible to every investor across India, honest and entirely on their terms.
           </p>
         </div>
 
@@ -36,10 +36,10 @@ export default function AboutPage() {
         <div className="bg-[#111118] border border-gray-800 rounded-2xl p-8 mb-6 hover:border-gray-700 transition-colors duration-200 animate-fade-up stagger-2">
           <h2 className="text-white font-semibold text-lg mb-3">The Problem We Solve</h2>
           <p className="text-gray-400 leading-relaxed mb-4">
-            Most financial advice in India is quietly commission-driven. Advisors are incentivised by banks, AMCs, and insurance companies to push specific products — not because those products are right for you, but because they pay the highest commissions.
+            Most financial advice in India is quietly commission-driven. Advisors are incentivised by banks, AMCs, and insurance companies to push specific products, not because those products are right for you, but because they pay the highest commissions.
           </p>
           <p className="text-gray-400 leading-relaxed">
-            The result: investors end up in the wrong funds, over-insured, under-invested, or simply confused — with no one in their corner who is truly unbiased. ZeroBias exists to fix that.
+            The result: investors end up in the wrong funds, over-insured, under-invested, or simply confused, with no one in their corner who is truly unbiased. ZeroBias exists to fix that.
           </p>
         </div>
 
@@ -47,14 +47,14 @@ export default function AboutPage() {
         <div className="bg-[#111118] border border-gray-800 rounded-2xl p-8 mb-6 hover:border-gray-700 transition-colors duration-200 animate-fade-up stagger-3">
           <h2 className="text-white font-semibold text-lg mb-3">Who are our advisors?</h2>
           <p className="text-gray-400 leading-relaxed mb-5">
-            Our advisors are qualified financial professionals — SEBI Registered Investment Advisors (RIAs), Certified Financial Planners (CFPs), and Chartered Accountants with financial planning expertise. Not everyone who applies gets listed. We manually review each advisor before they appear on ZeroBias.
+            Our advisors are qualified financial professionals: SEBI Registered Investment Advisors (RIAs), Certified Financial Planners (CFPs), and Chartered Accountants with financial planning expertise. Not everyone who applies gets listed. We manually review each advisor before they appear on ZeroBias.
           </p>
           <div className="space-y-3">
             {[
               { title: 'Qualified professionals only', desc: 'We check their qualifications and experience before listing them.' },
-              { title: 'No product selling — ever', desc: 'Our advisors do not earn commissions from mutual funds, insurance, real estate, or any other product. Their only income is the fee you pay them.' },
+              { title: 'No product selling, ever', desc: 'Our advisors do not earn commissions from mutual funds, insurance, real estate, or any other product. Their only income is the fee you pay them.' },
               { title: 'No hidden ties', desc: 'They are not employed by or linked to any bank, fund house, brokerage, or company that could influence their advice.' },
-              { title: 'Honest exit advice', desc: 'If you are in the wrong product — a bad insurance policy, an underperforming fund, an unsuitable investment — our advisors will tell you directly and guide you toward what actually works for your situation. No one else does this, because no one else has the incentive to.' },
+              { title: 'Honest exit advice', desc: 'If you are in the wrong product, such as a bad insurance policy, an underperforming fund, or an unsuitable investment, our advisors will tell you directly and guide you toward what actually works for your situation. No one else does this, because no one else has the incentive to.' },
               { title: 'Accountability', desc: 'Advisors who receive poor feedback or do not meet our standards are removed from the platform.' },
             ].map(({ title, desc }) => (
               <div key={title} className="flex items-start gap-3">
@@ -62,7 +62,7 @@ export default function AboutPage() {
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                 </span>
                 <p className="text-gray-400 text-sm leading-relaxed">
-                  <span className="text-white font-medium">{title} — </span>{desc}
+                  <span className="text-white font-medium">{title}: </span>{desc}
                 </p>
               </div>
             ))}

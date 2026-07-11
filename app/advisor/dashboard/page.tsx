@@ -252,7 +252,7 @@ export default function AdvisorDashboard() {
           <div className="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-5 animate-fade-up">
             <div>
               <p className="text-gray-500 text-xs uppercase tracking-widest mb-2">Bio</p>
-              <p className="text-gray-300 text-sm leading-relaxed">{advisor.bio || '—'}</p>
+              <p className="text-gray-300 text-sm leading-relaxed">{advisor.bio || 'No bio added yet.'}</p>
             </div>
             {specs.length > 0 && (
               <div>

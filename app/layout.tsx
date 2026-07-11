@@ -14,7 +14,7 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   metadataBase: new URL('https://zerobias.in'),
   title: {
-    default: 'ZeroBias — Expert Financial Advisors Across India',
+    default: 'ZeroBias | Expert Financial Advisors Across India',
     template: '%s | ZeroBias',
   },
   description: 'Connect with expert financial advisors across India. Fee-based, independent, on-demand advisory. All India coverage.',
@@ -26,13 +26,13 @@ export const metadata: Metadata = {
     locale: 'en_IN',
     url: 'https://zerobias.in',
     siteName: 'ZeroBias',
-    title: 'ZeroBias — Expert Financial Advisors Across India',
+    title: 'ZeroBias | Expert Financial Advisors Across India',
     description: 'Connect with expert financial advisors across India. Fee-based, independent, on-demand advisory.',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'ZeroBias — Find Fee-Based Financial Advisors in India' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'ZeroBias | Find Fee-Based Financial Advisors in India' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'ZeroBias — Expert Financial Advisors Across India',
+    title: 'ZeroBias | Expert Financial Advisors Across India',
     description: 'Connect with expert financial advisors across India. Fee-based, independent advisory.',
     images: ['/og-image.png'],
   },

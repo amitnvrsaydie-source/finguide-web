@@ -36,10 +36,10 @@ export async function generateMetadata(
     .single()
   if (!data) return { title: 'Advisor Not Found' }
   return {
-    title: `${data.full_name} — Fee-Based Advisor, ${data.city}`,
+    title: `${data.full_name} | Fee-Based Advisor, ${data.city}`,
     description: data.bio?.slice(0, 155),
     openGraph: {
-      title: `${data.full_name} — Independent Fee-Based Financial Advisor`,
+      title: `${data.full_name} | Independent Fee-Based Financial Advisor`,
       description: data.bio?.slice(0, 155),
     },
   }

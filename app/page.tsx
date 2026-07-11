@@ -47,7 +47,7 @@ function StatCounter({ value, label }: { value: string; label: string }) {
 
 const testimonials = [
   {
-    quote: "ZeroBias connected me with an expert advisor who restructured my entire portfolio. No product pushing — just honest advice.",
+    quote: "ZeroBias connected me with an expert advisor who restructured my entire portfolio. No product pushing, just honest advice.",
     name: "Rahul Mehta",
     title: "CTO · Bangalore",
     rating: 5,
@@ -65,7 +65,7 @@ const testimonials = [
     rating: 5,
   },
   {
-    quote: "As an NRI, finding a trustworthy advisor in India was impossible — until ZeroBias. My advisor handles DTAA and FBAR seamlessly.",
+    quote: "As an NRI, finding a trustworthy advisor in India was impossible. Until ZeroBias. My advisor handles DTAA and FBAR seamlessly.",
     name: "Ananya Krishnan",
     title: "Software Engineer · USA",
     rating: 5,
@@ -93,7 +93,7 @@ const steps = [
       </svg>
     ),
     title: 'Choose a Package',
-    desc: 'Pick a financial package that matches your goal — investing, tax, NRI planning, retirement, or more.',
+    desc: 'Pick a financial package that matches your goal: investing, tax, NRI planning, retirement, or more.',
   },
   {
     step: '02',
@@ -144,7 +144,7 @@ const whyUs = [
       </svg>
     ),
     title: 'Fee-Based Advisory',
-    desc: 'Transparent, fee-based service. You pay for advice — not commissions, not products, not hidden charges.',
+    desc: 'Transparent, fee-based service. You pay for advice, not commissions, not products, not hidden charges.',
   },
   {
     icon: (
@@ -153,7 +153,7 @@ const whyUs = [
       </svg>
     ),
     title: 'Independent & On-Demand',
-    desc: 'Advisors work for you, not for any bank or product house. Book when you need it — no long-term tie-ins.',
+    desc: 'Advisors work for you, not for any bank or product house. Book when you need it, no long-term tie-ins.',
   },
 ]
 
@@ -431,7 +431,7 @@ export default function HomePage() {
             <p className="text-emerald-400 text-xs uppercase tracking-widest mb-3">Simple process</p>
             <h2 className="text-3xl font-bold text-white">How ZeroBias Works</h2>
             <p className="text-gray-500 text-sm mt-2 max-w-md mx-auto">
-              Choose a package, book your session, and we assign an expert advisor — unbiased, no sales pitch.
+              Choose a package, book your session, and we assign an expert advisor. Unbiased, no sales pitch.
             </p>
           </motion.div>
 
@@ -482,7 +482,7 @@ export default function HomePage() {
                 Built differently.<br />For investors who demand more.
               </h2>
               <p className="text-gray-400 leading-relaxed mb-8">
-                Most financial advice comes with a hidden agenda — products pushed for commissions, unsolicited follow-ups, and pressure to invest. ZeroBias is different. We connect you with advisors who are here purely to help you — no selling, no follow-up, just honest guidance.
+                Most financial advice comes with a hidden agenda: products pushed for commissions, unsolicited follow-ups, and pressure to invest. ZeroBias is different. We connect you with advisors who are here purely to help you. No selling, no follow-up, just honest guidance.
               </p>
               <Link href="/about"
                 className="text-emerald-400 text-sm font-medium hover:text-emerald-300 transition-colors">
@@ -629,7 +629,7 @@ export default function HomePage() {
             Your financial plan starts here.
           </h2>
           <p className="text-gray-400 mb-8 text-lg">
-            Choose a package, book your session — fee-based, independent, on-demand advisory across India.
+            Choose a package, book your session. Fee-based, independent, on-demand advisory across India.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <motion.div
