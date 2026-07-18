@@ -15,8 +15,10 @@ export async function POST(req: Request) {
     const {
       name, email, phone, service,
       meeting_mode, meeting_date, meeting_time,
-      advisor_name, advisor_id
+      advisor_name, advisor_id, amount
     } = body
+
+    const fee = Number(amount) > 0 ? Number(amount) : 0
 
     // Save booking to DB — 'service' column doesn't exist yet, store package in advisor_name
     const advisorLabel = advisor_id
@@ -57,8 +59,17 @@ export async function POST(req: Request) {
         <p style="margin:0 0 8px"><strong>Date:</strong> ${meeting_date}</p>
         <p style="margin:0 0 8px"><strong>Time:</strong> ${meeting_time}</p>
         <p style="margin:0"><strong>Mode:</strong> ${meeting_mode}</p>
+        ${fee ? `<p style="margin:8px 0 0"><strong>Session fee:</strong> ₹${fee.toLocaleString('en-IN')}</p>` : ''}
       </div>
     `
+
+    const paymentNote = fee
+      ? `<div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:14px;margin:20px 0">
+           <p style="margin:0;color:#1e40af;font-size:14px">💳 <strong>Payment:</strong> We will send you a secure payment link for ₹${fee.toLocaleString('en-IN')} to this email shortly. No payment is needed right now.</p>
+         </div>`
+      : `<div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:14px;margin:20px 0">
+           <p style="margin:0;color:#166534;font-size:14px">⭐ First session is completely free — no hidden charges.</p>
+         </div>`
 
     // 1. Confirmation email to client
     await getResend().emails.send({
@@ -71,9 +82,9 @@ export async function POST(req: Request) {
           <p style="color:#374151">Hi ${name},</p>
           <p style="color:#374151">Your session has been booked. We are assigning a <strong>fee-based, independent advisor</strong> best suited to your package — <strong>${service}</strong>.</p>
           ${bookingDetails}
+          ${paymentNote}
           <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:14px;margin:20px 0">
             <p style="margin:0;color:#166534;font-size:14px">🛡️ Your advisor is unbiased and fee-only — zero commissions, ever.</p>
-            <p style="margin:6px 0 0;color:#166534;font-size:14px">⭐ First session is completely free — no hidden charges.</p>
           </div>
           <p style="color:#6b7280;font-size:13px">Your assigned advisor will reach out before your session to share the meeting link. If you need to reschedule, reply to this email.</p>
           <p style="color:#374151;margin-top:24px">— Team ZeroBias</p>
@@ -108,16 +119,17 @@ export async function POST(req: Request) {
       })
     }
 
-    // 3. Admin notification — action required: assign an advisor
+    // 3. Admin notification — action required: assign advisor + send payment link
     await getResend().emails.send({
       from: 'ZeroBias <hello@zerobias.in>',
-      to: 'amitnvrsaydie@gmail.com',
+      to: ['hello@zerobias.in', 'amitnvrsaydie@gmail.com'],
       subject: `⚡ New Booking — Assign Advisor for ${name} (${service})`,
       html: `
         <div style="font-family:sans-serif;max-width:520px">
           <h2 style="color:#10b981">New Booking — Action Required</h2>
           <div style="background:#fef9c3;border:1px solid #fde047;border-radius:8px;padding:14px;margin:16px 0">
             <p style="margin:0;color:#713f12;font-weight:bold">👉 Please assign a fee-based, independent advisor for this package: <em>${service}</em></p>
+            ${fee ? `<p style="margin:8px 0 0;color:#713f12;font-weight:bold">💳 Send payment link for ₹${fee.toLocaleString('en-IN')} to ${email}</p>` : ''}
           </div>
           <p><strong>Client:</strong> ${name}</p>
           <p><strong>Email:</strong> ${email}</p>

@@ -5,6 +5,10 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { analytics } from '@/lib/analytics'
 import { motion, AnimatePresence } from 'framer-motion'
 
+// Temporary: online payment disabled until Razorpay keys are configured.
+// Bookings go through directly; payment link is shared with the client over email.
+const PAYMENT_GATEWAY_ENABLED = false
+
 const SERVICES = [
   'Investment Kickstart',
   'Portfolio Optimizer',
@@ -199,7 +203,7 @@ function BookingPageInner() {
     setLoading(true)
     setError('')
     try {
-      if (sessionPrice && sessionPrice > 0) {
+      if (PAYMENT_GATEWAY_ENABLED && sessionPrice && sessionPrice > 0) {
         // --- RAZORPAY PAYMENT FLOW ---
         // 1. Create order
         const orderRes = await fetch('/api/payment/create-order', {
@@ -265,11 +269,11 @@ function BookingPageInner() {
         const rzp = new (window as any).Razorpay(options)
         rzp.open()
       } else {
-        // No price — direct booking (fallback)
+        // Direct booking — payment link (if any) is shared over email
         const res = await fetch('/api/booking', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(form)
+          body: JSON.stringify({ ...form, amount: sessionPrice || 0 })
         })
         if (res.ok) {
           analytics.bookingCompleted(form.advisor_id, form.advisor_name, form.meeting_mode, form.service)
@@ -304,8 +308,8 @@ function BookingPageInner() {
           <div className="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-5">
             <IconCheck />
           </div>
-          <h1 className="text-2xl font-bold text-white mb-1">Payment Received!</h1>
-          <p className="text-gray-500 text-sm mb-1">Session booked successfully</p>
+          <h1 className="text-2xl font-bold text-white mb-1">Session Booked!</h1>
+          <p className="text-gray-500 text-sm mb-1">Your booking is confirmed</p>
           <p className="text-gray-400 text-sm mb-6">
             Confirmation sent to <span className="text-emerald-400">{form.email}</span>
           </p>
@@ -338,7 +342,7 @@ function BookingPageInner() {
               </svg>
               <div>
                 <p className="text-white text-sm font-semibold">Session fee: ₹{sessionPrice.toLocaleString('en-IN')}</p>
-                <p className="text-gray-500 text-xs mt-1">Our team will share payment details via email before your session. Fee goes directly to your advisor.</p>
+                <p className="text-gray-500 text-xs mt-1">A secure payment link will be sent to your email before your session. Fee goes directly to your advisor.</p>
               </div>
             </div>
           )}
@@ -598,7 +602,7 @@ function BookingPageInner() {
               >
                 {loading ? 'Processing...' : (
                   <span className="flex items-center justify-center gap-1.5">
-                    {sessionPrice ? `Pay ₹${sessionPrice.toLocaleString('en-IN')} & Confirm` : 'Confirm Booking'}
+                    {PAYMENT_GATEWAY_ENABLED && sessionPrice ? `Pay ₹${sessionPrice.toLocaleString('en-IN')} & Confirm` : 'Confirm Booking'}
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                   </span>
                 )}
