@@ -331,8 +331,8 @@ function BookingPageInner() {
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
             </svg>
             <div>
-              <p className="text-emerald-400 text-sm font-semibold">Your advisor is being assigned</p>
-              <p className="text-gray-500 text-xs mt-1">An independent, unbiased advisor will be matched to your package and reach out before your session.</p>
+              <p className="text-emerald-400 text-sm font-semibold">Next: your introductory session</p>
+              <p className="text-gray-500 text-xs mt-1">At your chosen slot we will connect with you to understand your requirements. After that, your session with the right independent advisor is booked.</p>
             </div>
           </div>
           {sessionPrice && (
@@ -342,7 +342,7 @@ function BookingPageInner() {
               </svg>
               <div>
                 <p className="text-white text-sm font-semibold">Session fee: ₹{sessionPrice.toLocaleString('en-IN')}</p>
-                <p className="text-gray-500 text-xs mt-1">A secure payment link will be sent to your email before your session. Fee goes directly to your advisor.</p>
+                <p className="text-gray-500 text-xs mt-1">A secure payment link will be sent to your email after your introductory session, once your advisor session is confirmed. Fee goes directly to your advisor.</p>
               </div>
             </div>
           )}
@@ -580,8 +580,8 @@ function BookingPageInner() {
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
               </svg>
               <div>
-                <p className="text-emerald-400 text-xs font-medium">Expert advisor assigned to you</p>
-                <p className="text-gray-500 text-xs mt-0.5">We match you with the right advisor for your package. No sales pitch · No pressure · All India.</p>
+                <p className="text-emerald-400 text-xs font-medium">Starts with an introductory session</p>
+                <p className="text-gray-500 text-xs mt-0.5">At your chosen slot we first understand your requirements. Your session with the right advisor is booked after that. No sales pitch · No pressure · All India.</p>
               </div>
             </div>
             <div className="bg-emerald-500/5 border border-emerald-500/15 rounded-lg p-3 mb-5">
@@ -589,7 +589,7 @@ function BookingPageInner() {
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M6 3h12M6 8h12M6 13l8 8M6 8a5 5 0 000 5h3"/></svg>
                 {sessionPrice ? `Session fee: ₹${sessionPrice.toLocaleString('en-IN')}` : 'Fee-based advisory'}
               </p>
-              <p className="text-gray-600 text-xs mt-0.5">Payment details will be sent via email · No hidden charges · Fee goes to your advisor</p>
+              <p className="text-gray-600 text-xs mt-0.5">Payment link sent via email after your introductory session · No hidden charges · Fee goes to your advisor</p>
             </div>
             <div className="flex gap-2">
               <button onClick={() => goTo(2)} className="flex-1 border border-gray-800 text-gray-500 py-2.5 rounded-lg text-sm hover:border-gray-700">
