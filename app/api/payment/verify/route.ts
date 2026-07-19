@@ -88,7 +88,7 @@ export async function POST(req: Request) {
     // 4. Admin notification
     await getResend().emails.send({
       from: 'ZeroBias <hello@zerobias.in>',
-      to: 'amitnvrsaydie@gmail.com',
+      to: 'hello@zerobias.in',
       subject: `Payment Received — Assign Advisor for ${name} (${service})`,
       html: `
         <div style="font-family:sans-serif;max-width:520px">

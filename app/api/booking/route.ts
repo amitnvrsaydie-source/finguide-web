@@ -127,7 +127,7 @@ export async function POST(req: Request) {
     // 3. Admin notification — action required: assign advisor + send payment link
     await getResend().emails.send({
       from: 'ZeroBias <hello@zerobias.in>',
-      to: ['hello@zerobias.in', 'amitnvrsaydie@gmail.com'],
+      to: 'hello@zerobias.in',
       subject: `⚡ New Booking — Assign Advisor for ${name} (${service})`,
       html: `
         <div style="font-family:sans-serif;max-width:520px">

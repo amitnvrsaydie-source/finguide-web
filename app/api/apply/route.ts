@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
     // Admin notification
     await getResend().emails.send({
       from: 'ZeroBias <hello@zerobias.in>',
-      to: 'amitnvrsaydie@gmail.com',
+      to: 'hello@zerobias.in',
       subject: `New Advisor Application — ${full_name} (${sebi_reg_no})`,
       html: `
         <h2 style="color:#10b981">New Advisor Application</h2>

@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
     const { name, email, phone, reason, advisorName } = body;
     await getResend().emails.send({
       from: 'ZeroBias <hello@zerobias.in>',
-      to: 'amitnvrsaydie@gmail.com',
+      to: 'hello@zerobias.in',
       subject: `New Connection Request — ${advisorName}`,
       html: `<h2>New Request</h2><p>Name: ${name}</p><p>Email: ${email}</p><p>Phone: ${phone}</p><p>Reason: ${reason}</p><p>Advisor: ${advisorName}</p>`,
     });
